@@ -71,15 +71,17 @@ export function OrdersManager({ initial }: { initial: Row[] }) {
                         {o.name}<br />{o.address}<br />{o.city}, {o.zip}<br />{o.country}
                       </div>
                       <div className="text-[11px] tracking-[0.16em] uppercase font-medium text-[#6E6E73] mt-4">Items</div>
-                      <div className="mt-1 space-y-2">
+                      <div className="mt-1 space-y-3">
                         {items.map((it, i) => (
-                          <div key={i} className="flex items-center gap-3 text-[13px]">
-                            {it.image && <img src={it.image} alt="" className="w-9 h-11 object-cover bg-white border border-black/10" />}
+                          <div key={i} className="flex items-center gap-3 text-[13px] border border-black/10 bg-white p-2.5">
+                            {it.image && <img src={it.image} alt="" className="w-9 h-11 object-cover bg-white border border-black/10 shrink-0" />}
                             <div className="flex-1 min-w-0">
-                              <div className="truncate">{it.name}</div>
-                              <div className="text-[11px] text-[#8A8A90]">{[it.color, it.size].filter(Boolean).join(", ")} · qty {it.quantity}</div>
+                              <div className="font-medium truncate">{it.name}</div>
+                              <div className="text-[12px] text-[#55555A] mt-0.5 leading-5">
+                                Color: {it.color || "—"} · Size: {it.size || "—"} · Qty: {it.quantity}
+                              </div>
                             </div>
-                            <div className="font-medium">${(it.price * it.quantity).toFixed(2)}</div>
+                            <div className="font-medium shrink-0">${(it.price * it.quantity).toFixed(2)}</div>
                           </div>
                         ))}
                       </div>

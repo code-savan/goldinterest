@@ -91,3 +91,17 @@ export const siteContent = pgTable("site_content", {
   value: jsonb("value").notNull().default({}),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
+
+export const reviews = pgTable("reviews", {
+  id: text("id").primaryKey(),
+  productId: text("product_id")
+    .notNull()
+    .references(() => products.id, { onDelete: "cascade" }),
+  name: text("name").notNull().default(""),
+  email: text("email"),
+  rating: integer("rating").notNull().default(5),
+  body: text("body").notNull().default(""),
+  anonymous: boolean("anonymous").notNull().default(false),
+  active: boolean("active").notNull().default(true),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+});

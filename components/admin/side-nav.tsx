@@ -62,6 +62,16 @@ const links = [
       </svg>
     ),
   },
+  {
+    href: "/admin/reviews",
+    label: "Reviews",
+    exact: false,
+    icon: (
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+        <path d="M12 3.5 14.8 9l6 .6-4.5 4 1.2 5.9L12 16.4 6.5 19.5l1.2-5.9-4.5-4 6-.6L12 3.5Z" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
 ];
 
 export function SideNav({ onNavigate }: { onNavigate?: () => void }) {

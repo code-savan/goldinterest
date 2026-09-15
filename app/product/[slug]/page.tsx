@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { products as staticProducts } from "@/lib/products";
 import { getProductBySlug, getProducts } from "@/lib/store";
 import { ProductDetailClient } from "@/components/product-detail-client";
+import { ProductReviews } from "@/components/product-reviews";
 import { ProductCard } from "@/components/product-card";
 
 export async function generateStaticParams() {
@@ -32,6 +33,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </div>
 
       <ProductDetailClient product={product} />
+
+      <ProductReviews productId={product.id} productName={product.name} />
 
       {/* You Might Also Like — declustered 3 cols */}
       <section className="mt-20 lg:mt-24 border-t border-[#E8E6E1] pt-12 lg:pt-16">

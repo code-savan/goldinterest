@@ -63,11 +63,6 @@ export function ProductDetailClient({ product }: { product: Product }) {
             ))}
           </div>
         )}
-        {/* Thumbnail strip info */}
-        <div className="flex gap-2 text-[11px] tracking-wide text-[#6B6B6B]">
-          <span className="border border-[#E8E6E1] px-3 py-1.5 bg-white">Printer Star Finish</span>
-          <span className="border border-[#E8E6E1] px-3 py-1.5 bg-white">Ships in 48h</span>
-        </div>
       </div>
 
       {/* Details */}

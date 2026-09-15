@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { products } from "@/db/schema";
 import { Card, Field, GhostButton, PageTitle, PrimaryButton, inputCls } from "@/components/admin/ui";
+import { ColorField } from "@/components/admin/color-field";
 import { CALM_EASE } from "../page-transition";
 
 type Row = typeof products.$inferSelect;
@@ -97,6 +98,7 @@ export function ProductsManager({ initial }: { initial: Row[] }) {
   const [urlInput, setUrlInput] = useState("");
   const [urlBroken, setUrlBroken] = useState(false);
   const [customSize, setCustomSize] = useState("");
+  const [tagging, setTagging] = useState<number | null>(null);
 
   useEffect(() => {
     if (!draft) return;
@@ -136,6 +138,7 @@ export function ProductsManager({ initial }: { initial: Row[] }) {
       oldPrice: draft.oldPrice === "" ? null : Number(draft.oldPrice),
       rating: Number(draft.rating) || 5,
       reviews: Number(draft.reviews) || 0,
+      colors: draft.colors.filter((c) => c.name.trim() !== ""),
       sizes: sortSizes(draft.sizes),
       details: draft.details.split("\n").map((s) => s.trim()).filter(Boolean),
     };
@@ -212,6 +215,7 @@ export function ProductsManager({ initial }: { initial: Row[] }) {
     pending.forEach((u) => URL.revokeObjectURL(u));
     setPending([]);
     setDraft(null);
+    setTagging(null);
     setUrlInput("");
     setUrlBroken(false);
     setCustomSize("");
@@ -396,40 +400,63 @@ export function ProductsManager({ initial }: { initial: Row[] }) {
                 <p className="text-[11px] text-[#8A8A90] mt-1">First image is the main one seen in the store. You can select multiple files at once. Uploads need Blob storage connected.</p>
               </Field>
 
-              <Field label="Colors (tap a preview to tag it to a color)">
+              <Field label="Colors (tag one preview image per color)">
                 <div className="space-y-3">
                   {draft.colors.map((c, i) => (
-                    <div key={i} className="border border-black/10 rounded-xl p-3 space-y-2 bg-white">
-                      <div className="flex gap-2">
-                        <input value={c.name} onChange={(e) => { const n = [...draft.colors]; n[i] = { ...n[i], name: e.target.value }; setDraft({ ...draft, colors: n }); }} placeholder="Name" className={inputCls} />
-                        <input type="color" value={c.hex} onChange={(e) => { const n = [...draft.colors]; n[i] = { ...n[i], hex: e.target.value }; setDraft({ ...draft, colors: n }); }} aria-label="Color swatch" className="w-12 h-[44px] shrink-0 border border-black/10 bg-white p-1 rounded-lg" />
-                        <button onClick={() => setDraft({ ...draft, colors: draft.colors.filter((_, j) => j !== i) })} aria-label="Remove color" className="min-w-[44px] min-h-[44px] text-red-700">✕</button>
+                    <div key={i} className="border border-black/10 rounded-xl p-3 space-y-2.5 bg-white">
+                      <div className="flex gap-2 items-start">
+                        <ColorField
+                          value={{ name: c.name, hex: c.hex }}
+                          onChange={(v) => { const n = [...draft.colors]; n[i] = { ...n[i], name: v.name, hex: v.hex }; setDraft({ ...draft, colors: n }); }}
+                        />
+                        <button onClick={() => { setDraft({ ...draft, colors: draft.colors.filter((_, j) => j !== i) }); setTagging(null); }} aria-label="Remove color" className="min-w-[44px] min-h-[44px] shrink-0 inline-flex items-center justify-center text-red-700">✕</button>
                       </div>
-                      {draft.images.length > 0 ? (
-                        <div>
-                          <div className="text-[11px] tracking-[0.1em] uppercase text-[#8A8A90] mb-1.5">Preview image for {c.name || "this color"}</div>
-                          <div className="flex gap-1.5 overflow-x-auto pb-1">
+                      <div className="flex items-center gap-3">
+                        {c.image ? (
+                          <img src={c.image} alt="" className="w-12 h-14 rounded-lg object-cover border-2 border-[#131315] shrink-0" />
+                        ) : (
+                          <div className="w-12 h-14 rounded-lg border border-dashed border-black/20 bg-black/[0.03] flex items-center justify-center text-[10px] text-[#8A8A90] shrink-0 text-center leading-tight">No<br />image</div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <div className="text-[12px] font-medium">{c.image ? "Preview tagged ✓" : "No preview tagged"}</div>
+                          <div className="text-[11px] text-[#8A8A90]">Shown on the product page when this color is picked.</div>
+                        </div>
+                        {c.image ? (
+                          <button
+                            onClick={() => { const n = [...draft.colors]; const { image: _drop, ...rest } = n[i]; n[i] = rest; setDraft({ ...draft, colors: n }); }}
+                            className="shrink-0 min-h-[44px] px-3 text-[11px] tracking-[0.1em] uppercase text-red-700 underline underline-offset-4"
+                          >
+                            Untag
+                          </button>
+                        ) : (
+                          draft.images.length > 0 && (
                             <button
-                              onClick={() => { const n = [...draft.colors]; const { image: _drop, ...rest } = n[i]; n[i] = rest; setDraft({ ...draft, colors: n }); }}
-                              title="No specific image"
-                              className={`shrink-0 h-[52px] px-3 text-[11px] rounded-lg border ${!c.image ? "bg-[#131315] text-white border-[#131315]" : "bg-white border-black/10"}`}
+                              onClick={() => setTagging(tagging === i ? null : i)}
+                              className="shrink-0 min-h-[44px] px-4 text-[11px] tracking-[0.1em] uppercase rounded-lg border border-black/10"
                             >
-                              None
+                              {tagging === i ? "Close" : "Tag image"}
                             </button>
+                          )
+                        )}
+                      </div>
+                      {tagging === i && draft.images.length > 0 && (
+                        <div>
+                          <div className="text-[11px] tracking-[0.1em] uppercase text-[#8A8A90] mb-1.5">Tap an image to tag it to {c.name || "this color"}</div>
+                          <div className="grid grid-cols-4 sm:grid-cols-6 gap-1.5">
                             {draft.images.map((u) => (
                               <button
                                 key={u}
-                                onClick={() => { const n = [...draft.colors]; n[i] = { ...n[i], image: u }; setDraft({ ...draft, colors: n }); }}
-                                title={c.name || "Tag this image"}
-                                className={`shrink-0 w-[44px] h-[52px] overflow-hidden rounded-lg border-2 ${c.image === u ? "border-[#131315]" : "border-transparent"}`}
+                                onClick={() => { const n = [...draft.colors]; n[i] = { ...n[i], image: u }; setDraft({ ...draft, colors: n }); setTagging(null); }}
+                                className="aspect-[3/4] overflow-hidden rounded-lg border-2 border-black/10 hover:border-[#131315] transition-colors"
                               >
                                 <img src={u} alt="" className="w-full h-full object-cover" />
                               </button>
                             ))}
                           </div>
                         </div>
-                      ) : (
-                        <p className="text-[11px] text-[#8A8A90]">Add product images above, then tap one to preview it for this color.</p>
+                      )}
+                      {tagging === i && draft.images.length === 0 && (
+                        <p className="text-[11px] text-[#8A8A90]">Add product images above first, then tag one here.</p>
                       )}
                     </div>
                   ))}

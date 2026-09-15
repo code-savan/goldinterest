@@ -10,6 +10,7 @@ const TITLES: { href: string; label: string }[] = [
   { href: "/admin/homepage", label: "Homepage" },
   { href: "/admin/discounts", label: "Discounts" },
   { href: "/admin/orders", label: "Orders" },
+  { href: "/admin/reviews", label: "Reviews" },
 ];
 
 function sectionFor(pathname: string) {

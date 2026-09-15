@@ -75,3 +75,17 @@ CREATE TABLE IF NOT EXISTS site_content (
   value JSONB NOT NULL DEFAULT '{}',
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS reviews (
+  id TEXT PRIMARY KEY,
+  product_id TEXT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  name TEXT NOT NULL DEFAULT '',
+  email TEXT,
+  rating INTEGER NOT NULL DEFAULT 5,
+  body TEXT NOT NULL DEFAULT '',
+  anonymous BOOLEAN NOT NULL DEFAULT FALSE,
+  active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS reviews_product_idx ON reviews(product_id);

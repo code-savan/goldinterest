@@ -1,9 +1,25 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCart } from "@/components/cart-context";
 import { products } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
+
+function BackButton({ fallback = "/shop" }: { fallback?: string }) {
+  const router = useRouter();
+  return (
+    <button
+      onClick={() => {
+        if (typeof window !== "undefined" && window.history.length > 1) router.back();
+        else router.push(fallback);
+      }}
+      className="inline-flex items-center gap-2 min-h-[44px] text-[11px] tracking-[0.16em] uppercase text-[#6B6B6B] hover:text-black"
+    >
+      <span aria-hidden>←</span> Back
+    </button>
+  );
+}
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, subtotal, clearCart } = useCart();
@@ -29,7 +45,8 @@ export default function CartPage() {
 
   return (
     <div className="mx-auto max-w-[1400px] px-6 lg:px-8 py-10">
-      <h1 className="font-serif text-[24px] lg:text-[28px] font-light">Your Bag</h1>
+      <BackButton />
+      <h1 className="font-serif text-[24px] lg:text-[28px] font-light mt-2">Your Bag</h1>
       <p className="text-[13px] text-[#6B6B6B] mt-1">Free shipping on every order. All sales final.</p>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_0.6fr] gap-8 mt-6">

@@ -2,10 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCart } from "@/components/cart-context";
 import { PaymentIcons } from "@/components/payment-icons";
 
 export default function CheckoutPage() {
+  const router = useRouter();
   const { items, subtotal } = useCart();
   const [form, setForm] = useState({ email: "", name: "", address: "", city: "", zip: "", country: "United States" });
   const [promoInput, setPromoInput] = useState("");
@@ -107,7 +109,16 @@ export default function CheckoutPage() {
 
   return (
     <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-8 lg:py-14">
-      <div className="flex items-center gap-2 text-[11px] tracking-[0.14em] uppercase text-[#6B6B6B]">
+      <button
+        onClick={() => {
+          if (typeof window !== "undefined" && window.history.length > 1) router.back();
+          else router.push("/cart");
+        }}
+        className="inline-flex items-center gap-2 min-h-[44px] text-[11px] tracking-[0.16em] uppercase text-[#6B6B6B] hover:text-black"
+      >
+        <span aria-hidden>←</span> Back
+      </button>
+      <div className="flex items-center gap-2 text-[11px] tracking-[0.14em] uppercase text-[#6B6B6B] mt-1">
         <Link href="/cart" className="hover:text-black underline">
           Bag
         </Link>
