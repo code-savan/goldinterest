@@ -90,7 +90,7 @@ export async function POST(req: Request) {
         initial_price: total,
         plan_type: "one_time",
         currency: "usd",
-        title: `Gold Lifestyle order ${orderId.slice(0, 8)}`,
+        title: `Gold Interest order ${orderId.slice(0, 8)}`,
         force_create_new_plan: true,
         visibility: "hidden",
       },

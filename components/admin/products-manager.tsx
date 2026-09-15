@@ -221,14 +221,14 @@ export function ProductsManager({ initial }: { initial: Row[] }) {
         action={<PrimaryButton onClick={() => { setError(""); setPending([]); setDraft({ ...emptyDraft }); }}>New product</PrimaryButton>}
       />
 
-      <div className="flex flex-wrap gap-3 mb-4">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-4">
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search products"
-          className={`max-w-[260px] ${inputCls}`}
+          className={`w-full sm:max-w-[260px] ${inputCls}`}
         />
-        <select value={cat} onChange={(e) => setCat(e.target.value)} className={inputCls} style={{ maxWidth: 220 }}>
+        <select value={cat} onChange={(e) => setCat(e.target.value)} className={`w-full sm:w-auto ${inputCls}`} style={{ maxWidth: 220 }}>
           <option value="all">All categories</option>
           {CATEGORIES.map((c) => (
             <option key={c} value={c}>{c}</option>
@@ -240,21 +240,25 @@ export function ProductsManager({ initial }: { initial: Row[] }) {
         <div className="divide-y divide-black/[0.06]">
           {filtered.length === 0 && <div className="p-8 text-center text-[13px] text-[#8A8A90]">No products match.</div>}
           {filtered.map((p) => (
-            <div key={p.id} className="flex items-center gap-4 p-4">
-              <img src={(p.images as string[])[0] || ""} alt="" className="w-12 h-14 object-cover bg-black/[0.03] shrink-0" />
-              <div className="flex-1 min-w-0">
-                <div className="text-[14px] font-medium truncate">{p.name}</div>
-                <div className="text-[11px] text-[#8A8A90]">{p.category} · ${Number(p.price).toFixed(2)} · {p.active ? "Visible" : "Hidden"}</div>
+            <div key={p.id} className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-4">
+              <div className="flex items-center gap-3 flex-1 min-w-0">
+                <img src={(p.images as string[])[0] || ""} alt="" className="w-12 h-14 rounded-lg object-cover bg-black/[0.03] shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div className="text-[14px] font-medium truncate">{p.name}</div>
+                  <div className="text-[11px] text-[#8A8A90] mt-0.5">{p.category} · ${Number(p.price).toFixed(2)} · {p.active ? "Visible" : "Hidden"}</div>
+                </div>
               </div>
-              <button onClick={() => toggleActive(p)} className={`text-[11px] tracking-[0.12em] uppercase px-3 py-1.5 border ${p.active ? "border-black/10" : "bg-[#131315] text-white border-[#131315]"}`}>
-                {p.active ? "Hide" : "Show"}
-              </button>
-              <button onClick={() => { setError(""); setPending([]); setUrlBroken(false); setDraft(toDraft(p)); setUrlInput(""); }} className="text-[11px] tracking-[0.12em] uppercase underline underline-offset-4">
-                Edit
-              </button>
-              <button onClick={() => remove(p.id)} className="text-[11px] tracking-[0.12em] uppercase text-red-700 underline underline-offset-4">
-                Delete
-              </button>
+              <div className="flex items-center gap-2 pl-[60px] sm:pl-0">
+                <button onClick={() => toggleActive(p)} className={`flex-1 sm:flex-none min-h-[44px] inline-flex items-center justify-center text-[11px] tracking-[0.12em] uppercase px-4 py-2 rounded-lg border ${p.active ? "border-black/10" : "bg-[#131315] text-white border-[#131315]"}`}>
+                  {p.active ? "Hide" : "Show"}
+                </button>
+                <button onClick={() => { setError(""); setPending([]); setUrlBroken(false); setDraft(toDraft(p)); setUrlInput(""); }} className="flex-1 sm:flex-none min-h-[44px] inline-flex items-center justify-center text-[11px] tracking-[0.12em] uppercase px-4 py-2 rounded-lg border border-black/10 underline underline-offset-4">
+                  Edit
+                </button>
+                <button onClick={() => remove(p.id)} className="flex-1 sm:flex-none min-h-[44px] inline-flex items-center justify-center text-[11px] tracking-[0.12em] uppercase px-4 py-2 rounded-lg border border-red-200 text-red-700 underline underline-offset-4">
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -296,7 +300,7 @@ export function ProductsManager({ initial }: { initial: Row[] }) {
               <Field label="Name">
                 <input value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} className={inputCls} />
               </Field>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Slug">
                   <input value={draft.slug} onChange={(e) => setDraft({ ...draft, slug: e.target.value })} className={inputCls} placeholder="Auto if empty" />
                 </Field>
@@ -308,7 +312,7 @@ export function ProductsManager({ initial }: { initial: Row[] }) {
                   </select>
                 </Field>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
                 <Field label="Price (USD)">
                   <input type="number" step="0.01" min="0" value={draft.price} onChange={(e) => setDraft({ ...draft, price: e.target.value })} className={inputCls} />
                 </Field>
@@ -322,12 +326,12 @@ export function ProductsManager({ initial }: { initial: Row[] }) {
                   <input type="number" min="0" value={draft.reviews} onChange={(e) => setDraft({ ...draft, reviews: e.target.value })} className={inputCls} />
                 </Field>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Badge (optional)">
                   <input value={draft.badge} onChange={(e) => setDraft({ ...draft, badge: e.target.value })} className={inputCls} placeholder="NEW" />
                 </Field>
                 <Field label="Visibility">
-                  <button onClick={() => setDraft({ ...draft, active: !draft.active })} className={`w-full py-2.5 text-[11px] tracking-[0.14em] uppercase border ${draft.active ? "bg-[#131315] text-white border-[#131315]" : "bg-white border-black/10"}`}>
+                  <button onClick={() => setDraft({ ...draft, active: !draft.active })} className={`w-full min-h-[44px] py-2.5 text-[11px] tracking-[0.14em] uppercase rounded-xl border ${draft.active ? "bg-[#131315] text-white border-[#131315]" : "bg-white border-black/10"}`}>
                     {draft.active ? "Visible in store" : "Hidden"}
                   </button>
                 </Field>
@@ -484,8 +488,8 @@ export function ProductsManager({ initial }: { initial: Row[] }) {
                 <textarea value={draft.details} onChange={(e) => setDraft({ ...draft, details: e.target.value })} rows={4} className={inputCls} />
               </Field>
 
-              <div className="flex gap-3 pt-2">
-                <PrimaryButton onClick={save} disabled={saving} className="flex-1">{saving ? "Saving" : "Save product"}</PrimaryButton>
+              <div className="flex flex-col-reverse sm:flex-row gap-3 pt-2">
+                <PrimaryButton onClick={save} disabled={saving} className="sm:flex-1">{saving ? "Saving" : "Save product"}</PrimaryButton>
                 <GhostButton onClick={closeDraft}>Cancel</GhostButton>
               </div>
               </div>

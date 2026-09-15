@@ -12,7 +12,7 @@ export function Footer() {
               <Logo />
             </div>
             <p className="text-[13px] leading-6 text-white/60 mt-4 max-w-xs">
-              Gold Lifestyle makes wallpapers, posters and apparel in our studio. Designed with care and made to last.
+              Gold Interest makes wallpapers, posters and apparel in our studio. Designed with care and made to last.
             </p>
             <div className="flex gap-3 mt-6">
               <a href="#" aria-label="Instagram" className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/70 hover:text-white hover:border-white/30 hover:bg-white/5 transition-all">
@@ -68,7 +68,7 @@ export function Footer() {
           <div>
             <h4 className="text-[11px] tracking-[0.18em] uppercase font-medium mb-4 text-[#C9A96E]">Contact</h4>
             <ul className="space-y-2.5 text-[13px] text-white/70">
-              <li>hello@goldlifestyle.com</li>
+              <li>hello@goldinterest.com</li>
               <li className="text-white/50">Mon to Fri, 10am to 6pm CET</li>
               <li className="pt-2 text-[11px] leading-4 text-white/50">C/ de Mallorca 290, Barcelona, ES</li>
             </ul>
@@ -82,7 +82,7 @@ export function Footer() {
             <div className="text-[11px] text-white/40">All transactions are encrypted and secure. We never store card details.</div>
           </div>
           <div className="text-[11px] tracking-wide text-white/40 lg:text-right">
-            <div>© {new Date().getFullYear()} Gold Lifestyle. All rights reserved.</div>
+            <div>© {new Date().getFullYear()} Gold Interest. All rights reserved.</div>
             <div className="mt-1">All sales final. See Returns and Refunds for our damaged goods policy.</div>
           </div>
         </div>

@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     q: "How can I reach support?",
-    a: "Email us at hello@goldlifestyle.com, Monday to Friday, 10am to 6pm CET. We usually reply within 24 hours. For damaged orders, please include your order number and photos.",
+    a: "Email us at hello@goldinterest.com, Monday to Friday, 10am to 6pm CET. We usually reply within 24 hours. For damaged orders, please include your order number and photos.",
   },
   {
     q: "How do I choose a size and care for products?",

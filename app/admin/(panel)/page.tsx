@@ -54,21 +54,21 @@ export default async function AdminDashboard() {
         </Card>
       )}
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {[
           { label: "Revenue", value: `$${stats.revenue.toFixed(2)}` },
           { label: "Orders", value: String(stats.total) },
           { label: "Products", value: productCount == null ? "n/a" : String(productCount) },
           { label: "Active promos", value: String(promoCount) },
         ].map((s) => (
-          <Card key={s.label} className="p-5">
-            <div className="text-[11px] tracking-[0.16em] uppercase text-[#8A8A90]">{s.label}</div>
-            <div className="font-serif text-[28px] leading-none mt-2">{s.value}</div>
+          <Card key={s.label} className="p-4 sm:p-5">
+            <div className="text-[10px] sm:text-[11px] tracking-[0.16em] uppercase text-[#8A8A90]">{s.label}</div>
+            <div className="font-serif text-[24px] sm:text-[28px] leading-none mt-2 truncate">{s.value}</div>
           </Card>
         ))}
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mt-3 sm:mt-4">
         <Card className="p-5">
           <div className="text-[11px] tracking-[0.16em] uppercase font-medium">Orders by status</div>
           <div className="mt-3 space-y-2">

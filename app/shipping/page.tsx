@@ -41,7 +41,7 @@ export default function ShippingPage() {
       </section>
       <section>
         <h2 className="font-serif text-xl">Tracking & Delays</h2>
-        <p>Customs, weather, or carrier delays can affect international timelines. If your tracking has not updated for 7 days, contact hello@goldlifestyle.com with your order number.</p>
+        <p>Customs, weather, or carrier delays can affect international timelines. If your tracking has not updated for 7 days, contact hello@goldinterest.com with your order number.</p>
       </section>
       <section>
         <h2 className="font-serif text-xl">International Duties</h2>

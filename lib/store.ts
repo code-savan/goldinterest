@@ -67,7 +67,7 @@ export async function getProductById(id: string): Promise<Product | undefined> {
 export const DEFAULT_SETTINGS = {
   featuredIds: ["1", "2", "3", "4", "7", "9"],
   announcement: "Free shipping on every order, worldwide",
-  heroKicker: "Gold Lifestyle, Est. 2024",
+  heroKicker: "Gold Interest, Est. 2024",
   heroTitleTop: "Everything",
   heroTitleAccent: "for your",
   heroTitleBottom: "Space",

@@ -30,12 +30,12 @@ export function OrdersManager({ initial }: { initial: Row[] }) {
     <div>
       <PageTitle title="Orders" sub={`${list.length} orders. Paid orders arrive here automatically from Whop.`} />
 
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div className="flex gap-2 mb-4 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap pb-1 [scrollbar-width:thin]">
         {FILTERS.map((f) => (
           <button
             key={f}
             onClick={() => setFilter(f)}
-            className={`px-3.5 py-2 text-[11px] tracking-[0.12em] uppercase border ${filter === f ? "bg-[#131315] text-white border-[#131315]" : "bg-white border-black/10"}`}
+            className={`shrink-0 snap-start min-h-[44px] inline-flex items-center px-4 py-2 text-[11px] tracking-[0.12em] uppercase rounded-lg border ${filter === f ? "bg-[#131315] text-white border-[#131315]" : "bg-white border-black/10"}`}
           >
             {f}
           </button>
@@ -50,16 +50,18 @@ export function OrdersManager({ initial }: { initial: Row[] }) {
             const expanded = open === o.id;
             return (
               <div key={o.id}>
-                <button onClick={() => setOpen(expanded ? null : o.id)} className="w-full flex flex-wrap items-center gap-3 p-4 text-left hover:bg-[#F7F7F5]">
-                  <div className="flex-1 min-w-[180px]">
-                    <div className="text-[14px] font-medium">{o.email}</div>
-                    <div className="text-[11px] text-[#8A8A90]">
+                <button onClick={() => setOpen(expanded ? null : o.id)} aria-expanded={expanded} className="w-full flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 sm:gap-3 p-4 text-left hover:bg-[#F7F7F5] min-h-[44px]">
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[14px] font-medium truncate">{o.email}</div>
+                    <div className="text-[11px] text-[#8A8A90] mt-0.5">
                       {o.id.slice(0, 8)} · {o.createdAt ? new Date(o.createdAt).toLocaleString() : ""} · {items.reduce((a, i) => a + i.quantity, 0)} items
                     </div>
                   </div>
-                  <StatusBadge status={o.status} />
-                  <div className="font-medium text-[15px]">${Number(o.total).toFixed(2)}</div>
-                  <span className="text-[#8A8A90]">{expanded ? "▴" : "▾"}</span>
+                  <div className="flex items-center gap-3">
+                    <StatusBadge status={o.status} />
+                    <div className="font-medium text-[15px]">${Number(o.total).toFixed(2)}</div>
+                    <span className="text-[#8A8A90] w-6 text-center">{expanded ? "▴" : "▾"}</span>
+                  </div>
                 </button>
                 {expanded && (
                   <div className="px-4 pb-5 pt-1 grid md:grid-cols-2 gap-5 bg-[#F7F7F5] border-t border-black/10">
@@ -94,7 +96,7 @@ export function OrdersManager({ initial }: { initial: Row[] }) {
                       <select
                         value={o.status}
                         onChange={(e) => setStatus(o.id, e.target.value)}
-                        className="mt-1 border border-black/10 bg-white px-3 py-2.5 text-sm focus:outline-none focus:border-[#131315]"
+                        className="mt-1 w-full sm:w-auto min-h-[44px] border border-black/10 bg-white rounded-xl px-3 py-2.5 text-[16px] sm:text-sm focus:outline-none focus:border-[#131315]"
                       >
                         {NEXT.map((s) => (
                           <option key={s} value={s}>{s}</option>

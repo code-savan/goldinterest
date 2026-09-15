@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/cart-context";
@@ -37,13 +37,45 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#0A0A0A",
+  width: "device-width",
+  initialScale: 1,
+};
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://goldinterest.com";
+const siteTitle = "Gold Interest | Wallpapers, Posters and Apparel";
+const siteDescription =
+  "Carefully made wallpapers, posters and apparel with free shipping on every order.";
+
 export const metadata: Metadata = {
-  title: "Gold Lifestyle | Wallpapers, Posters and Apparel",
-  description:
-    "Carefully made wallpapers, posters and apparel with free shipping on every order.",
-  icons: {
-    icon: "/favicon.ico",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteTitle,
+    template: "%s | Gold Interest",
   },
+  description: siteDescription,
+  keywords: ["wallpapers", "posters", "apparel", "hoodies", "wall art", "Gold Interest"],
+  authors: [{ name: "Gold Interest" }],
+  creator: "Gold Interest",
+  icons: {
+    icon: [{ url: "/icon", type: "image/png", sizes: "32x32" }],
+    apple: [{ url: "/apple-icon", type: "image/png", sizes: "180x180" }],
+  },
+  openGraph: {
+    type: "website",
+    siteName: "Gold Interest",
+    title: siteTitle,
+    description: siteDescription,
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Gold Interest" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+    images: ["/opengraph-image"],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {

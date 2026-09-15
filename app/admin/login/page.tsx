@@ -29,14 +29,14 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="h-full flex items-center justify-center px-4 bg-[#131315]">
-      <div className="w-full max-w-[380px]">
+    <div className="h-full overflow-y-auto flex items-center justify-center px-4 py-10 bg-[#131315] safe-pt safe-pb">
+      <div className="w-full max-w-[380px] my-auto">
         <div className="text-center">
           <div className="w-12 h-12 mx-auto rounded-2xl bg-[#C9A96E] flex items-center justify-center">
             <span className="font-serif text-lg text-[#131315]">G</span>
           </div>
           <h1 className="font-serif text-2xl text-white font-light mt-4">Store Admin</h1>
-          <p className="text-[12px] text-white/50 mt-1 tracking-wide">Gold Lifestyle dashboard</p>
+          <p className="text-[12px] text-white/50 mt-1 tracking-wide">Gold Interest dashboard</p>
         </div>
         <form onSubmit={submit} className="mt-8 bg-white rounded-2xl p-6 space-y-4 shadow-xl">
           <div>
@@ -45,16 +45,18 @@ export default function AdminLoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-2 w-full border border-black/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#131315] focus:ring-2 focus:ring-[#C9A96E]/25"
+              className="mt-2 w-full min-h-[48px] border border-black/10 rounded-xl px-4 py-3 text-[16px] focus:outline-none focus:border-[#131315] focus:ring-2 focus:ring-[#C9A96E]/25"
               placeholder="Enter admin password"
               autoFocus
+              autoComplete="current-password"
+              enterKeyHint="go"
             />
           </div>
           {error && <div className="text-[12px] text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2">{error}</div>}
           <button
             type="submit"
             disabled={busy}
-            className="w-full bg-[#131315] text-white rounded-xl py-3.5 text-[11px] tracking-[0.18em] uppercase font-medium hover:bg-black disabled:opacity-60"
+            className="w-full min-h-[48px] bg-[#131315] text-white rounded-xl py-3.5 text-[11px] tracking-[0.18em] uppercase font-medium hover:bg-black disabled:opacity-60"
           >
             {busy ? "Signing in" : "Sign in"}
           </button>

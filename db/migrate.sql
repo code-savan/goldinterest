@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS settings (
   id INTEGER PRIMARY KEY DEFAULT 1,
   featured_ids JSONB NOT NULL DEFAULT '[]',
   announcement TEXT NOT NULL DEFAULT 'Free shipping on every order, worldwide',
-  hero_kicker TEXT NOT NULL DEFAULT 'Gold Lifestyle, Est. 2024',
+  hero_kicker TEXT NOT NULL DEFAULT 'Gold Interest, Est. 2024',
   hero_title_top TEXT NOT NULL DEFAULT 'Everything',
   hero_title_accent TEXT NOT NULL DEFAULT 'for your',
   hero_title_bottom TEXT NOT NULL DEFAULT 'Space',

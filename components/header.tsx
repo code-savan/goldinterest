@@ -197,7 +197,7 @@ export function Header() {
                   <div className="mt-10 pt-8 border-t border-[#E8E6E1]">
                     <div className="text-[11px] tracking-[0.16em] uppercase text-[#8C6A2F]">Get in touch</div>
                     <div className="text-sm text-[#6B6B6B] mt-2 leading-6">
-                      hello@goldlifestyle.com
+                      hello@goldinterest.com
                       <br />
                       <span className="text-[#9A9590]">Mon to Fri, 10am to 6pm CET</span>
                     </div>
@@ -208,7 +208,7 @@ export function Header() {
 
               {/* Bottom bar */}
               <div className="px-6 py-4 border-t border-[#E8E6E1] flex items-center justify-between text-[11px] tracking-[0.14em] uppercase text-[#9A9590] bg-[#FCFCF9]">
-                <span>© Gold Lifestyle</span>
+                <span>© Gold Interest</span>
                 <span className="text-[#C9A96E]">Est. 2024</span>
               </div>
             </motion.div>

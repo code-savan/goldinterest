@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export function Hero({
-  kicker = "Gold Lifestyle, Est. 2024",
+  kicker = "Gold Interest, Est. 2024",
   titleTop = "Everything",
   titleAccent = "for your",
   titleBottom = "Space",

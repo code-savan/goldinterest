@@ -36,7 +36,7 @@ export const settings = pgTable("settings", {
   id: integer("id").primaryKey().default(1),
   featuredIds: jsonb("featured_ids").$type<string[]>().notNull().default([]),
   announcement: text("announcement").notNull().default("Free shipping on every order, worldwide"),
-  heroKicker: text("hero_kicker").notNull().default("Gold Lifestyle, Est. 2024"),
+  heroKicker: text("hero_kicker").notNull().default("Gold Interest, Est. 2024"),
   heroTitleTop: text("hero_title_top").notNull().default("Everything"),
   heroTitleAccent: text("hero_title_accent").notNull().default("for your"),
   heroTitleBottom: text("hero_title_bottom").notNull().default("Space"),

@@ -237,7 +237,7 @@ export default function CheckoutPage() {
 
           <div className="border border-[#E8E6E1] bg-white p-6 text-[12px] leading-5 text-[#6B6B6B]">
             <div className="font-medium text-black text-[11px] tracking-[0.14em] uppercase">Need help?</div>
-            <div className="mt-2">hello@goldlifestyle.com, Mon to Fri, 10am to 6pm CET</div>
+            <div className="mt-2">hello@goldinterest.com, Mon to Fri, 10am to 6pm CET</div>
             <div className="mt-2">All sales final. Only damaged or defective items qualify within 48 hours, see Returns.</div>
           </div>
         </div>

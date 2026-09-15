@@ -38,7 +38,7 @@ export default function ReturnsPage() {
 
       <section>
         <h2 className="font-serif text-xl">How to Report (48-Hour Window)</h2>
-        <p>Email hello@goldlifestyle.com within 48 hours of delivery with:</p>
+        <p>Email hello@goldinterest.com within 48 hours of delivery with:</p>
         <ol className="list-decimal pl-5 space-y-1">
           <li>Order number and item name</li>
           <li>Photos of the outer package, inner package, and defect/damage</li>
@@ -54,7 +54,7 @@ export default function ReturnsPage() {
 
       <section>
         <h2 className="font-serif text-xl">Need Help Deciding?</h2>
-        <p>We are happy to advise on sizing and color before you order. Contact us at hello@goldlifestyle.com with your measurements and we will guide you. Once shipped, the sale is final.</p>
+        <p>We are happy to advise on sizing and color before you order. Contact us at hello@goldinterest.com with your measurements and we will guide you. Once shipped, the sale is final.</p>
       </section>
     </LegalLayout>
   );

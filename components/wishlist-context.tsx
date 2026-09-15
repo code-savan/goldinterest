@@ -14,6 +14,9 @@ type WishlistContextType = {
   clear: () => void;
 };
 
+const WISHLIST_KEY = "goldinterest-wishlist";
+const LEGACY_WISHLIST_KEY = "goldlifestyle-wishlist";
+
 const WishlistContext = createContext<WishlistContextType | null>(null);
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
@@ -22,7 +25,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem("goldlifestyle-wishlist");
+    const saved = localStorage.getItem(WISHLIST_KEY) ?? localStorage.getItem(LEGACY_WISHLIST_KEY);
     if (saved) {
       try {
         setItems(JSON.parse(saved));
@@ -32,7 +35,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (hydrated) localStorage.setItem("goldlifestyle-wishlist", JSON.stringify(items));
+    if (hydrated) localStorage.setItem(WISHLIST_KEY, JSON.stringify(items));
   }, [items, hydrated]);
 
   const toggle = (product: Product) => {

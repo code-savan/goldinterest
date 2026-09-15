@@ -23,6 +23,9 @@ type CartContextType = {
   setIsOpen: (v: boolean) => void;
 };
 
+const CART_KEY = "goldinterest-cart";
+const LEGACY_CART_KEY = "goldlifestyle-cart";
+
 const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
@@ -31,7 +34,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem("goldlifestyle-cart");
+    const saved = localStorage.getItem(CART_KEY) ?? localStorage.getItem(LEGACY_CART_KEY);
     if (saved) {
       try {
         setItems(JSON.parse(saved));
@@ -41,7 +44,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (hydrated) localStorage.setItem("goldlifestyle-cart", JSON.stringify(items));
+    if (hydrated) localStorage.setItem(CART_KEY, JSON.stringify(items));
   }, [items, hydrated]);
 
   const addItem: CartContextType["addItem"] = (product, opts) => {

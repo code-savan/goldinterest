@@ -4,12 +4,12 @@ export default function TermsPage() {
   return (
     <LegalLayout
       title="Terms & Conditions"
-      subtitle="Please read these terms carefully before using Gold Lifestyle. By accessing or purchasing from our store, you agree to be bound by them."
+      subtitle="Please read these terms carefully before using Gold Interest. By accessing or purchasing from our store, you agree to be bound by them."
       updated="September 10, 2026"
     >
       <section>
         <h2 className="font-serif text-xl">1. About Us</h2>
-        <p>Gold Lifestyle is based in Barcelona, Spain. Contact us at hello@goldlifestyle.com. VAT ID: ES-B12345678. These terms follow Spanish law.</p>
+        <p>Gold Interest is based in Barcelona, Spain. Contact us at hello@goldinterest.com. VAT ID: ES-B12345678. These terms follow Spanish law.</p>
       </section>
       <section>
         <h2 className="font-serif text-xl">2. Products & Availability</h2>
@@ -29,7 +29,7 @@ export default function TermsPage() {
       </section>
       <section>
         <h2 className="font-serif text-xl">6. Intellectual Property</h2>
-        <p>All designs, images, text and trademarks are owned by Gold Lifestyle. You may not reproduce or use our content without prior written permission.</p>
+        <p>All designs, images, text and trademarks are owned by Gold Interest. You may not reproduce or use our content without prior written permission.</p>
       </section>
       <section>
         <h2 className="font-serif text-xl">7. Limitation of Liability</h2>
@@ -37,7 +37,7 @@ export default function TermsPage() {
       </section>
       <section>
         <h2 className="font-serif text-xl">8. Contact</h2>
-        <p>Questions? Email hello@goldlifestyle.com. For formal notices, write to: Gold Lifestyle, C/ de Mallorca 290, 08037 Barcelona, Spain.</p>
+        <p>Questions? Email hello@goldinterest.com. For formal notices, write to: Gold Interest, C/ de Mallorca 290, 08037 Barcelona, Spain.</p>
       </section>
     </LegalLayout>
   );

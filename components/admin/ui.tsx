@@ -10,12 +10,12 @@ export function Card({ children, className = "" }: { children: ReactNode; classN
 
 export function PageTitle({ title, sub, action }: { title: string; sub?: string; action?: ReactNode }) {
   return (
-    <div className="flex flex-wrap items-end justify-between gap-4 mb-6">
-      <div>
-        <h1 className="font-serif text-[30px] lg:text-[34px] leading-none font-light tracking-tight">{title}</h1>
-        {sub && <p className="text-[13px] text-[#6E6E73] mt-2">{sub}</p>}
+    <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-end sm:justify-between gap-3 sm:gap-4 mb-5 sm:mb-6">
+      <div className="min-w-0">
+        <h1 className="font-serif text-[26px] sm:text-[30px] lg:text-[34px] leading-tight sm:leading-none font-light tracking-tight">{title}</h1>
+        {sub && <p className="text-[13px] text-[#6E6E73] mt-1.5 sm:mt-2 leading-5">{sub}</p>}
       </div>
-      {action}
+      {action && <div className="w-full sm:w-auto shrink-0">{action}</div>}
     </div>
   );
 }
@@ -30,13 +30,13 @@ export function Field({ label, children }: { label: string; children: ReactNode 
 }
 
 export const inputCls =
-  "w-full border border-black/10 bg-white rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-[#131315] focus:ring-2 focus:ring-[#C9A96E]/25";
+  "w-full min-h-[44px] border border-black/10 bg-white rounded-xl px-3.5 py-2.5 text-[16px] sm:text-sm focus:outline-none focus:border-[#131315] focus:ring-2 focus:ring-[#C9A96E]/25";
 
 export function PrimaryButton({ children, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
       {...props}
-      className={`bg-[#131315] text-white rounded-xl px-6 py-3 text-[11px] tracking-[0.16em] uppercase font-medium hover:bg-black disabled:opacity-50 transition-colors ${props.className || ""}`}
+      className={`inline-flex items-center justify-center text-center w-full sm:w-auto min-h-[44px] bg-[#131315] text-white rounded-xl px-6 py-3 text-[11px] tracking-[0.16em] uppercase font-medium hover:bg-black disabled:opacity-50 transition-colors ${props.className || ""}`}
     >
       {children}
     </button>
@@ -47,7 +47,7 @@ export function GhostButton({ children, ...props }: ButtonHTMLAttributes<HTMLBut
   return (
     <button
       {...props}
-      className={`border border-black/10 bg-white rounded-xl px-5 py-2.5 text-[11px] tracking-[0.14em] uppercase hover:border-[#131315] disabled:opacity-50 transition-colors ${props.className || ""}`}
+      className={`inline-flex items-center justify-center text-center min-h-[44px] border border-black/10 bg-white rounded-xl px-5 py-2.5 text-[11px] tracking-[0.14em] uppercase hover:border-[#131315] disabled:opacity-50 transition-colors ${props.className || ""}`}
     >
       {children}
     </button>

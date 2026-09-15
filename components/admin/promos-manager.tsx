@@ -105,18 +105,18 @@ export function PromosManager({ initial }: { initial: Row[] }) {
         <div className="divide-y divide-black/[0.06]">
           {list.length === 0 && <div className="p-8 text-center text-[13px] text-[#8A8A90]">No discount codes yet.</div>}
           {list.map((p) => (
-            <div key={p.id} className="flex flex-wrap items-center gap-3 p-4">
-              <div className="font-mono font-medium text-[14px] bg-black/[0.03] border border-black/10 px-3 py-1.5">{p.code}</div>
-              <div className="text-[13px] text-[#6E6E73]">
+            <div key={p.id} className="flex flex-col sm:flex-row sm:items-center gap-3 p-4">
+              <div className="font-mono font-medium text-[14px] bg-black/[0.03] border border-black/10 px-3 py-2 rounded-lg w-fit">{p.code}</div>
+              <div className="text-[13px] text-[#6E6E73] leading-5">
                 {p.kind === "percent" ? `${Number(p.value)}% off` : `$${Number(p.value).toFixed(2)} off`}
                 {p.usageLimit ? ` · ${p.usedCount}/${p.usageLimit} used` : ` · ${p.usedCount} used`}
                 {p.expiresAt ? ` · ends ${new Date(p.expiresAt).toLocaleDateString()}` : ""}
               </div>
-              <div className="ml-auto flex gap-2">
-                <button onClick={() => toggle(p)} className={`text-[11px] tracking-[0.12em] uppercase px-3 py-1.5 border ${p.active ? "border-black/10" : "bg-[#131315] text-white border-[#131315]"}`}>
+              <div className="flex gap-2 sm:ml-auto">
+                <button onClick={() => toggle(p)} className={`flex-1 sm:flex-none min-h-[44px] inline-flex items-center justify-center text-[11px] tracking-[0.12em] uppercase px-4 py-2 rounded-lg border ${p.active ? "border-black/10" : "bg-[#131315] text-white border-[#131315]"}`}>
                   {p.active ? "Disable" : "Enable"}
                 </button>
-                <button onClick={() => remove(p.id)} className="text-[11px] tracking-[0.12em] uppercase text-red-700 underline underline-offset-4">
+                <button onClick={() => remove(p.id)} className="flex-1 sm:flex-none min-h-[44px] inline-flex items-center justify-center text-[11px] tracking-[0.12em] uppercase px-4 py-2 rounded-lg border border-red-200 text-red-700 underline underline-offset-4">
                   Delete
                 </button>
               </div>

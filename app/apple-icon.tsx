@@ -1,10 +1,10 @@
 import { ImageResponse } from "next/og";
 
-export const size = { width: 32, height: 32 };
+export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
-// Brand mark: gold serif "G" on near-black, matching the store logo.
-export default function Icon() {
+// Apple touch icon: same gold "G" brand mark, solid background (no transparency).
+export default function AppleIcon() {
   return new ImageResponse(
     (
       <div
@@ -15,18 +15,18 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           background: "#0A0A0A",
-          borderRadius: "999px",
-          border: "2px solid #C9A96E",
+          borderRadius: "40px",
+          border: "9px solid #C9A96E",
         }}
       >
         <div
           style={{
-            fontSize: 17,
+            fontSize: 96,
             lineHeight: 1,
             color: "#C9A96E",
             fontFamily: "Georgia, 'Times New Roman', serif",
             fontWeight: 400,
-            transform: "translateY(-1px)",
+            transform: "translateY(-4px)",
           }}
         >
           G

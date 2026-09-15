@@ -63,3 +63,11 @@ body {
   background: var(--gold-light);
   color: var(--gold-dark);
 }
+
+/* Safe-area helpers for notched phones */
+.safe-pt {
+  padding-top: env(safe-area-inset-top);
+}
+.safe-pb {
+  padding-bottom: env(safe-area-inset-bottom);
+}

@@ -9,7 +9,7 @@ export default function PrivacyPage() {
     >
       <section>
         <h2 className="font-serif text-xl">1. Who We Are</h2>
-        <p>Gold Lifestyle, C/ de Mallorca 290, 08037 Barcelona, Spain. Email: hello@goldlifestyle.com. We are the data controller for your personal information.</p>
+        <p>Gold Interest, C/ de Mallorca 290, 08037 Barcelona, Spain. Email: hello@goldinterest.com. We are the data controller for your personal information.</p>
       </section>
       <section>
         <h2 className="font-serif text-xl">2. What We Collect</h2>
@@ -46,11 +46,11 @@ export default function PrivacyPage() {
       </section>
       <section>
         <h2 className="font-serif text-xl">8. Your Rights</h2>
-        <p>You have the right to access, correct, delete, restrict, object, and port your data, and to lodge a complaint with your supervisory authority. Contact hello@goldlifestyle.com to exercise your rights.</p>
+        <p>You have the right to access, correct, delete, restrict, object, and port your data, and to lodge a complaint with your supervisory authority. Contact hello@goldinterest.com to exercise your rights.</p>
       </section>
       <section>
         <h2 className="font-serif text-xl">9. Contact</h2>
-        <p>For privacy questions, email hello@goldlifestyle.com. For formal requests, write to the address above.</p>
+        <p>For privacy questions, email hello@goldinterest.com. For formal requests, write to the address above.</p>
       </section>
     </LegalLayout>
   );

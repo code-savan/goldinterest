@@ -60,16 +60,16 @@ export function HomepageManager({ initialSettings, products }: { initialSettings
           {s.featuredIds.map((id, i) => {
             const p = byId.get(id);
             return (
-              <div key={id} className="flex items-center gap-3 border border-black/10 p-2.5 bg-white">
-                <span className="w-6 text-center text-[12px] text-[#8A8A90] font-medium">{i + 1}</span>
-                {p && <img src={p.image} alt="" className="w-10 h-12 object-cover bg-black/[0.03]" />}
+              <div key={id} className="flex items-center gap-2 sm:gap-3 border border-black/10 rounded-xl p-2.5 bg-white">
+                <span className="w-6 text-center text-[12px] text-[#8A8A90] font-medium shrink-0">{i + 1}</span>
+                {p && <img src={p.image} alt="" className="w-10 h-12 rounded-lg object-cover bg-black/[0.03] shrink-0" />}
                 <div className="flex-1 min-w-0">
                   <div className="text-[13px] font-medium truncate">{p ? p.name : id}</div>
                   {p && <div className="text-[11px] text-[#8A8A90]">${p.price.toFixed(2)}</div>}
                 </div>
-                <button onClick={() => move(i, -1)} disabled={i === 0} className="w-8 h-8 border border-black/10 disabled:opacity-30">↑</button>
-                <button onClick={() => move(i, 1)} disabled={i === s.featuredIds.length - 1} className="w-8 h-8 border border-black/10 disabled:opacity-30">↓</button>
-                <button onClick={() => setS({ ...s, featuredIds: s.featuredIds.filter((x) => x !== id) })} className="w-8 h-8 text-red-700">✕</button>
+                <button onClick={() => move(i, -1)} disabled={i === 0} aria-label="Move up" className="w-11 h-11 shrink-0 inline-flex items-center justify-center border border-black/10 rounded-lg disabled:opacity-30">↑</button>
+                <button onClick={() => move(i, 1)} disabled={i === s.featuredIds.length - 1} aria-label="Move down" className="w-11 h-11 shrink-0 inline-flex items-center justify-center border border-black/10 rounded-lg disabled:opacity-30">↓</button>
+                <button onClick={() => setS({ ...s, featuredIds: s.featuredIds.filter((x) => x !== id) })} aria-label="Remove" className="w-11 h-11 shrink-0 inline-flex items-center justify-center text-red-700 rounded-lg">✕</button>
               </div>
             );
           })}

@@ -62,7 +62,7 @@ function SuccessInner() {
           </p>
           <div className="mt-6 border border-[#E8E6E1] bg-[#F6F5F2] p-6 text-left text-sm">
             <div className="font-medium">Order {orderId.slice(0, 8)} · Free shipping · Worldwide delivery</div>
-            <div className="text-xs text-[#6B6B6B] mt-1">Tracking will be sent within 24 hours. Questions? Email hello@goldlifestyle.com</div>
+            <div className="text-xs text-[#6B6B6B] mt-1">Tracking will be sent within 24 hours. Questions? Email hello@goldinterest.com</div>
           </div>
         </>
       ) : status === "failed" ? (
