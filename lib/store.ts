@@ -14,6 +14,15 @@ export type StoreSettings = typeof settings.$inferSelect;
 type ProductRow = typeof products.$inferSelect;
 
 function rowToProduct(r: ProductRow): Product {
+  // Guard the storefront against blank or duplicated color names
+  // (they render as duplicate React keys and untaggable swatches).
+  const seen = new Set<string>();
+  const colors = (((r.colors as { name: string; hex: string; image?: string }[]) ?? []).filter((c) => {
+    const name = (c.name || "").trim().toLowerCase();
+    if (!name || seen.has(name)) return false;
+    seen.add(name);
+    return true;
+  }) as { name: string; hex: string; image?: string }[]);
   return {
     id: r.id,
     slug: r.slug,
@@ -23,7 +32,7 @@ function rowToProduct(r: ProductRow): Product {
     oldPrice: r.oldPrice != null ? Number(r.oldPrice) : undefined,
     rating: Number(r.rating ?? 4.8),
     reviews: r.reviews ?? 0,
-    colors: (r.colors as { name: string; hex: string }[]) ?? [],
+    colors,
     sizes: (r.sizes as string[] | null) ?? undefined,
     description: r.description ?? "",
     details: (r.details as string[]) ?? [],

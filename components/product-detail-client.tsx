@@ -80,6 +80,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
         <p className="text-[13px] leading-6 text-[#6B6B6B] mt-4 border-l-2 border-[#C9A96E] pl-4">{product.description}</p>
 
         {/* Color */}
+        {product.colors.length > 0 && (
         <div className="mt-6">
           <div className="flex items-center justify-between">
             <span className="text-[11px] tracking-[0.16em] uppercase font-medium">Colour, {selectedColor}</span>
@@ -101,6 +102,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
             ))}
           </div>
         </div>
+        )}
 
         {/* Size */}
         {product.sizes && (

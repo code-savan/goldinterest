@@ -98,12 +98,14 @@ export function ProductCard({ product }: { product: Product }) {  const { addIte
             ★ {product.rating} <span className="opacity-60">({product.reviews})</span>
           </span>
         </div>
-        <div className="flex gap-1.5 pt-1">
-          {product.colors.slice(0, 4).map((c) => (
-            <span key={c.name} title={c.name} className="w-4 h-4 rounded-full border border-white shadow-sm ring-1 ring-[#E8E6E1]" style={{ background: c.hex }} />
-          ))}
-          {product.sizes && <span className="text-[11px] text-[#6B6B6B] ml-2">{product.sizes.join(", ")}</span>}
-        </div>
+        {(product.colors.length > 0 || product.sizes) && (
+          <div className="flex gap-1.5 pt-1">
+            {product.colors.slice(0, 4).map((c) => (
+              <span key={c.name} title={c.name} className="w-4 h-4 rounded-full border border-white shadow-sm ring-1 ring-[#E8E6E1]" style={{ background: c.hex }} />
+            ))}
+            {product.sizes && <span className="text-[11px] text-[#6B6B6B] ml-2">{product.sizes.join(", ")}</span>}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -26,6 +26,14 @@ const MIGRATIONS: Migration[] = [
       `CREATE INDEX IF NOT EXISTS reviews_product_idx ON reviews(product_id)`,
     ],
   },
+  {
+    // One-off cleanup: drop color entries with blank names (they rendered
+    // as duplicate React keys and untaggable swatches).
+    id: "003-strip-blank-colors",
+    statements: [
+      `UPDATE products SET colors = (SELECT COALESCE(jsonb_agg(c), '[]'::jsonb) FROM jsonb_array_elements(COALESCE(colors, '[]'::jsonb)) AS c WHERE COALESCE(c->>'name', '') <> ''), updated_at = NOW() WHERE colors IS NOT NULL`,
+    ],
+  },
 ];
 
 export async function ensureSchema(): Promise<{ applied: string[] }> {
