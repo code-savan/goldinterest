@@ -1,8 +1,6 @@
 "use client";
 
 import { createContext, useContext, useCallback, useState, ReactNode } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { CALM_EASE } from "./page-transition";
 
 type Toast = {
   id: number;
@@ -34,17 +32,11 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     <ToastContext.Provider value={{ showToast }}>
       {children}
       <div className="fixed bottom-5 right-4 sm:right-5 z-[60] flex flex-col gap-2.5 pointer-events-none">
-        <AnimatePresence>
-          {toasts.map((toast) => (
-            <motion.div
-              key={toast.id}
-              layout
-              initial={{ opacity: 0, y: 16, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 8, scale: 0.97 }}
-              transition={{ duration: 0.35, ease: [...CALM_EASE] }}
-              className="pointer-events-auto w-[300px] max-w-[92vw] bg-white border border-[#E8E6E1] shadow-[0_12px_40px_rgba(0,0,0,0.14)] flex items-center gap-3 pl-3 pr-2 py-3"
-            >
+        {toasts.map((toast) => (
+          <div
+            key={toast.id}
+            className="toast-in pointer-events-auto w-[300px] max-w-[92vw] bg-white border border-[#E8E6E1] shadow-[0_12px_40px_rgba(0,0,0,0.14)] flex items-center gap-3 pl-3 pr-2 py-3"
+          >
               {toast.image ? (
                 <img src={toast.image} alt="" loading="lazy" decoding="async" className="w-9 h-11 object-cover bg-[#F6F5F2] shrink-0" />
               ) : (
@@ -62,9 +54,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               >
                 ✕
               </button>
-            </motion.div>
+            </div>
           ))}
-        </AnimatePresence>
       </div>
     </ToastContext.Provider>
   );

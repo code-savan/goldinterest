@@ -90,3 +90,39 @@ body {
     animation: none;
   }
 }
+
+/* Staggered rise-in for drawer items / menu links (replaces motion stagger) */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.rise-in {
+  animation: rise-in 0.35s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+/* Toast pop-in */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.toast-in {
+  animation: toast-in 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rise-in,
+  .toast-in {
+    animation: none;
+  }
+}

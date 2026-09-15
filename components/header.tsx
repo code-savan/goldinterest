@@ -2,12 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { Logo } from "./logo";
 import { useCart } from "./cart-context";
 import { useWishlist } from "./wishlist-context";
 import { categories } from "@/lib/products";
-import { CALM_EASE } from "./page-transition";
 import { DEFAULT_CONTACT } from "@/lib/site-content";
 
 const nav = [
@@ -127,24 +125,14 @@ export function Header({ contact = DEFAULT_CONTACT }: { contact?: { email: strin
       </header>
 
       {/* Mobile nav sheet — rendered outside the transformed <header> so `fixed inset-0` covers the viewport */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <div className="md:hidden fixed inset-0 z-[70]">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: [...CALM_EASE] }}
-              className="absolute inset-0 bg-black/30 backdrop-blur-[2px]"
-              onClick={() => setMobileOpen(false)}
-            />
-            <motion.div
-              initial={{ x: "100%", opacity: 0.4 }}
-              animate={{ x: "0%", opacity: 1 }}
-              exit={{ x: "100%", opacity: 0 }}
-              transition={{ duration: 0.45, ease: [...CALM_EASE] }}
-              className="absolute inset-0 bg-[#FCFCF9] flex flex-col shadow-2xl"
-            >
+      <div className={`md:hidden fixed inset-0 z-[70] ${mobileOpen ? "" : "pointer-events-none"}`} aria-hidden={!mobileOpen}>
+        <div
+          className={`absolute inset-0 bg-black/30 backdrop-blur-[2px] transition-opacity duration-300 ${mobileOpen ? "opacity-100" : "opacity-0"}`}
+          onClick={() => setMobileOpen(false)}
+        />
+        <div
+          className={`absolute inset-0 bg-[#FCFCF9] flex flex-col shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${mobileOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"}`}
+        >
               {/* Top bar */}
               <div className="flex items-center justify-between px-4 sm:px-6 h-[64px] border-b border-[#E8E6E1] shrink-0">
                 <Link href="/" onClick={() => setMobileOpen(false)}>
@@ -164,27 +152,22 @@ export function Header({ contact = DEFAULT_CONTACT }: { contact?: { email: strin
                 <div className="text-[10px] tracking-[0.24em] uppercase text-[#8C6A2F]/70 font-medium">Menu</div>
                 <nav className="mt-4 space-y-1">
                   {mobileLinks.map((l, i) => (
-                    <motion.a
+                    <a
                       key={l.label}
                       href={l.href}
                       onClick={() => setMobileOpen(false)}
-                      initial={{ opacity: 0, y: 14 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 8 }}
-                      transition={{ duration: 0.4, delay: 0.08 + i * 0.05, ease: [...CALM_EASE] }}
-                      className="flex items-baseline justify-between py-3 border-b border-[#E8E6E1]/60 group"
+                      style={{ animationDelay: `${0.08 + i * 0.05}s` }}
+                      className={`flex items-baseline justify-between py-3 border-b border-[#E8E6E1]/60 group ${mobileOpen ? "rise-in" : "opacity-0"}`}
                     >
                       <span className="font-serif text-[26px] leading-none tracking-[-0.02em] font-light group-active:text-[#8C6A2F]">{l.label}</span>
                       {l.count && <span className="text-[11px] tracking-[0.14em] text-[#9A9590]">{l.count}</span>}
-                    </motion.a>
+                    </a>
                   ))}
                 </nav>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4, delay: 0.35, ease: [...CALM_EASE] }}
+                <div
+                  style={{ animationDelay: "0.35s" }}
+                  className={mobileOpen ? "rise-in" : "opacity-0"}
                 >
                   <div className="mt-8 grid grid-cols-2 gap-3">
                     <a href="/cart" onClick={() => setMobileOpen(false)} className="border border-[#E8E6E1] bg-white py-3 text-center text-[11px] tracking-[0.16em] uppercase">
@@ -204,7 +187,7 @@ export function Header({ contact = DEFAULT_CONTACT }: { contact?: { email: strin
                     </div>
                     <div className="text-[11px] tracking-wide text-[#6B6B6B] mt-6">Free shipping on every order, worldwide</div>
                   </div>
-                </motion.div>
+                </div>
               </div>
 
               {/* Bottom bar */}
@@ -212,10 +195,8 @@ export function Header({ contact = DEFAULT_CONTACT }: { contact?: { email: strin
                 <span>© Gold Interest</span>
                 <span className="text-[#C9A96E]">Est. 2024</span>
               </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+        </div>
+      </div>
     </>
   );
 }

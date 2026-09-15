@@ -2,11 +2,9 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { useWishlist } from "./wishlist-context";
 import { useCart } from "./cart-context";
 import { useToast } from "./toast";
-import { CALM_EASE } from "./page-transition";
 
 export function WishlistDrawer() {
   const { items, isOpen, setIsOpen, remove } = useWishlist();
@@ -27,24 +25,14 @@ export function WishlistDrawer() {
   }, [isOpen, setIsOpen]);
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: [...CALM_EASE] }}
-            className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
-            onClick={() => setIsOpen(false)}
-          />
-          <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: "0%" }}
-            exit={{ x: "100%" }}
-            transition={{ duration: 0.45, ease: [...CALM_EASE] }}
-            className="relative w-full max-w-[420px] bg-[#FCFCF9] h-full flex flex-col shadow-2xl"
-          >
+    <div className={`fixed inset-0 z-50 flex justify-end ${isOpen ? "" : "pointer-events-none"}`} aria-hidden={!isOpen}>
+      <div
+        className={`absolute inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"}`}
+        onClick={() => setIsOpen(false)}
+      />
+      <div
+        className={`relative w-full max-w-[420px] bg-[#FCFCF9] h-full flex flex-col shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+      >
             <div className="flex items-center justify-between px-6 py-5 border-b border-[#E8E6E1]">
               <h2 className="font-serif text-[18px] tracking-[0.08em] uppercase">
                 Wishlist <span className="text-[#8C6A2F]">({items.length})</span>
@@ -59,7 +47,7 @@ export function WishlistDrawer() {
 
             <div className="flex-1 overflow-auto px-6 py-6">
               {items.length === 0 ? (
-                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1, ease: [...CALM_EASE] }} className="py-16 text-center">
+                <div className={`py-16 text-center ${isOpen ? "rise-in" : "opacity-0"}`} style={{ animationDelay: "0.1s" }}>
                   <p className="font-serif text-xl">Your wishlist is empty</p>
                   <p className="text-sm text-[#6B6B6B] mt-2">Tap the heart on any product to save it.</p>
                   <button
@@ -68,16 +56,14 @@ export function WishlistDrawer() {
                   >
                     Continue Shopping
                   </button>
-                </motion.div>
+                </div>
               ) : (
                 <div className="space-y-5">
                   {items.map((product, i) => (
-                    <motion.div
+                    <div
                       key={product.id}
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.35, delay: 0.05 + i * 0.05, ease: [...CALM_EASE] }}
-                      className="flex gap-4 pb-5 border-b border-[#E8E6E1]"
+                      style={{ animationDelay: `${0.05 + i * 0.05}s` }}
+                      className={`flex gap-4 pb-5 border-b border-[#E8E6E1] ${isOpen ? "rise-in" : "opacity-0"}`}
                     >
                       <Link href={`/product/${product.slug}`} onClick={() => setIsOpen(false)}>
                         <img src={product.images[0]} alt={product.name} loading="lazy" decoding="async" className="w-20 h-24 object-cover bg-[#F6F5F2]" />
@@ -102,18 +88,16 @@ export function WishlistDrawer() {
                           </button>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               )}
             </div>
 
             {items.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.15, ease: [...CALM_EASE] }}
-                className="border-t border-[#E8E6E1] px-6 py-6 bg-white"
+              <div
+                style={{ animationDelay: "0.15s" }}
+                className={`border-t border-[#E8E6E1] px-6 py-6 bg-white ${isOpen ? "rise-in" : "opacity-0"}`}
               >
                 <Link
                   href="/shop"
@@ -122,11 +106,9 @@ export function WishlistDrawer() {
                 >
                   Continue Shopping
                 </Link>
-              </motion.div>
+              </div>
             )}
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
+      </div>
+    </div>
   );
 }

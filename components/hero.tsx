@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 
 const HERO_SRC = "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6";
+const heroSrc = (w: number) => `${HERO_SRC}?auto=format&fit=crop&w=${w}&q=65`;
 
 export function Hero({
   kicker = "Gold Interest, Est. 2024",
@@ -20,13 +20,14 @@ export function Hero({
     <section className="relative overflow-hidden h-[100dvh] min-h-[620px] lg:min-h-[660px] flex flex-col">
       {/* Background — wallpaper + framed art interior, ultra-fast */}
       <div className="absolute inset-0 bg-[#0A0A0A]">
-        <Image
-          src={`${HERO_SRC}?auto=format&fit=crop&w=1600&q=70`}
-          alt="Wallpaper packs and framed wall art in a warm modern interior"
-          fill
-          priority
+        <img
+          src={heroSrc(1280)}
+          srcSet={`${heroSrc(640)} 640w, ${heroSrc(1080)} 1080w, ${heroSrc(1600)} 1600w`}
           sizes="100vw"
-          className="object-cover"
+          alt="Wallpaper packs and framed wall art in a warm modern interior"
+          className="w-full h-full object-cover"
+          fetchPriority="high"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-black/10" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
