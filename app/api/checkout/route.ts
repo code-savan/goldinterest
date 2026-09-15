@@ -4,12 +4,16 @@ import { randomUUID } from "crypto";
 import { orders } from "@/db/schema";
 import { getProducts, getPromoByCode, promoDiscount, requireDb } from "@/lib/store";
 import { getWhopClient, whopConfigured } from "@/lib/whop";
+import { limit } from "@/lib/rate-limit";
 
 type CartLine = { id: string; size?: string; color?: string; quantity: number };
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
 
 export async function POST(req: Request) {
+  // Order-creation guard: 10 checkouts per 10 minutes per IP.
+  const blocked = limit(req, "checkout", { limit: 10, windowMs: 10 * 60_000 });
+  if (blocked) return blocked;
   try {
     const body = await req.json().catch(() => ({}));
     const lines = (body.items || []) as CartLine[];

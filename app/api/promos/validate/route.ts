@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { getPromoByCode, promoDiscount } from "@/lib/store";
+import { limit } from "@/lib/rate-limit";
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
 
 export async function POST(req: Request) {
+  // Code-guessing guard: 20 checks per 10 minutes per IP.
+  const blocked = limit(req, "promo-validate", { limit: 20, windowMs: 10 * 60_000 });
+  if (blocked) return blocked;
   try {
     const body = await req.json().catch(() => ({}));
     const code = String(body.code || "").trim().toUpperCase();

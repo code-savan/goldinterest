@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { ADMIN_COOKIE, adminConfigured, createSessionToken, verifyPassword } from "@/lib/admin-auth";
+import { limit } from "@/lib/rate-limit";
 
 export async function POST(req: Request) {
+  // Brute-force guard: 5 password tries per minute per IP.
+  const blocked = limit(req, "admin-login", { limit: 5, windowMs: 60_000 });
+  if (blocked) return blocked;
   if (!adminConfigured()) {
     return NextResponse.json({ error: "Admin password is not set. Add ADMIN_PASSWORD to the environment." }, { status: 503 });
   }

@@ -3,6 +3,7 @@ import { and, desc, eq } from "drizzle-orm";
 import { products, reviews } from "@/db/schema";
 import { dbReady } from "@/db";
 import { requireDb } from "@/lib/store";
+import { limit } from "@/lib/rate-limit";
 
 /** GET /api/reviews?productId= — active reviews, newest first, with summary. */
 export async function GET(req: Request) {
@@ -29,15 +30,24 @@ export async function GET(req: Request) {
     const avg = count === 0 ? null : Math.round((visible.reduce((a, r) => a + r.rating, 0) / count) * 10) / 10;
     return NextResponse.json({ reviews: visible, count, avg });
   } catch (e) {
-    return NextResponse.json({ error: String(e) }, { status: 500 });
+    console.error("[reviews] list failed", e);
+    return NextResponse.json({ error: "Could not load reviews." }, { status: 500 });
   }
 }
 
 /** POST /api/reviews — anyone can leave a review. */
 export async function POST(req: Request) {
+  // Spam guard: 5 reviews per 10 minutes per IP, plus a honeypot below.
+  const blocked = limit(req, "reviews-post", { limit: 5, windowMs: 10 * 60_000 });
+  if (blocked) return blocked;
   try {
     const db = requireDb();
     const b = await req.json();
+    // Honeypot: real users never see the "website" field. Bots that fill it
+    // get a fake success so they move on instead of retrying.
+    if (typeof b.website === "string" && b.website.trim() !== "") {
+      return NextResponse.json({ ok: true, id: "withheld" });
+    }
     const productId = String(b.productId || "");
     const rating = Math.min(5, Math.max(1, Number(b.rating) || 5));
     const body = String(b.body || "").trim().slice(0, 2000);
@@ -65,6 +75,7 @@ export async function POST(req: Request) {
     });
     return NextResponse.json({ ok: true, id });
   } catch (e) {
-    return NextResponse.json({ error: String(e) }, { status: 500 });
+    console.error("[reviews] post failed", e);
+    return NextResponse.json({ error: "Could not post your review. Please try again." }, { status: 500 });
   }
 }
