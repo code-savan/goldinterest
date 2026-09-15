@@ -201,7 +201,7 @@ export default function CheckoutPage() {
             <div className="divide-y divide-[#E8E6E1] mt-4">
               {items.map((item) => (
                 <div key={`${item.product.id}-${item.size}-${item.color}`} className="flex gap-3 py-3">
-                  <img src={item.product.images[0]} alt={item.product.name} className="w-16 h-20 object-cover bg-white border border-[#E8E6E1]" />
+                  <img src={item.product.images[0]} alt={item.product.name} loading="lazy" decoding="async" className="w-16 h-20 object-cover bg-white border border-[#E8E6E1]" />
                   <div className="flex-1 min-w-0">
                     <div className="text-[13px] leading-tight line-clamp-2">{item.product.name}</div>
                     <div className="text-[11px] text-[#6B6B6B] mt-1">

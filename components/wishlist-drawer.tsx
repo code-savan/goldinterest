@@ -80,7 +80,7 @@ export function WishlistDrawer() {
                       className="flex gap-4 pb-5 border-b border-[#E8E6E1]"
                     >
                       <Link href={`/product/${product.slug}`} onClick={() => setIsOpen(false)}>
-                        <img src={product.images[0]} alt={product.name} className="w-20 h-24 object-cover bg-[#F6F5F2]" />
+                        <img src={product.images[0]} alt={product.name} loading="lazy" decoding="async" className="w-20 h-24 object-cover bg-[#F6F5F2]" />
                       </Link>
                       <div className="flex-1 min-w-0">
                         <Link href={`/product/${product.slug}`} onClick={() => setIsOpen(false)} className="text-[13px] leading-tight font-medium line-clamp-2 hover:underline">

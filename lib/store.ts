@@ -1,4 +1,5 @@
 import { asc, desc, eq } from "drizzle-orm";
+import { unstable_cache } from "next/cache";
 import { db } from "@/db";
 import { orders, products, promos, settings, webhookEvents } from "@/db/schema";
 import type { OrderItem } from "@/db/schema";
@@ -76,22 +77,33 @@ export const DEFAULT_SETTINGS = {
 };
 
 export async function getSettings(): Promise<StoreSettings & typeof DEFAULT_SETTINGS> {
-  return safe(async () => {
-    const rows = await db!.select().from(settings).where(eq(settings.id, 1));
-    const s = rows[0];
-    if (!s) return { id: 1, ...DEFAULT_SETTINGS };
-    return {
-      id: 1,
-      featuredIds: s.featuredIds?.length ? s.featuredIds : DEFAULT_SETTINGS.featuredIds,
-      announcement: s.announcement || DEFAULT_SETTINGS.announcement,
-      heroKicker: s.heroKicker || DEFAULT_SETTINGS.heroKicker,
-      heroTitleTop: s.heroTitleTop || DEFAULT_SETTINGS.heroTitleTop,
-      heroTitleAccent: s.heroTitleAccent || DEFAULT_SETTINGS.heroTitleAccent,
-      heroTitleBottom: s.heroTitleBottom || DEFAULT_SETTINGS.heroTitleBottom,
-      heroSubtitle: s.heroSubtitle || DEFAULT_SETTINGS.heroSubtitle,
-    };
-  }, { id: 1, ...DEFAULT_SETTINGS });
+  if (!db) return { id: 1, ...DEFAULT_SETTINGS };
+  return getCachedSettings();
 }
+
+// Homepage settings change rarely but are read on every page render —
+// cache across requests and invalidate on save (see /api/admin/settings).
+const getCachedSettings = unstable_cache(
+  async (): Promise<StoreSettings & typeof DEFAULT_SETTINGS> => {
+    return safe(async () => {
+      const rows = await db!.select().from(settings).where(eq(settings.id, 1));
+      const s = rows[0];
+      if (!s) return { id: 1, ...DEFAULT_SETTINGS };
+      return {
+        id: 1,
+        featuredIds: s.featuredIds?.length ? s.featuredIds : DEFAULT_SETTINGS.featuredIds,
+        announcement: s.announcement || DEFAULT_SETTINGS.announcement,
+        heroKicker: s.heroKicker || DEFAULT_SETTINGS.heroKicker,
+        heroTitleTop: s.heroTitleTop || DEFAULT_SETTINGS.heroTitleTop,
+        heroTitleAccent: s.heroTitleAccent || DEFAULT_SETTINGS.heroTitleAccent,
+        heroTitleBottom: s.heroTitleBottom || DEFAULT_SETTINGS.heroTitleBottom,
+        heroSubtitle: s.heroSubtitle || DEFAULT_SETTINGS.heroSubtitle,
+      };
+    }, { id: 1, ...DEFAULT_SETTINGS });
+  },
+  ["store-settings"],
+  { tags: ["store-settings"], revalidate: 300 }
+);
 
 export async function getFeaturedProducts(limit = 6): Promise<Product[]> {
   const [s, all] = await Promise.all([getSettings(), getProducts(true)]);

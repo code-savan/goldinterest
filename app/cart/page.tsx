@@ -36,7 +36,7 @@ export default function CartPage() {
         <div className="space-y-3">
           {items.map((item) => (
             <div key={`${item.product.id}-${item.size}-${item.color}`} className="flex gap-3 p-4 border border-[#E8E6E1] bg-white">
-              <img src={item.product.images[0]} alt={item.product.name} className="w-20 h-24 object-cover bg-[#F6F5F2] shrink-0" />
+              <img src={item.product.images[0]} alt={item.product.name} loading="lazy" decoding="async" className="w-20 h-24 object-cover bg-[#F6F5F2] shrink-0" />
               <div className="flex-1 min-w-0">
                 <Link href={`/product/${item.product.slug}`} className="font-medium text-sm hover:underline">
                   {item.product.name}

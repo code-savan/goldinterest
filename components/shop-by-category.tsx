@@ -26,6 +26,8 @@ export function ShopByCategory() {
                 <img
                   src={cat.image}
                   alt={cat.label}
+                  loading="lazy"
+                  decoding="async"
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-[900ms] ease-[cubic-bezier(0.32,0.72,0,1)]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/5 to-transparent" />

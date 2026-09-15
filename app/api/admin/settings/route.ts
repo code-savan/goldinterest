@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { settings } from "@/db/schema";
 import { getSettings, requireDb } from "@/lib/store";
@@ -35,6 +36,7 @@ export async function PUT(req: Request) {
           heroSubtitle: b.heroSubtitle ?? "",
         },
       });
+    revalidateTag("store-settings", "max");
     return NextResponse.json({ ok: true });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });

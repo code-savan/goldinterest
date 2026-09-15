@@ -34,7 +34,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
       {/* Images */}
       <div className="space-y-3">
         <div className="bg-[#F6F5F2] aspect-[3/4] lg:aspect-[4/5] overflow-hidden relative">
-          <img src={product.images[activeImage]} alt={product.name} className="w-full h-full object-cover" />
+          <img src={product.images[activeImage]} alt={product.name} fetchPriority="high" decoding="async" className="w-full h-full object-cover" />
           {product.badge && (
             <span className="absolute top-4 left-4 bg-white text-[11px] tracking-[0.16em] uppercase px-3 py-1.5 font-medium border border-black/5">
               {product.badge}
@@ -49,7 +49,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
                 onClick={() => setActiveImage(i)}
                 className={`w-20 h-20 overflow-hidden border-2 ${activeImage === i ? "border-[#0A0A0A]" : "border-transparent"}`}
               >
-                <img src={img} alt="" className="w-full h-full object-cover" />
+                <img src={img} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
               </button>
             ))}
           </div>

@@ -46,7 +46,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               className="pointer-events-auto w-[300px] max-w-[92vw] bg-white border border-[#E8E6E1] shadow-[0_12px_40px_rgba(0,0,0,0.14)] flex items-center gap-3 pl-3 pr-2 py-3"
             >
               {toast.image ? (
-                <img src={toast.image} alt="" className="w-9 h-11 object-cover bg-[#F6F5F2] shrink-0" />
+                <img src={toast.image} alt="" loading="lazy" decoding="async" className="w-9 h-11 object-cover bg-[#F6F5F2] shrink-0" />
               ) : (
                 <div className="w-7 h-7 rounded-full bg-[#0A0A0A] flex items-center justify-center shrink-0">
                   <span className="text-[#C9A96E] text-[11px]">✓</span>

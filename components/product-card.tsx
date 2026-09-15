@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import type { Product } from "@/lib/products";
 import { useCart } from "./cart-context";
@@ -37,10 +38,12 @@ export function ProductCard({ product }: { product: Product }) {
     <div className="group flex flex-col">
       <div className="relative overflow-hidden bg-[#F6F5F2] aspect-[3/4]">
         <Link href={`/product/${product.slug}`} className="absolute inset-0 block" aria-label={product.name}>
-          <img
+          <Image
             src={product.images[0]}
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1280px) 25vw, 320px"
+            className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
           />
         </Link>
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors pointer-events-none" />
