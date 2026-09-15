@@ -66,7 +66,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries = await productEntries();
 
   const productUrls: MetadataRoute.Sitemap = entries.map((p) => ({
-    url: `${siteUrl}/product/${p.slug}`,
+    // encodeURI: stored slugs predate URL-safe enforcement and may contain
+    // spaces — a raw space in <loc> is invalid XML and breaks crawlers.
+    url: encodeURI(`${siteUrl}/product/${p.slug}`),
     lastModified: p.lastmod,
     changeFrequency: "weekly",
     priority: 0.8,

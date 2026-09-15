@@ -55,7 +55,25 @@ export async function getProducts(activeOnly = true): Promise<Product[]> {
 
 export async function getProductBySlug(slug: string): Promise<Product | undefined> {
   const all = await getProducts(false);
-  return all.find((p) => p.slug === slug && (p as Product & { active?: boolean }).active !== false) ?? all.find((p) => p.slug === slug);
+  const want = normalizeSlug(slug);
+  const match = (p: Product) => normalizeSlug(p.slug) === want;
+  return all.find((p) => match(p) && (p as Product & { active?: boolean }).active !== false)
+    ?? all.find(match);
+}
+
+/**
+ * Page params can arrive percent-encoded ("Nightcrawlers%20only") when the
+ * route also defines generateStaticParams, and stored slugs were not always
+ * URL-safe. Normalize both sides so lookups never 404 on encoding or case.
+ */
+function normalizeSlug(s: string): string {
+  let out = s;
+  try {
+    out = decodeURIComponent(out);
+  } catch {
+    // Keep the raw value if it isn't valid percent-encoding.
+  }
+  return out.trim().toLowerCase();
 }
 
 export async function getProductById(id: string): Promise<Product | undefined> {

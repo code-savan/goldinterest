@@ -23,7 +23,9 @@ export async function POST(req: Request) {
     const b = await req.json();
     if (!b.name || b.price == null) return NextResponse.json({ error: "Name and price are required." }, { status: 400 });
     const id = b.id || `p-${Date.now().toString(36)}`;
-    const slug = b.slug || `${slugify(b.name)}-${id.slice(-4)}`;
+    // Always store URL-safe slugs — raw user input ("Nightcrawlers only")
+    // breaks product URLs, lookups and the sitemap.
+    const slug = slugify(String(b.slug || `${slugify(b.name)}-${id.slice(-4)}`));
     const row = {
       id,
       slug,
@@ -57,7 +59,7 @@ export async function PUT(req: Request) {
       .update(products)
       .set({
         name: b.name,
-        slug: b.slug,
+        slug: b.slug ? slugify(String(b.slug)) : undefined,
         category: b.category,
         price: b.price != null ? Number(b.price) : undefined,
         oldPrice: b.oldPrice === "" || b.oldPrice == null ? null : Number(b.oldPrice),
