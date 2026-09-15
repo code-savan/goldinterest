@@ -1,15 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 import type { Product } from "@/lib/products";
 import { useCart } from "./cart-context";
 import { useWishlist } from "./wishlist-context";
 import { useToast } from "./toast";
 
-export function ProductCard({ product }: { product: Product }) {
-  const { addItem } = useCart();
+/**
+ * Right-sized card image URL with zero JS. Unsplash/imgix URLs get an
+ * exact-width variant; anything else (admin uploads) passes through as-is.
+ */
+function cardSrc(url: string | undefined, w = 720): string {
+  if (!url) return "";
+  if (!/unsplash\.com|imgix\.net/.test(url)) return url;
+  const clean = url.split("?")[0];
+  return `${clean}?auto=format&fit=crop&w=${w}&q=60`;
+}
+
+export function ProductCard({ product }: { product: Product }) {  const { addItem } = useCart();
   const { toggle, has } = useWishlist();
   const { showToast } = useToast();
   const wished = has(product.id);
@@ -38,12 +47,14 @@ export function ProductCard({ product }: { product: Product }) {
     <div className="group flex flex-col">
       <div className="relative overflow-hidden bg-[#F6F5F2] aspect-[3/4]">
         <Link href={`/product/${product.slug}`} className="absolute inset-0 block" aria-label={product.name}>
-          <Image
-            src={product.images[0]}
-            alt={product.name}
-            fill
+          <img
+            src={cardSrc(product.images[0])}
+            srcSet={`${cardSrc(product.images[0], 480)} 480w, ${cardSrc(product.images[0], 720)} 720w`}
             sizes="(max-width: 1024px) 50vw, 33vw"
-            className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
+            alt={product.name}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
           />
         </Link>
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors pointer-events-none" />
