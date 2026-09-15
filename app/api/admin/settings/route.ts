@@ -23,6 +23,7 @@ export async function PUT(req: Request) {
         heroTitleAccent: b.heroTitleAccent ?? "",
         heroTitleBottom: b.heroTitleBottom ?? "",
         heroSubtitle: b.heroSubtitle ?? "",
+        heroImage: b.heroImage ?? "",
       })
       .onConflictDoUpdate({
         target: settings.id,
@@ -34,6 +35,7 @@ export async function PUT(req: Request) {
           heroTitleAccent: b.heroTitleAccent ?? "",
           heroTitleBottom: b.heroTitleBottom ?? "",
           heroSubtitle: b.heroSubtitle ?? "",
+          heroImage: b.heroImage ?? "",
         },
       });
     revalidateTag("store-settings", "max");

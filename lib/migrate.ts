@@ -34,6 +34,12 @@ const MIGRATIONS: Migration[] = [
       `UPDATE products SET colors = (SELECT COALESCE(jsonb_agg(c), '[]'::jsonb) FROM jsonb_array_elements(COALESCE(colors, '[]'::jsonb)) AS c WHERE COALESCE(c->>'name', '') <> ''), updated_at = NOW() WHERE colors IS NOT NULL`,
     ],
   },
+  {
+    id: "004-hero-image-setting",
+    statements: [
+      `ALTER TABLE settings ADD COLUMN IF NOT EXISTS hero_image TEXT NOT NULL DEFAULT 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6'`,
+    ],
+  },
 ];
 
 export async function ensureSchema(): Promise<{ applied: string[] }> {

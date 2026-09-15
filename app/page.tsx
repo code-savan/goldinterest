@@ -20,6 +20,7 @@ export default async function Home() {
         titleAccent={s.heroTitleAccent}
         titleBottom={s.heroTitleBottom}
         subtitle={s.heroSubtitle}
+        image={s.heroImage}
       />
       <ShopByCategory
         copy={{

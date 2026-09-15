@@ -18,6 +18,7 @@ type S = {
   heroTitleAccent: string;
   heroTitleBottom: string;
   heroSubtitle: string;
+  heroImage: string;
 };
 
 const NETWORKS: SocialNetwork[] = ["instagram", "tiktok", "pinterest", "facebook", "youtube", "x"];
@@ -95,6 +96,7 @@ export function HomepageManager({
   const [content, setContent] = useState<SiteContent>(initialContent);
   const [contentSaving, setContentSaving] = useState(false);
   const [contentMsg, setContentMsg] = useState("");
+  const [heroUploading, setHeroUploading] = useState(false);
 
   const byId = useMemo(() => new Map(products.map((p) => [p.id, p])), [products]);
   const results = useMemo(() => {
@@ -121,6 +123,27 @@ export function HomepageManager({
     const data = await res.json().catch(() => ({}));
     setSaving(false);
     setMsg(res.ok ? "Saved. The homepage updates instantly." : data.error || "Save failed.");
+  };
+
+  const uploadHero = async (file: File) => {
+    if (!file.type.startsWith("image/")) {
+      setMsg("That file is not an image. Choose a JPG, PNG or WebP file.");
+      return;
+    }
+    setHeroUploading(true);
+    try {
+      const form = new FormData();
+      form.append("file", file);
+      const res = await fetch("/api/admin/upload", { method: "POST", body: form });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Upload failed. Paste an image URL instead.");
+      setS({ ...s, heroImage: data.url });
+      setMsg("");
+    } catch (e) {
+      setMsg(e instanceof Error ? e.message : "Upload failed. Paste an image URL instead.");
+    } finally {
+      setHeroUploading(false);
+    }
   };
 
   const saveContent = async () => {
@@ -225,6 +248,36 @@ export function HomepageManager({
           </div>
           <Field label="Subtitle">
             <textarea value={s.heroSubtitle} onChange={(e) => setS({ ...s, heroSubtitle: e.target.value })} rows={3} className={inputCls} />
+          </Field>
+          <Field label="Background image">
+            {s.heroImage.trim() !== "" && (
+              <div className="relative mb-2 overflow-hidden rounded-xl border border-black/10 aspect-[16/9] bg-black/[0.03]">
+                <img src={s.heroImage} alt="Hero background preview" className="w-full h-full object-cover" />
+              </div>
+            )}
+            <div className="flex flex-col sm:flex-row gap-2">
+              <input
+                value={s.heroImage}
+                onChange={(e) => setS({ ...s, heroImage: e.target.value })}
+                placeholder="Image URL, or upload below"
+                inputMode="url"
+                className={`${inputCls} flex-1`}
+              />
+              <label className={`inline-flex items-center justify-center text-center min-h-[44px] border border-[#131315] rounded-xl px-5 py-2.5 text-[11px] tracking-[0.14em] uppercase font-medium cursor-pointer hover:bg-[#131315] hover:text-white transition-colors ${heroUploading ? "opacity-60 pointer-events-none" : ""}`}>
+                {heroUploading ? "Uploading" : "Upload"}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    e.target.value = "";
+                    if (f) uploadHero(f);
+                  }}
+                />
+              </label>
+            </div>
+            <p className="text-[11px] text-[#8A8A90] mt-1">Wide landscape photo works best. Leave empty to use the default.</p>
           </Field>
         </div>
       </Card>

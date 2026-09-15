@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS settings (
   hero_title_top TEXT NOT NULL DEFAULT 'Everything',
   hero_title_accent TEXT NOT NULL DEFAULT 'for your',
   hero_title_bottom TEXT NOT NULL DEFAULT 'Space',
-  hero_subtitle TEXT NOT NULL DEFAULT 'Wallpapers, printable posters, framed wall art and apparel. Carefully made with a smooth matte finish, heavyweight cotton and small gold details. Free shipping on every order.'
+  hero_subtitle TEXT NOT NULL DEFAULT 'Wallpapers, printable posters, framed wall art and apparel. Carefully made with a smooth matte finish, heavyweight cotton and small gold details. Free shipping on every order.',
+  hero_image TEXT NOT NULL DEFAULT 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6'
 );
 
 INSERT INTO settings (id) VALUES (1) ON CONFLICT (id) DO NOTHING;

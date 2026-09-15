@@ -45,6 +45,9 @@ export const settings = pgTable("settings", {
     .default(
       "Wallpapers, printable posters, framed wall art and apparel. Carefully made with a smooth matte finish, heavyweight cotton and small gold details. Free shipping on every order."
     ),
+  heroImage: text("hero_image")
+    .notNull()
+    .default("https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"),
 });
 
 export const promos = pgTable("promos", {

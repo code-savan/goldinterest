@@ -101,6 +101,7 @@ export const DEFAULT_SETTINGS = {
   heroTitleBottom: "Space",
   heroSubtitle:
     "Wallpapers, printable posters, framed wall art and apparel. Carefully made with a smooth matte finish, heavyweight cotton and small gold details. Free shipping on every order.",
+  heroImage: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6",
 };
 
 export async function getSettings(): Promise<StoreSettings & typeof DEFAULT_SETTINGS> {
@@ -125,6 +126,7 @@ const getCachedSettings = unstable_cache(
         heroTitleAccent: s.heroTitleAccent || DEFAULT_SETTINGS.heroTitleAccent,
         heroTitleBottom: s.heroTitleBottom || DEFAULT_SETTINGS.heroTitleBottom,
         heroSubtitle: s.heroSubtitle || DEFAULT_SETTINGS.heroSubtitle,
+        heroImage: s.heroImage || DEFAULT_SETTINGS.heroImage,
       };
     }, { id: 1, ...DEFAULT_SETTINGS });
   },

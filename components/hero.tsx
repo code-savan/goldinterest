@@ -1,8 +1,20 @@
 import Link from "next/link";
 
-const HERO_SRC = "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6";
-const heroSrc = (w: number) => `${HERO_SRC}?auto=format&fit=crop&w=${w}&q=60`;
-const HERO_SRCSET = `${heroSrc(640)} 640w, ${heroSrc(960)} 960w, ${heroSrc(1440)} 1440w`;
+export const DEFAULT_HERO_IMAGE = "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6";
+
+// Sized variants for imgix-style URLs (Unsplash); any other URL is used as-is
+// so admin uploads and pasted links work unchanged.
+function heroSrc(base: string, w: number) {
+  const clean = base.split("?")[0];
+  if (!/unsplash\.com|imgix\.net/.test(clean)) return base;
+  return `${clean}?auto=format&fit=crop&w=${w}&q=60`;
+}
+
+function heroSrcSet(base: string) {
+  const clean = base.split("?")[0];
+  if (!/unsplash\.com|imgix\.net/.test(clean)) return undefined;
+  return `${heroSrc(base, 640)} 640w, ${heroSrc(base, 960)} 960w, ${heroSrc(base, 1440)} 1440w`;
+}
 
 export function Hero({
   kicker = "Gold Interest, Est. 2024",
@@ -10,22 +22,26 @@ export function Hero({
   titleAccent = "for your",
   titleBottom = "Space",
   subtitle = "Wallpapers, printable posters, framed wall art and apparel. Carefully made with a smooth matte finish, heavyweight cotton and small gold details. Free shipping on every order.",
+  image = DEFAULT_HERO_IMAGE,
 }: {
   kicker?: string;
   titleTop?: string;
   titleAccent?: string;
   titleBottom?: string;
   subtitle?: string;
+  image?: string;
 }) {
+  const src = image.trim() !== "" ? image : DEFAULT_HERO_IMAGE;
+  const srcSet = heroSrcSet(src);
   return (
     <section className="relative overflow-hidden h-[100dvh] min-h-[620px] lg:min-h-[660px] flex flex-col">
       {/* Preload the exact LCP candidate — React hoists this into <head> */}
-      <link rel="preload" as="image" imageSrcSet={HERO_SRCSET} imageSizes="100vw" href={heroSrc(960)} />
+      <link rel="preload" as="image" {...(srcSet ? { imageSrcSet: srcSet, imageSizes: "100vw" } : {})} href={heroSrc(src, 960)} />
       {/* Background — wallpaper + framed art interior, ultra-fast */}
       <div className="absolute inset-0 bg-[#0A0A0A]">
         <img
-          src={heroSrc(960)}
-          srcSet={HERO_SRCSET}
+          src={heroSrc(src, 960)}
+          {...(srcSet ? { srcSet } : {})}
           sizes="100vw"
           alt="Wallpaper packs and framed wall art in a warm modern interior"
           className="w-full h-full object-cover"
