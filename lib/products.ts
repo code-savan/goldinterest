@@ -9,7 +9,7 @@ export type Product = {
   oldPrice?: number;
   rating: number;
   reviews: number;
-  colors: { name: string; hex: string }[];
+  colors: { name: string; hex: string; image?: string }[];
   sizes?: string[];
   description: string;
   details: string[];

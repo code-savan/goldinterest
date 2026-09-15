@@ -1,8 +1,9 @@
 import { getProducts, getSettings } from "@/lib/store";
+import { getSiteContent } from "@/lib/site-content";
 import { HomepageManager } from "@/components/admin/homepage-manager";
 
 export default async function AdminHomepagePage() {
-  const [s, all] = await Promise.all([getSettings(), getProducts(false)]);
+  const [s, all, content] = await Promise.all([getSettings(), getProducts(false), getSiteContent()]);
   return (
     <HomepageManager
       initialSettings={{
@@ -15,6 +16,7 @@ export default async function AdminHomepagePage() {
         heroSubtitle: s.heroSubtitle,
       }}
       products={all.map((p) => ({ id: p.id, name: p.name, price: p.price, image: p.images[0] || "" }))}
+      initialContent={content}
     />
   );
 }

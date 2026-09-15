@@ -69,3 +69,9 @@ CREATE TABLE IF NOT EXISTS webhook_events (
   id TEXT PRIMARY KEY,
   received_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS site_content (
+  key TEXT PRIMARY KEY,
+  value JSONB NOT NULL DEFAULT '{}',
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);

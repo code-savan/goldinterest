@@ -1,6 +1,6 @@
 import { pgTable, text, numeric, boolean, integer, jsonb, timestamp } from "drizzle-orm/pg-core";
 
-export type ProductColor = { name: string; hex: string };
+export type ProductColor = { name: string; hex: string; image?: string };
 
 export type OrderItem = {
   productId: string;
@@ -84,4 +84,10 @@ export const orders = pgTable("orders", {
 export const webhookEvents = pgTable("webhook_events", {
   id: text("id").primaryKey(),
   receivedAt: timestamp("received_at", { withTimezone: true }).defaultNow(),
+});
+
+export const siteContent = pgTable("site_content", {
+  key: text("key").primaryKey(),
+  value: jsonb("value").notNull().default({}),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });

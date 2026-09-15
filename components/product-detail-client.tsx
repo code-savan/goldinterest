@@ -18,6 +18,15 @@ export function ProductDetailClient({ product }: { product: Product }) {
   const [activeImage, setActiveImage] = useState(0);
   const isWearable = product.category === "hoodies" || product.category === "tee-shirts";
 
+  // The selected color's tagged preview image wins; otherwise the browsed gallery image.
+  const activeColor = product.colors.find((c) => c.name === selectedColor);
+  const displayImage = activeColor?.image || product.images[activeImage];
+
+  const selectColor = (name: string) => {
+    setSelectedColor(name);
+    setActiveImage(0);
+  };
+
   const handleAdd = () => {
     addItem(product, { color: selectedColor, size: selectedSize, quantity: 1 });
     setAdded(true);
@@ -34,7 +43,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
       {/* Images */}
       <div className="space-y-3">
         <div className="bg-[#F6F5F2] aspect-[3/4] lg:aspect-[4/5] overflow-hidden relative">
-          <img src={product.images[activeImage]} alt={product.name} fetchPriority="high" decoding="async" className="w-full h-full object-cover" />
+          <img src={displayImage} alt={product.name} fetchPriority="high" decoding="async" className="w-full h-full object-cover" />
           {product.badge && (
             <span className="absolute top-4 left-4 bg-white text-[11px] tracking-[0.16em] uppercase px-3 py-1.5 font-medium border border-black/5">
               {product.badge}
@@ -85,11 +94,12 @@ export function ProductDetailClient({ product }: { product: Product }) {
             {product.colors.map((c) => (
               <button
                 key={c.name}
-                onClick={() => setSelectedColor(c.name)}
+                onClick={() => selectColor(c.name)}
                 title={c.name}
-                className={`w-9 h-9 rounded-full border-2 flex items-center justify-center transition-all ${selectedColor === c.name ? "border-[#0A0A0A] scale-105" : "border-white ring-1 ring-[#E8E6E1]"}`}
+                aria-label={`Color ${c.name}`}
+                aria-pressed={selectedColor === c.name}
+                className={`w-11 h-11 rounded-full border-2 flex items-center justify-center transition-all ${selectedColor === c.name ? "border-[#0A0A0A] scale-105" : "border-white ring-1 ring-[#E8E6E1]"}`}
                 style={{ background: c.hex }}
-                aria-label={c.name}
               >
                 {selectedColor === c.name && <span className={`w-1.5 h-1.5 rounded-full ${c.hex === "#F6F5F2" || c.hex === "#E8DCC6" || c.hex === "#F5E6C8" || c.hex === "#E8E6E1" ? "bg-black" : "bg-white"}`} />}
               </button>

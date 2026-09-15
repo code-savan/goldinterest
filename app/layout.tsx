@@ -11,6 +11,7 @@ import { Footer } from "@/components/footer";
 import { PageTransition } from "@/components/page-transition";
 import { WhopLoader } from "@/components/whop-loader";
 import { getSettings } from "@/lib/store";
+import { getSiteContent } from "@/lib/site-content";
 import { headers } from "next/headers";
 
 const cormorant = Cormorant_Garamond({
@@ -81,6 +82,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   }
 
   const settings = await getSettings();
+  const content = await getSiteContent();
   return (
     <html lang="en" className={`${cormorant.variable} ${dmSans.variable} h-full antialiased`}>
       <head>
@@ -93,7 +95,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <CartProvider>
             <WishlistProvider>
               <AnnouncementBar text={settings.announcement} />
-              <Header />
+              <Header contact={content.contact} />
               <DeferredDrawers />
               <main className="flex-1 pt-0">
                 <PageTransition>{children}</PageTransition>

@@ -1,20 +1,39 @@
 import { categories } from "@/lib/products";
+import { DEFAULT_SECTIONS } from "@/lib/site-content";
 
-export function ShopByCategory() {
+type Copy = {
+  kicker: string;
+  titleA: string;
+  titleAccent: string;
+  titleB: string;
+  sub: string;
+};
+
+export function ShopByCategory({
+  copy = {
+    kicker: DEFAULT_SECTIONS.categoriesKicker,
+    titleA: DEFAULT_SECTIONS.categoriesTitleA,
+    titleAccent: DEFAULT_SECTIONS.categoriesTitleAccent,
+    titleB: DEFAULT_SECTIONS.categoriesTitleB,
+    sub: DEFAULT_SECTIONS.categoriesSub,
+  },
+}: {
+  copy?: Copy;
+}) {
   return (
     <section id="shop" className="py-20 lg:py-32">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
         {/* Header - free, centered, lots of whitespace */}
         <div className="max-w-2xl">
-          <div className="text-[11px] tracking-[0.24em] uppercase text-[#8C6A2F] font-medium">Shop by Category</div>
+          <div className="text-[11px] tracking-[0.24em] uppercase text-[#8C6A2F] font-medium">{copy.kicker}</div>
           <h2 className="font-serif text-[34px] sm:text-[42px] leading-[0.95] tracking-[-0.02em] font-light mt-4">
-            Everything <span className="italic">we make,</span>
+            {copy.titleA} <span className="italic">{copy.titleAccent}</span>
             <br />
-            <span className="font-normal">curated by use</span>
+            <span className="font-normal">{copy.titleB}</span>
           </h2>
           <div className="w-12 h-px bg-[#C9A96E] mt-6" />
           <p className="text-[13px] leading-6 text-[#6B6B6B] mt-6 max-w-[520px]">
-            Five collections: Wallpaper Packs, Printable Posters, Frame Wall Art, Hoodies and Tee Shirts. Each one made with care, in its own material and scale.
+            {copy.sub}
           </p>
         </div>
 

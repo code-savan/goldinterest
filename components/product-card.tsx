@@ -42,7 +42,7 @@ export function ProductCard({ product }: { product: Product }) {
             src={product.images[0]}
             alt={product.name}
             fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1280px) 25vw, 320px"
+            sizes="(max-width: 1024px) 50vw, 33vw"
             className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
           />
         </Link>

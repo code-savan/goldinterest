@@ -5,6 +5,7 @@ import { adminProductCount, orderStats } from "@/lib/store";
 import { promos } from "@/db/schema";
 import { Card, PageTitle } from "@/components/admin/ui";
 import { SeedButton } from "@/components/admin/seed-button";
+import { SyncButton } from "@/components/admin/sync-button";
 
 export default async function AdminDashboard() {
   const [stats, productCount, promoCount] = await Promise.all([
@@ -25,6 +26,8 @@ export default async function AdminDashboard() {
   return (
     <div>
       <PageTitle title="Dashboard" sub="A calm overview of the store." />
+
+      <SyncButton />
 
       {!dbReady && (
         <Card className="p-6 mb-6 border-[#C9A96E]">

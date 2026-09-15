@@ -37,7 +37,7 @@ type Draft = {
   reviews: string;
   badge: string;
   active: boolean;
-  colors: { name: string; hex: string }[];
+  colors: { name: string; hex: string; image?: string }[];
   sizes: string[];
   description: string;
   details: string;
@@ -73,7 +73,11 @@ function toDraft(r: Row): Draft {
     reviews: String(r.reviews ?? 0),
     badge: r.badge || "",
     active: r.active,
-    colors: (r.colors as { name: string; hex: string }[]) ?? [],
+    colors: ((r.colors as { name: string; hex: string; image?: string }[]) ?? []).map((c) => ({
+      name: c.name,
+      hex: c.hex,
+      ...(c.image ? { image: c.image } : {}),
+    })),
     sizes: sortSizes((r.sizes as string[] | null) ?? []),
     description: r.description ?? "",
     details: ((r.details as string[]) ?? []).join("\n"),
@@ -392,13 +396,41 @@ export function ProductsManager({ initial }: { initial: Row[] }) {
                 <p className="text-[11px] text-[#8A8A90] mt-1">First image is the main one seen in the store. You can select multiple files at once. Uploads need Blob storage connected.</p>
               </Field>
 
-              <Field label="Colors">
-                <div className="space-y-2">
+              <Field label="Colors (tap a preview to tag it to a color)">
+                <div className="space-y-3">
                   {draft.colors.map((c, i) => (
-                    <div key={i} className="flex gap-2">
-                      <input value={c.name} onChange={(e) => { const n = [...draft.colors]; n[i] = { ...n[i], name: e.target.value }; setDraft({ ...draft, colors: n }); }} placeholder="Name" className={inputCls} />
-                      <input type="color" value={c.hex} onChange={(e) => { const n = [...draft.colors]; n[i] = { ...n[i], hex: e.target.value }; setDraft({ ...draft, colors: n }); }} className="w-12 h-[42px] border border-black/10 bg-white p-1" />
-                      <button onClick={() => setDraft({ ...draft, colors: draft.colors.filter((_, j) => j !== i) })} className="px-3 text-red-700">✕</button>
+                    <div key={i} className="border border-black/10 rounded-xl p-3 space-y-2 bg-white">
+                      <div className="flex gap-2">
+                        <input value={c.name} onChange={(e) => { const n = [...draft.colors]; n[i] = { ...n[i], name: e.target.value }; setDraft({ ...draft, colors: n }); }} placeholder="Name" className={inputCls} />
+                        <input type="color" value={c.hex} onChange={(e) => { const n = [...draft.colors]; n[i] = { ...n[i], hex: e.target.value }; setDraft({ ...draft, colors: n }); }} aria-label="Color swatch" className="w-12 h-[44px] shrink-0 border border-black/10 bg-white p-1 rounded-lg" />
+                        <button onClick={() => setDraft({ ...draft, colors: draft.colors.filter((_, j) => j !== i) })} aria-label="Remove color" className="min-w-[44px] min-h-[44px] text-red-700">✕</button>
+                      </div>
+                      {draft.images.length > 0 ? (
+                        <div>
+                          <div className="text-[11px] tracking-[0.1em] uppercase text-[#8A8A90] mb-1.5">Preview image for {c.name || "this color"}</div>
+                          <div className="flex gap-1.5 overflow-x-auto pb-1">
+                            <button
+                              onClick={() => { const n = [...draft.colors]; const { image: _drop, ...rest } = n[i]; n[i] = rest; setDraft({ ...draft, colors: n }); }}
+                              title="No specific image"
+                              className={`shrink-0 h-[52px] px-3 text-[11px] rounded-lg border ${!c.image ? "bg-[#131315] text-white border-[#131315]" : "bg-white border-black/10"}`}
+                            >
+                              None
+                            </button>
+                            {draft.images.map((u) => (
+                              <button
+                                key={u}
+                                onClick={() => { const n = [...draft.colors]; n[i] = { ...n[i], image: u }; setDraft({ ...draft, colors: n }); }}
+                                title={c.name || "Tag this image"}
+                                className={`shrink-0 w-[44px] h-[52px] overflow-hidden rounded-lg border-2 ${c.image === u ? "border-[#131315]" : "border-transparent"}`}
+                              >
+                                <img src={u} alt="" className="w-full h-full object-cover" />
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-[11px] text-[#8A8A90]">Add product images above, then tap one to preview it for this color.</p>
+                      )}
                     </div>
                   ))}
                   <GhostButton onClick={() => setDraft({ ...draft, colors: [...draft.colors, { name: "", hex: "#C9A96E" }] })}>Add color</GhostButton>

@@ -1,4 +1,24 @@
-export function EditorialWallpapers() {
+import { DEFAULT_SECTIONS } from "@/lib/site-content";
+
+type Copy = {
+  kicker: string;
+  titleA: string;
+  titleAccent: string;
+  titleB: string;
+  sub: string;
+};
+
+export function EditorialWallpapers({
+  copy = {
+    kicker: DEFAULT_SECTIONS.wallpapersKicker,
+    titleA: DEFAULT_SECTIONS.wallpapersTitleA,
+    titleAccent: DEFAULT_SECTIONS.wallpapersTitleAccent,
+    titleB: DEFAULT_SECTIONS.wallpapersTitleB,
+    sub: DEFAULT_SECTIONS.wallpapersSub,
+  },
+}: {
+  copy?: Copy;
+}) {
   return (
     <section id="wallpapers" className="py-20 lg:py-32">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
@@ -32,16 +52,16 @@ export function EditorialWallpapers() {
           </div>
 
           <div className="lg:pt-8 lg:pl-8">
-            <div className="text-[11px] tracking-[0.24em] uppercase text-[#8C6A2F] font-medium">Art for Your Screen, Your Space</div>
+            <div className="text-[11px] tracking-[0.24em] uppercase text-[#8C6A2F] font-medium">{copy.kicker}</div>
             <h3 className="font-serif text-[32px] lg:text-[42px] leading-[0.9] tracking-[-0.02em] font-light mt-4">
-              Wallpaper <br />
-              <span className="italic text-[#8C6A2F]">Packs</span> &
+              {copy.titleA} <br />
+              <span className="italic text-[#8C6A2F]">{copy.titleAccent}</span> &
               <br />
-              Printable Posters
+              {copy.titleB}
             </h3>
             <div className="w-10 h-px bg-[#C9A96E] mt-6" />
             <p className="text-[14px] leading-7 text-[#6B6B6B] mt-6">
-              Beautiful designs for calm walls in matte, washable and lightly textured finishes. From Aurum Minimal to Golden Horizon. Posters come as an instant download or as an archival print with gold foil.
+              {copy.sub}
             </p>
 
             <div className="grid grid-cols-2 gap-4 mt-8">
@@ -75,22 +95,32 @@ export function EditorialWallpapers() {
   );
 }
 
-export function EditorialApparel() {
+export function EditorialApparel({
+  copy = {
+    kicker: DEFAULT_SECTIONS.apparelKicker,
+    titleA: DEFAULT_SECTIONS.apparelTitleA,
+    titleAccent: DEFAULT_SECTIONS.apparelTitleAccent,
+    titleB: DEFAULT_SECTIONS.apparelTitleB,
+    sub: DEFAULT_SECTIONS.apparelSub,
+  },
+}: {
+  copy?: Copy;
+}) {
   return (
     <section id="apparel" className="bg-[#FCFCF9] py-20 lg:py-32 border-t border-[#E8E6E1]/50">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-20 items-center">
           <div className="order-2 lg:order-1">
-            <div className="text-[11px] tracking-[0.24em] uppercase text-[#8C6A2F] font-medium">Find Your Interest</div>
+            <div className="text-[11px] tracking-[0.24em] uppercase text-[#8C6A2F] font-medium">{copy.kicker}</div>
             <h3 className="font-serif text-[32px] lg:text-[42px] leading-[0.9] tracking-[-0.02em] font-light mt-4">
-              Hoodies & <br />
-              <span className="italic">Tee Shirts,</span>
+              {copy.titleA} <br />
+              <span className="italic">{copy.titleAccent}</span>
               <br />
-              <span className="text-[#8C6A2F]">softly made</span>
+              <span className="text-[#8C6A2F]">{copy.titleB}</span>
             </h3>
             <div className="w-10 h-px bg-[#C9A96E] mt-6" />
             <p className="text-[14px] leading-7 text-[#6B6B6B] mt-6 max-w-[480px]">
-              Made for food lovers and comfort seekers. Tomato, Avocado and Chili tees in soft 180gsm organic cotton with water based inks, plus garment dyed hoodies in Bone, Noir and Clay. Unisex, S to 3XL.
+              {copy.sub}
             </p>
 
             <div className="grid grid-cols-3 gap-3 mt-8 max-w-[420px]">

@@ -8,6 +8,7 @@ import { useCart } from "./cart-context";
 import { useWishlist } from "./wishlist-context";
 import { categories } from "@/lib/products";
 import { CALM_EASE } from "./page-transition";
+import { DEFAULT_CONTACT } from "@/lib/site-content";
 
 const nav = [
   { label: "Shop", href: "/shop" },
@@ -22,7 +23,7 @@ const mobileLinks = [
   { label: "FAQ", href: "#faq", count: "" },
 ];
 
-export function Header() {
+export function Header({ contact = DEFAULT_CONTACT }: { contact?: { email: string; hours: string } }) {
   const { count, setIsOpen } = useCart();
   const { count: wishCount, setIsOpen: setWishOpen } = useWishlist();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -197,9 +198,9 @@ export function Header() {
                   <div className="mt-10 pt-8 border-t border-[#E8E6E1]">
                     <div className="text-[11px] tracking-[0.16em] uppercase text-[#8C6A2F]">Get in touch</div>
                     <div className="text-sm text-[#6B6B6B] mt-2 leading-6">
-                      hello@goldinterest.com
+                      {contact.email}
                       <br />
-                      <span className="text-[#9A9590]">Mon to Fri, 10am to 6pm CET</span>
+                      <span className="text-[#9A9590]">{contact.hours}</span>
                     </div>
                     <div className="text-[11px] tracking-wide text-[#6B6B6B] mt-6">Free shipping on every order, worldwide</div>
                   </div>

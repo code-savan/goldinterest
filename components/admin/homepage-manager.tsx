@@ -1,7 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Card, Field, PageTitle, PrimaryButton, inputCls } from "@/components/admin/ui";
+import { Card, Field, GhostButton, PageTitle, PrimaryButton, inputCls } from "@/components/admin/ui";
+import {
+  type SectionsContent,
+  type SiteContent,
+  type SocialLink,
+  type SocialNetwork,
+} from "@/lib/site-content";
 
 type P = { id: string; name: string; price: number; image: string };
 type S = {
@@ -14,11 +20,81 @@ type S = {
   heroSubtitle: string;
 };
 
-export function HomepageManager({ initialSettings, products }: { initialSettings: S; products: P[] }) {
+const NETWORKS: SocialNetwork[] = ["instagram", "tiktok", "pinterest", "facebook", "youtube", "x"];
+
+const SECTION_GROUPS: { key: string; title: string; fields: { key: keyof SectionsContent; label: string }[] }[] = [
+  {
+    key: "categories",
+    title: "Shop by category",
+    fields: [
+      { key: "categoriesKicker", label: "Kicker" },
+      { key: "categoriesTitleA", label: "Title line 1" },
+      { key: "categoriesTitleAccent", label: "Title accent" },
+      { key: "categoriesTitleB", label: "Title line 3" },
+      { key: "categoriesSub", label: "Subtitle" },
+    ],
+  },
+  {
+    key: "featured",
+    title: "Featured collection",
+    fields: [
+      { key: "featuredKicker", label: "Kicker" },
+      { key: "featuredTitleA", label: "Title line 1" },
+      { key: "featuredTitleAccent", label: "Title accent" },
+      { key: "featuredTitleB", label: "Title line 3" },
+      { key: "featuredSub", label: "Subtitle" },
+    ],
+  },
+  {
+    key: "wallpapers",
+    title: "Wallpapers editorial",
+    fields: [
+      { key: "wallpapersKicker", label: "Kicker" },
+      { key: "wallpapersTitleA", label: "Title line 1" },
+      { key: "wallpapersTitleAccent", label: "Title accent" },
+      { key: "wallpapersTitleB", label: "Title line 3" },
+      { key: "wallpapersSub", label: "Subtitle" },
+    ],
+  },
+  {
+    key: "apparel",
+    title: "Apparel editorial",
+    fields: [
+      { key: "apparelKicker", label: "Kicker" },
+      { key: "apparelTitleA", label: "Title line 1" },
+      { key: "apparelTitleAccent", label: "Title accent" },
+      { key: "apparelTitleB", label: "Title line 3" },
+      { key: "apparelSub", label: "Subtitle" },
+    ],
+  },
+  {
+    key: "visit",
+    title: "Visit shop block",
+    fields: [
+      { key: "visitKicker", label: "Kicker" },
+      { key: "visitTitleA", label: "Title line 1" },
+      { key: "visitTitleAccent", label: "Title accent" },
+      { key: "visitSub", label: "Subtitle (follows the featured count)" },
+    ],
+  },
+];
+
+export function HomepageManager({
+  initialSettings,
+  products,
+  initialContent,
+}: {
+  initialSettings: S;
+  products: P[];
+  initialContent: SiteContent;
+}) {
   const [s, setS] = useState<S>(initialSettings);
   const [query, setQuery] = useState("");
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
+  const [content, setContent] = useState<SiteContent>(initialContent);
+  const [contentSaving, setContentSaving] = useState(false);
+  const [contentMsg, setContentMsg] = useState("");
 
   const byId = useMemo(() => new Map(products.map((p) => [p.id, p])), [products]);
   const results = useMemo(() => {
@@ -45,6 +121,34 @@ export function HomepageManager({ initialSettings, products }: { initialSettings
     const data = await res.json().catch(() => ({}));
     setSaving(false);
     setMsg(res.ok ? "Saved. The homepage updates instantly." : data.error || "Save failed.");
+  };
+
+  const saveContent = async () => {
+    setContentSaving(true);
+    setContentMsg("");
+    const res = await fetch("/api/admin/content", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(content),
+    });
+    const data = await res.json().catch(() => ({}));
+    setContentSaving(false);
+    setContentMsg(res.ok ? `Saved ${(data.saved as string[]).join(", ")}. Live within a minute.` : data.error || "Save failed.");
+  };
+
+  const moveFaq = (i: number, dir: -1 | 1) => {
+    const items = [...content.faq.items];
+    const j = i + dir;
+    if (j < 0 || j >= items.length) return;
+    [items[i], items[j]] = [items[j], items[i]];
+    setContent({ ...content, faq: { ...content.faq, items } });
+  };
+
+  const setSocial = (id: string, patch: Partial<SocialLink>) => {
+    setContent({
+      ...content,
+      socials: { links: content.socials.links.map((l) => (l.id === id ? { ...l, ...patch } : l)) },
+    });
   };
 
   return (
@@ -102,7 +206,7 @@ export function HomepageManager({ initialSettings, products }: { initialSettings
         </Field>
       </Card>
 
-      <Card className="p-5">
+      <Card className="p-5 mb-8">
         <div className="text-[11px] tracking-[0.16em] uppercase font-medium mb-4">Hero</div>
         <div className="space-y-4">
           <Field label="Kicker">
@@ -121,6 +225,182 @@ export function HomepageManager({ initialSettings, products }: { initialSettings
           </div>
           <Field label="Subtitle">
             <textarea value={s.heroSubtitle} onChange={(e) => setS({ ...s, heroSubtitle: e.target.value })} rows={3} className={inputCls} />
+          </Field>
+        </div>
+      </Card>
+
+      {/* ---------- Page content (FAQ, socials, contact, headings, footer) ---------- */}
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-4">
+        <div>
+          <h2 className="font-serif text-[22px] sm:text-[24px] leading-none font-light tracking-tight">Page content</h2>
+          <p className="text-[13px] text-[#6E6E73] mt-1.5">FAQ, socials, contact details, headings and footer.</p>
+        </div>
+        <div className="w-full sm:w-auto shrink-0">
+          <PrimaryButton onClick={saveContent} disabled={contentSaving}>{contentSaving ? "Saving" : "Save page content"}</PrimaryButton>
+        </div>
+      </div>
+      {contentMsg && <div className="mb-4 text-[12px] bg-white border border-black/10 px-3 py-2">{contentMsg}</div>}
+
+      <Card className="p-5 mb-4">
+        <div className="text-[11px] tracking-[0.16em] uppercase font-medium mb-1">FAQ section</div>
+        <p className="text-[12px] text-[#6E6E73] mb-4">Heading plus every question and answer. Remove all questions to hide the section.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+          <Field label="Kicker">
+            <input value={content.faq.kicker} onChange={(e) => setContent({ ...content, faq: { ...content.faq, kicker: e.target.value } })} className={inputCls} />
+          </Field>
+          <Field label="Title line 1">
+            <input value={content.faq.titleA} onChange={(e) => setContent({ ...content, faq: { ...content.faq, titleA: e.target.value } })} className={inputCls} />
+          </Field>
+          <Field label="Title accent">
+            <input value={content.faq.titleAccent} onChange={(e) => setContent({ ...content, faq: { ...content.faq, titleAccent: e.target.value } })} className={inputCls} />
+          </Field>
+        </div>
+        <div className="space-y-4 mb-4">
+          <Field label="Subtitle">
+            <textarea value={content.faq.sub} onChange={(e) => setContent({ ...content, faq: { ...content.faq, sub: e.target.value } })} rows={2} className={inputCls} />
+          </Field>
+          <Field label="Side note">
+            <input value={content.faq.note} onChange={(e) => setContent({ ...content, faq: { ...content.faq, note: e.target.value } })} className={inputCls} />
+          </Field>
+        </div>
+        <div className="space-y-3">
+          {content.faq.items.map((f, i) => (
+            <div key={i} className="border border-black/10 rounded-xl p-3 bg-white space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="w-6 text-center text-[12px] text-[#8A8A90] font-medium shrink-0">{i + 1}</span>
+                <div className="flex-1" />
+                <button onClick={() => moveFaq(i, -1)} disabled={i === 0} aria-label="Move up" className="w-11 h-11 inline-flex items-center justify-center border border-black/10 rounded-lg disabled:opacity-30">↑</button>
+                <button onClick={() => moveFaq(i, 1)} disabled={i === content.faq.items.length - 1} aria-label="Move down" className="w-11 h-11 inline-flex items-center justify-center border border-black/10 rounded-lg disabled:opacity-30">↓</button>
+                <button onClick={() => setContent({ ...content, faq: { ...content.faq, items: content.faq.items.filter((_, j) => j !== i) } })} aria-label="Remove" className="w-11 h-11 inline-flex items-center justify-center text-red-700 rounded-lg">✕</button>
+              </div>
+              <Field label="Question">
+                <input
+                  value={f.q}
+                  onChange={(e) => { const items = [...content.faq.items]; items[i] = { ...items[i], q: e.target.value }; setContent({ ...content, faq: { ...content.faq, items } }); }}
+                  className={inputCls}
+                />
+              </Field>
+              <Field label="Answer">
+                <textarea
+                  value={f.a}
+                  onChange={(e) => { const items = [...content.faq.items]; items[i] = { ...items[i], a: e.target.value }; setContent({ ...content, faq: { ...content.faq, items } }); }}
+                  rows={3}
+                  className={inputCls}
+                />
+              </Field>
+            </div>
+          ))}
+          <GhostButton onClick={() => setContent({ ...content, faq: { ...content.faq, items: [...content.faq.items, { q: "", a: "" }] } })}>Add question</GhostButton>
+        </div>
+      </Card>
+
+      <Card className="p-5 mb-4">
+        <div className="text-[11px] tracking-[0.16em] uppercase font-medium mb-1">Social links</div>
+        <p className="text-[12px] text-[#6E6E73] mb-4">Footer icons. Toggle off to mute, delete to remove, or add a network. Empty URLs are hidden.</p>
+        <div className="space-y-2">
+          {content.socials.links.length === 0 && <div className="text-[13px] text-[#8A8A90]">No social links. Add one below.</div>}
+          {content.socials.links.map((l) => (
+            <div key={l.id} className="flex flex-col sm:flex-row gap-2 border border-black/10 rounded-xl p-3 bg-white">
+              <select
+                value={l.network}
+                onChange={(e) => setSocial(l.id, { network: e.target.value as SocialNetwork })}
+                className={`${inputCls} sm:max-w-[160px]`}
+                aria-label="Network"
+              >
+                {NETWORKS.map((n) => (
+                  <option key={n} value={n}>{n}</option>
+                ))}
+              </select>
+              <input
+                value={l.url}
+                onChange={(e) => setSocial(l.id, { url: e.target.value })}
+                placeholder="https://…"
+                inputMode="url"
+                className={`${inputCls} flex-1`}
+                aria-label="URL"
+              />
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setSocial(l.id, { active: !l.active })}
+                  className={`flex-1 sm:flex-none min-h-[44px] inline-flex items-center justify-center text-[11px] tracking-[0.12em] uppercase px-4 rounded-lg border ${l.active ? "border-black/10" : "bg-[#131315] text-white border-[#131315]"}`}
+                >
+                  {l.active ? "Mute" : "Muted"}
+                </button>
+                <button
+                  onClick={() => setContent({ ...content, socials: { links: content.socials.links.filter((x) => x.id !== l.id) } })}
+                  aria-label="Remove"
+                  className="min-h-[44px] px-4 inline-flex items-center justify-center text-red-700 rounded-lg border border-red-200"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          ))}
+          <div>
+            <GhostButton
+              onClick={() => setContent({ ...content, socials: { links: [...content.socials.links, { id: `link-${Date.now()}`, network: "instagram", url: "", active: true }] } })}
+            >
+              Add social link
+            </GhostButton>
+          </div>
+        </div>
+      </Card>
+
+      <Card className="p-5 mb-4">
+        <div className="text-[11px] tracking-[0.16em] uppercase font-medium mb-4">Contact details</div>
+        <div className="space-y-4">
+          <Field label="Support email">
+            <input value={content.contact.email} onChange={(e) => setContent({ ...content, contact: { ...content.contact, email: e.target.value } })} inputMode="email" className={inputCls} />
+          </Field>
+          <Field label="Support hours">
+            <input value={content.contact.hours} onChange={(e) => setContent({ ...content, contact: { ...content.contact, hours: e.target.value } })} className={inputCls} />
+          </Field>
+          <Field label="Address">
+            <input value={content.contact.address} onChange={(e) => setContent({ ...content, contact: { ...content.contact, address: e.target.value } })} className={inputCls} />
+          </Field>
+        </div>
+      </Card>
+
+      <Card className="p-5 mb-4">
+        <div className="text-[11px] tracking-[0.16em] uppercase font-medium mb-1">Section headings</div>
+        <p className="text-[12px] text-[#6E6E73] mb-4">Every homepage section heading and subtitle.</p>
+        <div className="space-y-6">
+          {SECTION_GROUPS.map((g) => (
+            <div key={g.key}>
+              <div className="text-[11px] tracking-[0.1em] uppercase text-[#8A8A90] mb-2">{g.title}</div>
+              <div className="space-y-3">
+                {g.fields.map((f) => (
+                  <Field key={f.key} label={f.label}>
+                    {f.label === "Subtitle" || f.label.startsWith("Subtitle ") ? (
+                      <textarea
+                        value={content.sections[f.key]}
+                        onChange={(e) => setContent({ ...content, sections: { ...content.sections, [f.key]: e.target.value } })}
+                        rows={2}
+                        className={inputCls}
+                      />
+                    ) : (
+                      <input
+                        value={content.sections[f.key]}
+                        onChange={(e) => setContent({ ...content, sections: { ...content.sections, [f.key]: e.target.value } })}
+                        className={inputCls}
+                      />
+                    )}
+                  </Field>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      <Card className="p-5">
+        <div className="text-[11px] tracking-[0.16em] uppercase font-medium mb-4">Footer</div>
+        <div className="space-y-4">
+          <Field label="Brand blurb">
+            <textarea value={content.footer.blurb} onChange={(e) => setContent({ ...content, footer: { ...content.footer, blurb: e.target.value } })} rows={3} className={inputCls} />
+          </Field>
+          <Field label="Bottom note">
+            <input value={content.footer.bottomNote} onChange={(e) => setContent({ ...content, footer: { ...content.footer, bottomNote: e.target.value } })} className={inputCls} />
           </Field>
         </div>
       </Card>
