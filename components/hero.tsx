@@ -1,7 +1,8 @@
 import Link from "next/link";
 
 const HERO_SRC = "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6";
-const heroSrc = (w: number) => `${HERO_SRC}?auto=format&fit=crop&w=${w}&q=65`;
+const heroSrc = (w: number) => `${HERO_SRC}?auto=format&fit=crop&w=${w}&q=60`;
+const HERO_SRCSET = `${heroSrc(640)} 640w, ${heroSrc(960)} 960w, ${heroSrc(1440)} 1440w`;
 
 export function Hero({
   kicker = "Gold Interest, Est. 2024",
@@ -18,11 +19,13 @@ export function Hero({
 }) {
   return (
     <section className="relative overflow-hidden h-[100dvh] min-h-[620px] lg:min-h-[660px] flex flex-col">
+      {/* Preload the exact LCP candidate — React hoists this into <head> */}
+      <link rel="preload" as="image" imageSrcSet={HERO_SRCSET} imageSizes="100vw" href={heroSrc(960)} />
       {/* Background — wallpaper + framed art interior, ultra-fast */}
       <div className="absolute inset-0 bg-[#0A0A0A]">
         <img
-          src={heroSrc(1280)}
-          srcSet={`${heroSrc(640)} 640w, ${heroSrc(1080)} 1080w, ${heroSrc(1600)} 1600w`}
+          src={heroSrc(960)}
+          srcSet={HERO_SRCSET}
           sizes="100vw"
           alt="Wallpaper packs and framed wall art in a warm modern interior"
           className="w-full h-full object-cover"
