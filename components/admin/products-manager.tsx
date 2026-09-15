@@ -10,6 +10,22 @@ type Row = typeof products.$inferSelect;
 
 const CATEGORIES = ["wallpaper-packs", "printable-posters", "frame-wall-art", "hoodies", "tee-shirts"];
 
+const SIZE_GROUPS = [
+  { label: "Apparel", sizes: ["XS", "S", "M", "L", "XL", "2XL", "3XL"] },
+  { label: "Posters", sizes: ["A3", "A2", "A1"] },
+  { label: "Frames", sizes: ["30×40", "40×50", "50×70", "70×100"] },
+];
+
+const SIZE_ORDER = SIZE_GROUPS.flatMap((g) => g.sizes);
+
+function sortSizes(list: string[]): string[] {
+  const rank = (s: string) => {
+    const i = SIZE_ORDER.indexOf(s);
+    return i === -1 ? SIZE_ORDER.length : i;
+  };
+  return [...new Set(list)].sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
+}
+
 type Draft = {
   id?: string;
   name: string;
@@ -22,7 +38,7 @@ type Draft = {
   badge: string;
   active: boolean;
   colors: { name: string; hex: string }[];
-  sizes: string;
+  sizes: string[];
   description: string;
   details: string;
   images: string[];
@@ -39,7 +55,7 @@ const emptyDraft: Draft = {
   badge: "",
   active: true,
   colors: [],
-  sizes: "",
+  sizes: [],
   description: "",
   details: "",
   images: [],
@@ -58,7 +74,7 @@ function toDraft(r: Row): Draft {
     badge: r.badge || "",
     active: r.active,
     colors: (r.colors as { name: string; hex: string }[]) ?? [],
-    sizes: ((r.sizes as string[] | null) ?? []).join(", "),
+    sizes: sortSizes((r.sizes as string[] | null) ?? []),
     description: r.description ?? "",
     details: ((r.details as string[]) ?? []).join("\n"),
     images: (r.images as string[]) ?? [],
@@ -76,6 +92,7 @@ export function ProductsManager({ initial }: { initial: Row[] }) {
   const [pending, setPending] = useState<string[]>([]);
   const [urlInput, setUrlInput] = useState("");
   const [urlBroken, setUrlBroken] = useState(false);
+  const [customSize, setCustomSize] = useState("");
 
   useEffect(() => {
     if (!draft) return;
@@ -115,7 +132,7 @@ export function ProductsManager({ initial }: { initial: Row[] }) {
       oldPrice: draft.oldPrice === "" ? null : Number(draft.oldPrice),
       rating: Number(draft.rating) || 5,
       reviews: Number(draft.reviews) || 0,
-      sizes: draft.sizes.split(",").map((s) => s.trim()).filter(Boolean),
+      sizes: sortSizes(draft.sizes),
       details: draft.details.split("\n").map((s) => s.trim()).filter(Boolean),
     };
     const res = await fetch("/api/admin/products", {
@@ -193,6 +210,7 @@ export function ProductsManager({ initial }: { initial: Row[] }) {
     setDraft(null);
     setUrlInput("");
     setUrlBroken(false);
+    setCustomSize("");
   };
 
   return (
@@ -383,8 +401,79 @@ export function ProductsManager({ initial }: { initial: Row[] }) {
                 </div>
               </Field>
 
-              <Field label="Sizes (comma separated)">
-                <input value={draft.sizes} onChange={(e) => setDraft({ ...draft, sizes: e.target.value })} className={inputCls} placeholder="S, M, L, XL" />
+              <Field label={`Sizes (${draft.sizes.length} selected)`}>
+                <div className="space-y-3">
+                  {SIZE_GROUPS.map((g) => (
+                    <div key={g.label}>
+                      <div className="text-[11px] tracking-[0.1em] uppercase text-[#8A8A90] mb-1.5">{g.label}</div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {g.sizes.map((s) => {
+                          const on = draft.sizes.includes(s);
+                          return (
+                            <button
+                              key={s}
+                              onClick={() =>
+                                setDraft({
+                                  ...draft,
+                                  sizes: on ? draft.sizes.filter((x) => x !== s) : sortSizes([...draft.sizes, s]),
+                                })
+                              }
+                              className={`min-w-[44px] px-3 py-2 text-[12px] font-medium rounded-lg border transition-colors ${
+                                on ? "bg-[#131315] text-white border-[#131315]" : "bg-white border-black/10 hover:border-[#131315]"
+                              }`}
+                            >
+                              {s}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                  {draft.sizes.filter((s) => !SIZE_ORDER.includes(s)).length > 0 && (
+                    <div>
+                      <div className="text-[11px] tracking-[0.1em] uppercase text-[#8A8A90] mb-1.5">Custom</div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {draft.sizes
+                          .filter((s) => !SIZE_ORDER.includes(s))
+                          .map((s) => (
+                            <button
+                              key={s}
+                              onClick={() => setDraft({ ...draft, sizes: draft.sizes.filter((x) => x !== s) })}
+                              title="Remove"
+                              className="min-w-[44px] px-3 py-2 text-[12px] font-medium rounded-lg bg-[#131315] text-white border border-[#131315]"
+                            >
+                              {s} ✕
+                            </button>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex gap-2">
+                    <input
+                      value={customSize}
+                      onChange={(e) => setCustomSize(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          const v = customSize.trim();
+                          if (v) setDraft({ ...draft, sizes: sortSizes([...draft.sizes, v]) });
+                          setCustomSize("");
+                        }
+                      }}
+                      placeholder="Custom size, e.g. 60×80"
+                      className={inputCls}
+                    />
+                    <GhostButton
+                      onClick={() => {
+                        const v = customSize.trim();
+                        if (v) setDraft({ ...draft, sizes: sortSizes([...draft.sizes, v]) });
+                        setCustomSize("");
+                      }}
+                    >
+                      Add
+                    </GhostButton>
+                  </div>
+                </div>
               </Field>
 
               <Field label="Description">

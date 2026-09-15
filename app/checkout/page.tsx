@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/components/cart-context";
 import { PaymentIcons } from "@/components/payment-icons";
@@ -8,9 +8,64 @@ import { PaymentIcons } from "@/components/payment-icons";
 export default function CheckoutPage() {
   const { items, subtotal } = useCart();
   const [form, setForm] = useState({ email: "", name: "", address: "", city: "", zip: "", country: "United States" });
-  const [promoCode, setPromoCode] = useState("");
+  const [promoInput, setPromoInput] = useState("");
+  const [promo, setPromo] = useState<{ code: string; discount: number } | null>(null);
+  const [promoState, setPromoState] = useState<"idle" | "checking" | "error">("idle");
+  const [promoMsg, setPromoMsg] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const debounce = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const discount = promo?.discount ?? 0;
+  const total = Math.max(0, subtotal - discount);
+
+  const checkPromo = async (raw: string) => {
+    const code = raw.trim().toUpperCase();
+    if (!code) {
+      setPromo(null);
+      setPromoState("idle");
+      setPromoMsg("");
+      return;
+    }
+    setPromoState("checking");
+    setPromoMsg("");
+    try {
+      const res = await fetch("/api/promos/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, subtotal }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setPromo(null);
+        setPromoState("error");
+        setPromoMsg(data.error || "That code is not valid.");
+        return;
+      }
+      setPromo({ code: data.code, discount: data.discount });
+      setPromoState("idle");
+      setPromoMsg(`Code ${data.code} applied. You save $${Number(data.discount).toFixed(2)}.`);
+    } catch {
+      setPromo(null);
+      setPromoState("error");
+      setPromoMsg("Could not check that code. Try again.");
+    }
+  };
+
+  useEffect(() => {
+    if (debounce.current) clearTimeout(debounce.current);
+    if (promo && promoInput.trim().toUpperCase() !== promo.code) setPromo(null);
+    if (promoInput.trim().length < 3) {
+      setPromoState((s) => (s === "checking" ? s : "idle"));
+      if (promoInput.trim().length === 0) setPromoMsg("");
+      return;
+    }
+    debounce.current = setTimeout(() => checkPromo(promoInput), 700);
+    return () => {
+      if (debounce.current) clearTimeout(debounce.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [promoInput, subtotal]);
 
   if (items.length === 0) {
     return (
@@ -33,7 +88,7 @@ export default function CheckoutPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           form,
-          promoCode,
+          promoCode: promo?.code ?? "",
           items: items.map((i) => ({ id: i.product.id, size: i.size, color: i.color, quantity: i.quantity })),
         }),
       });
@@ -92,21 +147,47 @@ export default function CheckoutPage() {
             <div className="flex gap-2 mt-3">
               <input
                 placeholder="Enter code (optional)"
-                value={promoCode}
-                onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                value={promoInput}
+                onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
                 className="flex-1 border border-[#E8E6E1] px-4 py-3.5 text-sm uppercase focus:outline-none focus:border-[#0A0A0A]"
               />
+              <button
+                onClick={() => checkPromo(promoInput)}
+                disabled={promoState === "checking" || promoInput.trim().length < 3}
+                className="border border-[#0A0A0A] px-6 text-[11px] tracking-[0.16em] uppercase font-medium hover:bg-[#0A0A0A] hover:text-white transition-colors disabled:opacity-40"
+              >
+                {promoState === "checking" ? "..." : "Apply"}
+              </button>
             </div>
+            {promoState === "checking" && (
+              <div className="flex items-center gap-2 mt-2 text-[12px] text-[#6B6B6B]">
+                <span className="w-3.5 h-3.5 rounded-full border-2 border-[#C9A96E] border-t-transparent animate-spin" />
+                Checking code
+              </div>
+            )}
+            {promoMsg && promoState !== "checking" && (
+              <div className={`mt-2 text-[12px] px-3 py-2 border ${promo ? "text-green-800 bg-green-50 border-green-200" : "text-red-700 bg-red-50 border-red-200"}`}>
+                {promoMsg}
+                {promo && (
+                  <button
+                    onClick={() => { setPromo(null); setPromoInput(""); setPromoMsg(""); }}
+                    className="ml-2 underline underline-offset-2"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            )}
           </div>
 
           {error && <div className="text-[12px] text-red-700 bg-red-50 border border-red-200 px-3 py-2">{error}</div>}
 
           <button
             onClick={pay}
-            disabled={busy}
+            disabled={busy || promoState === "checking"}
             className="w-full bg-[#0A0A0A] text-white py-4 text-[11px] tracking-[0.18em] uppercase font-medium hover:bg-[#1A1A1A] transition-colors disabled:opacity-60"
           >
-            {busy ? "Starting secure payment" : `Pay $${subtotal.toFixed(2)} with Whop`}
+            {busy ? "Starting secure payment" : promoState === "checking" ? "Checking code" : `Pay $${total.toFixed(2)}`}
           </button>
           <div className="mt-4">
             <PaymentIcons />
@@ -140,12 +221,18 @@ export default function CheckoutPage() {
                 <span className="text-[#6B6B6B]">Shipping</span>
                 <span className="text-[#8C6A2F] font-medium">Free</span>
               </div>
+              {discount > 0 && (
+                <div className="flex justify-between text-green-800">
+                  <span>Discount{promo ? ` (${promo.code})` : ""}</span>
+                  <span>-${discount.toFixed(2)}</span>
+                </div>
+              )}
               <div className="flex justify-between text-base font-medium border-t border-[#E8E6E1] pt-3">
                 <span>Total</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>${total.toFixed(2)}</span>
               </div>
             </div>
-            <div className="text-[11px] text-[#6B6B6B] mt-3">Discounts apply on the next step. Duties included for the EU.</div>
+            <div className="text-[11px] text-[#6B6B6B] mt-3">Duties included for the EU.</div>
           </div>
 
           <div className="border border-[#E8E6E1] bg-white p-6 text-[12px] leading-5 text-[#6B6B6B]">
