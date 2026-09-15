@@ -43,7 +43,7 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://goldinterest.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.goldinterestofficial.com";
 const siteTitle = "Gold Interest | Wallpapers, Posters and Apparel";
 const siteDescription =
   "Carefully made wallpapers, posters and apparel with free shipping on every order.";

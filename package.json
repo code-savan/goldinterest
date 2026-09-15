@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sitemap:dates": "python3 scripts/refresh-sitemap-dates.py"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
