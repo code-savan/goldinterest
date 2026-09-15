@@ -60,7 +60,7 @@ export const products: Product[] = [
   {
     id: "1",
     slug: "aurum-minimal-wallpaper-pack",
-    name: "Aurum Minimal — Wallpaper Pack (3 Rolls)",
+    name: "Aurum Minimal Wallpaper Pack, 3 Rolls",
     category: "wallpaper-packs",
     price: 129,
     oldPrice: 147,
@@ -72,12 +72,12 @@ export const products: Product[] = [
       { name: "Noir", hex: "#1A1A1A" },
     ],
     description:
-      "Quiet luxury for your walls. Our signature textured wallpaper pack — 3 rolls covering ~16m² — premium matte vinyl with linen emboss. Printer Star finish, wipeable, perfectly aligned. Paste-the-wall.",
+      "A calm textured wallpaper for warm and welcoming walls. Matte vinyl with a soft linen finish that is wipeable and easy to align. It pastes straight to the wall. Each pack has 3 rolls and covers about 16 sqm.",
     details: [
-      "Pack of 3 rolls — 0.53m x 10m each (15.9m² total)",
-      "Premium matte vinyl 300gsm — paste-the-wall",
-      "Printer Star finish — anti-glare & washable",
-      "Designed in studio, printed in EU · FSC certified",
+      "3 rolls, 0.53m by 10m each (15.9 sqm total)",
+      "Matte vinyl 300gsm, paste the wall application",
+      "Low glare finish, washable",
+      "Designed in our studio, printed in the EU on FSC certified paper",
     ],
     images: [
       "https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?w=800&auto=format&fit=crop&q=60",
@@ -89,7 +89,7 @@ export const products: Product[] = [
   {
     id: "2",
     slug: "printer-star-nebula-pack",
-    name: "Printer Star Nebula — Wallpaper Pack",
+    name: "Printer Star Nebula Wallpaper Pack",
     category: "wallpaper-packs",
     price: 149,
     rating: 4.9,
@@ -99,8 +99,8 @@ export const products: Product[] = [
       { name: "Dune", hex: "#C9A96E" },
     ],
     description:
-      "Art for your screen, your space. Celestial gradient from deep midnight to warm gold — make any room feel infinite. Pack covers a full feature wall.",
-    details: ["Pack of 3 rolls", "Metallic micro-pearl ink", "Lightfast & UV resistant", "Paste-the-wall"],
+      "A smooth night sky gradient that shifts from deep midnight blue to warm gold. Made to bring depth and calm to a feature wall. One pack covers a full wall.",
+    details: ["3 rolls per pack", "Subtle metallic pearl ink", "Lightfast and UV resistant", "Paste the wall application"],
     images: [
       "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=800&auto=format&fit=crop&q=60",
       "https://images.unsplash.com/photo-1444703686983-3d5158dd1200?w=800&auto=format&fit=crop&q=60",
@@ -110,14 +110,14 @@ export const products: Product[] = [
   {
     id: "3",
     slug: "golden-horizon-pack",
-    name: "Golden Horizon — Panoramic Pack",
+    name: "Golden Horizon Panoramic Pack",
     category: "wallpaper-packs",
     price: 179,
     rating: 4.7,
     reviews: 56,
     colors: [{ name: "Horizon", hex: "#D4A574" }],
-    description: "Sunrise over still water — panoramic wash of gold light. Seamless repeat, 2.7m height optimized for modern homes.",
-    details: ["Panoramic seamless repeat", "Non-woven base", "2.7m height optimized", "Pack of 3 rolls"],
+    description: "Soft morning light over still water in a wide panoramic print. Seamless repeat made for modern rooms up to 2.7m high.",
+    details: ["Seamless panoramic repeat", "Sturdy non woven base", "Made for 2.7m wall height", "3 rolls per pack"],
     images: [
       "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=60",
       "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800&auto=format&fit=crop&q=60",
@@ -127,7 +127,7 @@ export const products: Product[] = [
   {
     id: "4",
     slug: "desert-gold-printable",
-    name: "Desert Gold — Printable Poster Pack (A2)",
+    name: "Desert Gold Printable Poster Pack, A2",
     category: "printable-posters",
     price: 35,
     rating: 4.9,
@@ -138,8 +138,8 @@ export const products: Product[] = [
     ],
     sizes: ["A3", "A2", "A1"],
     description:
-      "Printable poster — instant download + archival print option. Warm desert minimalism with gold foil arch. 300dpi files + optional 250gsm museum print shipped.",
-    details: ["Digital files: A3/A2/A1 + 4:5", "Optional 250gsm Munken Lynx print", "Gold foil detail on print", "FSC certified"],
+      "Warm desert shapes with a gold arch. You get an instant download plus the option of an archival print. Files are 300dpi, and the optional print is on thick 250gsm museum paper.",
+    details: ["Digital files in A3, A2, A1 and 4:5", "Optional print on 250gsm Munken Lynx paper", "Gold foil detail on the printed version", "FSC certified paper"],
     images: [
       "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=800&auto=format&fit=crop&q=60",
       "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&auto=format&fit=crop&q=60",
@@ -150,7 +150,7 @@ export const products: Product[] = [
   {
     id: "5",
     slug: "monochrome-muse-printable-set",
-    name: "Monochrome Muse — Printable Set (2 Prints)",
+    name: "Monochrome Muse Printable Set, 2 Prints",
     category: "printable-posters",
     price: 48,
     oldPrice: 58,
@@ -158,8 +158,8 @@ export const products: Product[] = [
     reviews: 94,
     colors: [{ name: "Off-White", hex: "#EDE9E3" }],
     sizes: ["A3", "A2"],
-    description: "Set of two printable posters — sculptural grayscale forms. Quiet walls, gallery feel. Instant download.",
-    details: ["Set of 2 digital files", "Optional archival prints", "Ships rolled if printed"],
+    description: "Two black and white prints with soft sculptural shapes. Simple and calm, made to give walls a clean gallery look. Instant download.",
+    details: ["2 digital files included", "Archival prints available on request", "Prints ship rolled in a tube"],
     images: [
       "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=800&auto=format&fit=crop&q=60",
       "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&auto=format&fit=crop&q=60",
@@ -169,15 +169,15 @@ export const products: Product[] = [
   {
     id: "6",
     slug: "cafe-noir-printable",
-    name: "Café Noir — Typography Printable",
+    name: "Cafe Noir Typography Printable",
     category: "printable-posters",
     price: 22,
     rating: 4.6,
     reviews: 47,
     colors: [{ name: "Cream", hex: "#F5E6C8" }],
     sizes: ["A3", "A2", "A1"],
-    description: "Editorial typography meets café culture. Bold serif, tight kerning, gold ink on cream — printable at home or via lab.",
-    details: ["Letterpress effect", "Gold ink detail on print", "Digital + print option"],
+    description: "A friendly nod to cafe culture in a bold serif with tight spacing and gold ink on cream. Print it at home or through a local lab.",
+    details: ["Letterpress style texture", "Gold ink detail on the printed version", "Digital file with print option"],
     images: [
       "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&auto=format&fit=crop&q=60",
       "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&auto=format&fit=crop&q=60",
@@ -187,7 +187,7 @@ export const products: Product[] = [
   {
     id: "7",
     slug: "framed-golden-arch",
-    name: "Golden Arch — Framed Wall Art (Oak)",
+    name: "Golden Arch Framed Wall Art, Oak",
     category: "frame-wall-art",
     price: 189,
     rating: 4.9,
@@ -199,8 +199,8 @@ export const products: Product[] = [
     ],
     sizes: ["40×50", "50×70", "70×100"],
     description:
-      "Framed wall art — solid oak frame, museum glass, archival Deserts Gold print floated with gold spacer. Ready to hang.",
-    details: ["Solid oak frame — natural / black / white", "Museum glass — UV 99%", "Archival 250gsm print", "Ready to hang — gallery mount"],
+      "A warm Desert Gold print in a solid oak frame with museum glass and a slim gold spacer. It arrives ready to hang.",
+    details: ["Solid oak frame in natural, black or white", "Museum glass with 99 percent UV protection", "Archival 250gsm print", "Ready to hang with gallery mount"],
     images: [
       "https://images.unsplash.com/photo-1618221469555-7f3ad97540d6?w=800&auto=format&fit=crop&q=60",
       "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&auto=format&fit=crop&q=60",
@@ -211,7 +211,7 @@ export const products: Product[] = [
   {
     id: "8",
     slug: "framed-monochrome-duo",
-    name: "Monochrome Duo — Framed Set (2)",
+    name: "Monochrome Duo Framed Set, 2 Pieces",
     category: "frame-wall-art",
     price: 295,
     oldPrice: 340,
@@ -219,8 +219,8 @@ export const products: Product[] = [
     reviews: 41,
     colors: [{ name: "Black Frame", hex: "#0A0A0A" }],
     sizes: ["30×40", "40×50"],
-    description: "Pair of framed monochrome sculptures — deep black frames, extra white space. Quiet luxury for hallway or office.",
-    details: ["Set of 2 framed prints", "Black solid wood", "Acid-free mount"],
+    description: "Two framed black and white prints with deep black frames and generous white space. A calm pair for a hallway or home office.",
+    details: ["2 framed prints included", "Black solid wood frames", "Acid free mount"],
     images: [
       "https://images.unsplash.com/photo-1577083552792-a92a68f971a5?w=800&auto=format&fit=crop&q=60",
       "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&auto=format&fit=crop&q=60",
@@ -230,7 +230,7 @@ export const products: Product[] = [
   {
     id: "9",
     slug: "essential-gold-hoodie-bone",
-    name: "Essential Hoodie — Bone",
+    name: "Essential Hoodie, Bone",
     category: "hoodies",
     price: 89,
     rating: 4.9,
@@ -242,12 +242,12 @@ export const products: Product[] = [
     ],
     sizes: ["S", "M", "L", "XL", "2XL", "3XL"],
     description:
-      "The hoodie, refined. Heavyweight 450gsm loopwheel cotton, garment-dyed, brushed interior. Gold embroidered cuff logo.",
+      "Our everyday hoodie in a heavy 450gsm loopwheel cotton. Garment dyed with a brushed inside and a small gold embroidered logo at the cuff.",
     details: [
-      "450gsm French terry — 100% cotton",
-      "Garment-dyed & pre-shrunk",
-      "Ribbed cuffs & hem — unisex",
-      "Model is 178cm wearing M",
+      "450gsm French terry, 100 percent cotton",
+      "Garment dyed and pre shrunk",
+      "Ribbed cuffs and hem, unisex fit",
+      "Model is 178cm and wears size M",
       "Made in Portugal",
     ],
     images: [
@@ -267,8 +267,8 @@ export const products: Product[] = [
     reviews: 178,
     colors: [{ name: "Noir", hex: "#0A0A0A" }],
     sizes: ["S", "M", "L", "XL", "2XL", "3XL"],
-    description: "Deep black with tonal gold chest embroidery. Heavy, soft, built to fade beautifully.",
-    details: ["450gsm cotton", "Tonal embroidery", "Kangaroo pocket", "Unisex S–3XL"],
+    description: "Deep black with a tonal gold chest embroidery. Heavy and soft, made to wear in nicely over time.",
+    details: ["450gsm cotton", "Tonal embroidery", "Kangaroo pocket", "Unisex, S to 3XL"],
     images: [
       "https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?w=800&auto=format&fit=crop&q=60",
       "https://images.unsplash.com/photo-1578681994506-b8f463cea48a?w=800&auto=format&fit=crop&q=60",
@@ -278,14 +278,14 @@ export const products: Product[] = [
   {
     id: "11",
     slug: "stone-washed-hoodie-clay",
-    name: "Stone Washed Hoodie — Clay",
+    name: "Stone Washed Hoodie, Clay",
     category: "hoodies",
     price: 92,
     rating: 4.7,
     reviews: 64,
     colors: [{ name: "Clay", hex: "#B07A5B" }],
     sizes: ["S", "M", "L", "XL", "2XL"],
-    description: "Pigment-dyed stone wash — lived-in softness from day one. Oversized, brushed interior.",
+    description: "Pigment dyed with a soft stone wash, so it feels broken in from day one. Relaxed fit with a brushed inside.",
     details: ["Pigment dyed", "Oversized fit", "Brushed interior"],
     images: ["https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&auto=format&fit=crop&q=60"],
     featured: false,
@@ -293,7 +293,7 @@ export const products: Product[] = [
   {
     id: "12",
     slug: "tomato-interest-tee",
-    name: "Interest Tee — Tomato",
+    name: "Interest Tee, Tomato",
     category: "tee-shirts",
     price: 38,
     rating: 4.9,
@@ -305,8 +305,8 @@ export const products: Product[] = [
     ],
     sizes: ["S", "M", "L", "XL", "2XL", "3XL"],
     description:
-      "Find your interest. Food-interest graphic tee — 180gsm organic cotton, water-based inks. Tomato / Avocado / Chili editions.",
-    details: ["180gsm organic cotton", "Water-based screen print", "Relaxed unisex S–3XL", "Pre-washed"],
+      "Find your interest. A food inspired graphic tee in soft 180gsm organic cotton with water based inks. Also comes in Avocado and Chili.",
+    details: ["180gsm organic cotton", "Water based screen print", "Relaxed unisex fit, S to 3XL", "Pre washed for softness"],
     images: [
       "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&auto=format&fit=crop&q=60",
       "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=800&auto=format&fit=crop&q=60",
@@ -317,14 +317,14 @@ export const products: Product[] = [
   {
     id: "13",
     slug: "avocado-interest-tee-sage",
-    name: "Avocado Interest Tee — Sage",
+    name: "Avocado Interest Tee, Sage",
     category: "tee-shirts",
     price: 38,
     rating: 4.8,
     reviews: 142,
     colors: [{ name: "Sage", hex: "#8A9A8B" }],
     sizes: ["S", "M", "L", "XL", "2XL", "3XL"],
-    description: "Avocado edition — minimal line art, maximum flavor. Sage cotton with forest green print.",
+    description: "Our avocado print on soft sage cotton with a deep green graphic. Simple, fresh and easy to wear.",
     details: ["Organic cotton", "Sage pigment dye", "Unisex"],
     images: [
       "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800&auto=format&fit=crop&q=60",
@@ -335,14 +335,14 @@ export const products: Product[] = [
   {
     id: "14",
     slug: "chili-interest-tee-cream",
-    name: "Chili Graphic Tee — Cream",
+    name: "Chili Graphic Tee, Cream",
     category: "tee-shirts",
     price: 38,
     rating: 4.7,
     reviews: 98,
     colors: [{ name: "Cream", hex: "#F5E6C8" }],
     sizes: ["S", "M", "L", "XL", "2XL", "3XL"],
-    description: "Chili heat — hand-drawn cluster on warm cream. For the spice-minded.",
+    description: "A hand drawn chili cluster on warm cream cotton. A fun pick if you like a little heat.",
     details: ["Cream base", "Red chili print", "Limited color"],
     images: [
       "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&auto=format&fit=crop&q=60",

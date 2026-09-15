@@ -1,7 +1,7 @@
 export function LegalLayout({ title, subtitle, updated, children }: { title: string; subtitle: string; updated: string; children: React.ReactNode }) {
   return (
     <div className="mx-auto max-w-[800px] px-6 lg:px-8 py-12">
-      <div className="text-[11px] tracking-[0.18em] uppercase text-[#8C6A2F]">Gold Lifestyle · Maison</div>
+      <div className="text-[11px] tracking-[0.18em] uppercase text-[#8C6A2F]">Gold Lifestyle</div>
       <h1 className="font-serif text-[36px] leading-none font-light mt-3">{title}</h1>
       <p className="text-[14px] leading-6 text-[#6B6B6B] mt-3 max-w-[640px]">{subtitle}</p>
       <div className="text-[11px] tracking-wide text-[#9A9590] mt-2">Last updated: {updated}</div>

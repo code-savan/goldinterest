@@ -9,7 +9,7 @@ export default function ReturnsPage() {
     >
       <div className="bg-[#0A0A0A] text-white p-6 not-prose">
         <div className="text-[11px] tracking-[0.18em] uppercase text-[#C9A96E]">Important</div>
-        <div className="font-serif text-xl mt-1">No Returns — All Sales Final</div>
+        <div className="font-serif text-xl mt-1">All sales final</div>
         <p className="text-sm text-white/70 mt-2 leading-6">
           Please choose size and color carefully. Use the size guide on each product page and double-check your cart before paying. We do not offer returns, exchanges, or refunds for change of mind.
         </p>
@@ -49,7 +49,7 @@ export default function ReturnsPage() {
 
       <section>
         <h2 className="font-serif text-xl">Refunds</h2>
-        <p>Approved refunds are processed to the original payment method within 5–10 business days after confirmation. Shipping costs are non-refundable unless the error was ours. “Refund” refers only to eligible defective/damaged cases — not to general returns.</p>
+        <p>Approved refunds go back to the original payment method within 5 to 10 business days after confirmation. Shipping costs are non refundable unless the error was ours. Refunds apply only to approved damaged or defective cases, not to general returns.</p>
       </section>
 
       <section>

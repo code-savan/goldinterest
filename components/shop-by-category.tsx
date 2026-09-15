@@ -14,7 +14,7 @@ export function ShopByCategory() {
           </h2>
           <div className="w-12 h-px bg-[#C9A96E] mt-6" />
           <p className="text-[13px] leading-6 text-[#6B6B6B] mt-6 max-w-[520px]">
-            Five worlds — Wallpaper Packs, Printable Posters, Frame Wall Art, Hoodies and Tee Shirts. Each with its own material, scale and silence.
+            Five collections: Wallpaper Packs, Printable Posters, Frame Wall Art, Hoodies and Tee Shirts. Each one made with care, in its own material and scale.
           </p>
         </div>
 
@@ -46,7 +46,7 @@ export function ShopByCategory() {
         </div>
 
         <div className="mt-10 flex justify-center">
-          <div className="text-[11px] tracking-[0.16em] uppercase text-[#9A9590]">Free shipping — all orders · All sales final</div>
+          <div className="text-[11px] tracking-[0.16em] uppercase text-[#9A9590]">Free shipping on every order. All sales final.</div>
         </div>
       </div>
     </section>

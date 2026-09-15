@@ -1,14 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { categories, products, categoryLabels, type Category } from "@/lib/products";
+import { categories, categoryLabels, type Category, type Product } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
 
 const priceRanges = [
   { id: "all", label: "All prices", test: () => true },
   { id: "under50", label: "Under $50", test: (p: number) => p < 50 },
-  { id: "50-100", label: "$50 – $100", test: (p: number) => p >= 50 && p <= 100 },
-  { id: "100-200", label: "$100 – $200", test: (p: number) => p > 100 && p <= 200 },
+  { id: "50-100", label: "$50 to $100", test: (p: number) => p >= 50 && p <= 100 },
+  { id: "100-200", label: "$100 to $200", test: (p: number) => p > 100 && p <= 200 },
   { id: "200plus", label: "$200+", test: (p: number) => p > 200 },
 ];
 
@@ -22,7 +22,8 @@ const allColors = [
   { name: "Cream", hex: "#F5E6C8" },
 ];
 
-export function ShopClient({ initialCategory }: { initialCategory: Category | null }) {
+export function ShopClient({ initialCategory, initialProducts }: { initialCategory: Category | null; initialProducts: Product[] }) {
+  const products = initialProducts;
   const [selectedCategories, setSelectedCategories] = useState<Category[]>(initialCategory ? [initialCategory] : []);
   const [priceId, setPriceId] = useState("all");
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
@@ -192,7 +193,7 @@ export function ShopClient({ initialCategory }: { initialCategory: Category | nu
                 </button>
               ))}
             </div>
-            <div className="text-[11px] text-[#9A9590] mt-2">Apparel S–3XL · posters A3/A2/A1</div>
+            <div className="text-[11px] text-[#9A9590] mt-2">Apparel from S to 3XL, posters in A3, A2 and A1</div>
           </div>
 
           <div className="border-t border-[#E8E6E1] pt-6">
@@ -211,8 +212,8 @@ export function ShopClient({ initialCategory }: { initialCategory: Category | nu
           </div>
 
           <div className="border-t border-[#E8E6E1] pt-6 text-[11px] leading-5 text-[#6B6B6B]">
-            Free shipping — all orders<br />
-            All sales final · See Returns
+            Free shipping on every order<br />
+            All sales final, see Returns
           </div>
         </div>
       </aside>
@@ -221,7 +222,7 @@ export function ShopClient({ initialCategory }: { initialCategory: Category | nu
       <div className="flex-1 min-w-0">
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-[#E8E6E1]">
           <div className="text-[11px] tracking-[0.14em] uppercase text-[#6B6B6B]">
-            {filtered.length} {filtered.length === 1 ? "piece" : "pieces"} · Free Shipping
+            {filtered.length} {filtered.length === 1 ? "piece" : "pieces"}, free shipping
           </div>
           <select value={sort} onChange={(e) => setSort(e.target.value)} className="hidden lg:block border border-[#E8E6E1] bg-white px-3 py-2 text-xs">
             <option value="featured">Featured</option>
@@ -256,7 +257,7 @@ export function ShopClient({ initialCategory }: { initialCategory: Category | nu
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12 mt-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 lg:mt-8">
           {filtered.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}

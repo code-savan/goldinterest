@@ -4,7 +4,7 @@ export default function PrivacyPage() {
   return (
     <LegalLayout
       title="Privacy Policy"
-      subtitle="How we collect, use, and protect your information — in plain language, neatly arranged."
+      subtitle="How we collect, use and protect your information, explained in plain language."
       updated="September 10, 2026"
     >
       <section>
@@ -15,7 +15,7 @@ export default function PrivacyPage() {
         <h2 className="font-serif text-xl">2. What We Collect</h2>
         <ul className="list-disc pl-5 space-y-1">
           <li>Order information: name, email, shipping address, phone, order contents</li>
-          <li>Payment information: processed securely by our payment providers (Stripe, PayPal, Klarna) — we never store full card numbers</li>
+          <li>Payment information: processed securely by our payment providers (Stripe, PayPal, Klarna), we never store full card numbers</li>
           <li>Website usage: pages viewed, device, and anonymized analytics via cookies</li>
           <li>Communications: emails and messages you send us</li>
         </ul>

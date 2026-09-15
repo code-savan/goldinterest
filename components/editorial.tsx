@@ -13,19 +13,19 @@ export function EditorialWallpapers() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 bg-white px-4 py-3 shadow-lg">
-                <div className="text-[11px] tracking-[0.16em] uppercase text-[#8C6A2F]">Printer Star</div>
-                <div className="text-sm font-medium">Washable · Matte · Linen-emboss</div>
+                <div className="text-[11px] tracking-[0.16em] uppercase text-[#8C6A2F]">Washable, matte, linen texture</div>
+                <div className="text-sm font-medium">Easy to clean and soft to the touch</div>
               </div>
             </div>
             {/* Floating detached card */}
             <div className="hidden lg:block absolute -right-8 bottom-12 bg-[#F6F5F2] border border-[#E8E6E1] p-6 w-[300px] shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
-              <div className="text-[11px] tracking-[0.16em] uppercase text-[#8C6A2F]">Details — Pack</div>
+              <div className="text-[11px] tracking-[0.16em] uppercase text-[#8C6A2F]">Details, pack</div>
               <ul className="mt-3 space-y-2 text-[13px] leading-5 text-[#1A1A1A]">
-                <li className="flex gap-2"><span className="text-[#C9A96E]">—</span> 3 rolls · 15.9 m² coverage</li>
-                <li className="flex gap-2"><span className="text-[#C9A96E]">—</span> Paste-the-wall, wipeable</li>
-                <li className="flex gap-2"><span className="text-[#C9A96E]">—</span> Printed in EU · FSC certified</li>
+                <li className="flex gap-2"><span className="text-[#C9A96E]">•</span> 3 rolls, 15.9 sqm coverage</li>
+                <li className="flex gap-2"><span className="text-[#C9A96E]">•</span> Paste the wall, wipeable</li>
+                <li className="flex gap-2"><span className="text-[#C9A96E]">•</span> Printed in the EU on FSC certified paper</li>
               </ul>
-              <div className="mt-4 text-[11px] text-[#6B6B6B]">Free shipping — all orders</div>
+              <div className="mt-4 text-[11px] text-[#6B6B6B]">Free shipping on every order</div>
             </div>
           </div>
 
@@ -39,14 +39,14 @@ export function EditorialWallpapers() {
             </h3>
             <div className="w-10 h-px bg-[#C9A96E] mt-6" />
             <p className="text-[14px] leading-7 text-[#6B6B6B] mt-6">
-              Beautiful designs for screen walls — matte, washable, linen-embossed. From Aurum Minimal to Golden Horizon. Printable posters as instant download or archival print with gold foil.
+              Beautiful designs for calm walls in matte, washable and lightly textured finishes. From Aurum Minimal to Golden Horizon. Posters come as an instant download or as an archival print with gold foil.
             </p>
 
             <div className="grid grid-cols-2 gap-4 mt-8">
               <a href="/shop?category=wallpaper-packs" className="group bg-[#0A0A0A] text-white p-5 hover:bg-[#1A1A1A] transition-colors">
                 <div className="text-[11px] tracking-[0.14em] uppercase text-[#C9A96E]">From $129</div>
                 <div className="font-serif text-[18px] leading-none mt-1">Wallpaper Packs</div>
-                <div className="text-xs text-white/60 mt-1">3 rolls · Free ship</div>
+                <div className="text-xs text-white/60 mt-1">3 rolls, free shipping</div>
                 <div className="text-[11px] tracking-wide mt-3 flex items-center gap-1">Shop <span className="group-hover:translate-x-1 transition-transform">→</span></div>
               </a>
               <a href="/shop?category=printable-posters" className="group bg-white border border-[#E8E6E1] p-5 hover:border-[#0A0A0A] transition-colors">
@@ -60,9 +60,9 @@ export function EditorialWallpapers() {
             <a href="/shop?category=frame-wall-art" className="mt-6 flex items-center gap-4 border border-[#E8E6E1] bg-[#F6F5F2] p-4 hover:border-[#0A0A0A] transition-colors group">
               <img src="https://images.unsplash.com/photo-1618221469555-7f3ad97540d6?w=200&auto=format&fit=crop&q=60" alt="" className="w-16 h-16 object-cover" />
               <div className="flex-1">
-                <div className="text-[11px] tracking-[0.16em] uppercase text-[#8C6A2F]">Also — Frame Wall Art</div>
-                <div className="text-sm font-medium">Solid oak · Museum glass</div>
-                <div className="text-xs text-[#6B6B6B]">From $189 · Ready to hang</div>
+                <div className="text-[11px] tracking-[0.16em] uppercase text-[#8C6A2F]">Also in framed wall art</div>
+                <div className="text-sm font-medium">Solid oak and museum glass</div>
+                <div className="text-xs text-[#6B6B6B]">From $189, ready to hang</div>
               </div>
               <span className="w-8 h-8 border border-[#0A0A0A] flex items-center justify-center group-hover:bg-[#0A0A0A] group-hover:text-white transition-colors">→</span>
             </a>
@@ -88,7 +88,7 @@ export function EditorialApparel() {
             </h3>
             <div className="w-10 h-px bg-[#C9A96E] mt-6" />
             <p className="text-[14px] leading-7 text-[#6B6B6B] mt-6 max-w-[480px]">
-              Different types of food, different types of you. Tomato, Avocado, Chili — 180gsm organic cotton, water-based inks, garment-dyed hoodies in Bone, Noir & Clay. Unisex S–3XL.
+              Made for food lovers and comfort seekers. Tomato, Avocado and Chili tees in soft 180gsm organic cotton with water based inks, plus garment dyed hoodies in Bone, Noir and Clay. Unisex, S to 3XL.
             </p>
 
             <div className="grid grid-cols-3 gap-3 mt-8 max-w-[420px]">
@@ -117,7 +117,7 @@ export function EditorialApparel() {
                 Shop Hoodies
               </a>
             </div>
-            <div className="text-[11px] text-[#6B6B6B] mt-3">Free shipping — all orders · Worldwide</div>
+            <div className="text-[11px] text-[#6B6B6B] mt-3">Free shipping on every order, worldwide</div>
           </div>
 
           <div className="order-1 lg:order-2 relative">
@@ -125,17 +125,17 @@ export function EditorialApparel() {
               <div className="space-y-4 lg:space-y-6">
                 <div className="relative overflow-hidden bg-[#EDE9E3] aspect-[3/4]">
                   <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&auto=format&fit=crop&q=60" alt="Hoodie" className="absolute inset-0 w-full h-full object-cover" />
-                  <div className="absolute bottom-3 left-3 bg-white px-3 py-1.5 text-xs shadow-sm">Bone Hoodie — $89</div>
+                  <div className="absolute bottom-3 left-3 bg-white px-3 py-1.5 text-xs shadow-sm">Bone Hoodie, $89</div>
                 </div>
                 <div className="bg-[#F5E6C8] border border-[#E8DCC6] p-5">
                   <div className="text-[11px] tracking-[0.16em] uppercase text-[#8C6A2F]">Wishlist</div>
-                  <div className="text-sm leading-5 mt-1">Tap the heart on any product to save for later — syncs across devices.</div>
+                  <div className="text-sm leading-5 mt-1">Tap the heart on any product to save it for later. It syncs across devices.</div>
                 </div>
               </div>
               <div className="pt-8 lg:pt-12">
                 <div className="relative overflow-hidden bg-[#F6F5F2] aspect-[3/4]">
                   <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&auto=format&fit=crop&q=60" alt="T-shirt" className="absolute inset-0 w-full h-full object-cover" />
-                  <div className="absolute bottom-3 left-3 bg-[#0A0A0A] text-white px-3 py-1.5 text-xs">Interest Tee — $38</div>
+                  <div className="absolute bottom-3 left-3 bg-[#0A0A0A] text-white px-3 py-1.5 text-xs">Interest Tee, $38</div>
                 </div>
                 <div className="mt-4 text-[11px] leading-4 text-[#6B6B6B]">Oversized, garment-dyed, brushed interior. Made in Portugal.</div>
               </div>

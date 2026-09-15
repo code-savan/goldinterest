@@ -12,32 +12,32 @@ export default function ShippingPage() {
         <div className="grid sm:grid-cols-3 gap-3 not-prose mt-4">
           <div className="border border-[#E8E6E1] bg-[#F6F5F2] p-4">
             <div className="text-[11px] tracking-[0.16em] uppercase font-medium">Spain & EU</div>
-            <div className="font-medium mt-1">3–5 business days</div>
+            <div className="font-medium mt-1">3 to 5 business days</div>
             <div className="text-xs text-[#6B6B6B] mt-1">Duties included</div>
           </div>
           <div className="border border-[#E8E6E1] bg-white p-4">
             <div className="text-[11px] tracking-[0.16em] uppercase font-medium">UK & Rest of World</div>
-            <div className="font-medium mt-1">6–12 business days</div>
+            <div className="font-medium mt-1">6 to 12 business days</div>
             <div className="text-xs text-[#6B6B6B] mt-1">Duties calculated at checkout</div>
           </div>
           <div className="border border-[#0A0A0A] bg-[#0A0A0A] text-white p-4">
             <div className="text-[11px] tracking-[0.16em] uppercase text-[#C9A96E]">Free Shipping</div>
             <div className="font-medium mt-1">All Orders</div>
-            <div className="text-xs text-white/60 mt-1">Worldwide — no minimum</div>
+            <div className="text-xs text-white/60 mt-1">Worldwide, no minimum</div>
           </div>
         </div>
       </section>
       <section>
         <h2 className="font-serif text-xl">Shipping Costs</h2>
-        <p>Free shipping on all orders — no minimum, worldwide. Express options may be offered at checkout where available.</p>
+        <p>Free shipping on every order, no minimum, worldwide. Express options may appear at checkout where available.</p>
       </section>
       <section>
         <h2 className="font-serif text-xl">Processing Time</h2>
-        <p>Orders are processed within 1–2 business days. Wallpapers and posters are made to order in small runs — slight delay of 1 day may occur during drops. You will receive a tracking number once shipped.</p>
+        <p>Orders are processed within 1 to 2 business days. Wallpapers and posters are made to order in small runs, so a short delay of 1 day can happen during drops. You will receive a tracking number once your order ships.</p>
       </section>
       <section>
         <h2 className="font-serif text-xl">Packaging</h2>
-        <p>Wallpapers are packed in rigid tubes and boxes to prevent creasing. Apparel is folded with tissue and shipped in recycled mailers. Posters ship rolled in reinforced tubes — never folded.</p>
+        <p>Wallpapers are packed in rigid tubes and boxes to prevent creasing. Apparel is folded with tissue and shipped in recycled mailers. Posters ship rolled in reinforced tubes and are never folded.</p>
       </section>
       <section>
         <h2 className="font-serif text-xl">Tracking & Delays</h2>

@@ -3,13 +3,24 @@ import { ShopByCategory } from "@/components/shop-by-category";
 import { FeaturedCollection } from "@/components/featured";
 import { EditorialWallpapers, EditorialApparel } from "@/components/editorial";
 import { FAQ } from "@/components/faq";
+import { getFeaturedProducts, getSettings } from "@/lib/store";
 
-export default function Home() {
+export const revalidate = 60;
+
+export default async function Home() {
+  const [featured, s] = await Promise.all([getFeaturedProducts(6), getSettings()]);
+
   return (
     <div className="bg-[#FCFCF9]">
-      <Hero />
+      <Hero
+        kicker={s.heroKicker}
+        titleTop={s.heroTitleTop}
+        titleAccent={s.heroTitleAccent}
+        titleBottom={s.heroTitleBottom}
+        subtitle={s.heroSubtitle}
+      />
       <ShopByCategory />
-      <FeaturedCollection />
+      <FeaturedCollection products={featured} />
       <EditorialWallpapers />
       <EditorialApparel />
 
@@ -22,12 +33,12 @@ export default function Home() {
               All products, <span className="italic">one place</span>
             </h2>
             <p className="text-[13px] leading-6 text-[#6B6B6B] mt-4">
-              14 pieces across five categories — free shipping on every order, worldwide. All sales final.
+              {featured.length} featured pieces and the full catalog with free shipping on every order, worldwide. All sales final.
             </p>
           </div>
           <div className="flex gap-3">
             <a href="/shop" className="bg-[#0A0A0A] text-white px-8 py-4 text-[11px] tracking-[0.18em] uppercase font-medium hover:bg-[#1A1A1A] transition-colors">
-              Enter Shop — $22 to $295
+              Enter shop, $22 to $295
             </a>
             <a href="#faq" className="border border-[#E8E6E1] bg-white px-8 py-4 text-[11px] tracking-[0.18em] uppercase hover:border-[#0A0A0A] transition-colors">
               FAQ
@@ -42,8 +53,8 @@ export default function Home() {
       <section className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 pb-20 lg:pb-28 pt-4">
         <div className="bg-[#0A0A0A] text-white px-6 lg:px-16 py-12 lg:py-14 flex flex-col lg:flex-row gap-8 lg:items-center justify-between">
           <div>
-            <div className="font-serif text-[24px] lg:text-[26px] leading-none">Join the Maison</div>
-            <div className="text-[13px] text-white/60 mt-3 max-w-[420px] leading-6">10% off your first wallpaper pack. No spam — just new drops, quietly.</div>
+            <div className="font-serif text-[24px] lg:text-[26px] leading-none">Join our list</div>
+            <div className="text-[13px] text-white/60 mt-3 max-w-[420px] leading-6">10% off your first wallpaper pack. New drops only, never spam.</div>
           </div>
           <form className="flex gap-2 w-full lg:w-auto">
             <input
@@ -55,7 +66,7 @@ export default function Home() {
             </button>
           </form>
         </div>
-        <div className="text-center text-[11px] tracking-[0.14em] uppercase text-[#9A9590] mt-6">Free shipping — all orders · Duties included for EU</div>
+        <div className="text-center text-[11px] tracking-[0.14em] uppercase text-[#9A9590] mt-6">Free shipping on every order, duties included for the EU</div>
       </section>
     </div>
   );

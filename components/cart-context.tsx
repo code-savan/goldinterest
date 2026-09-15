@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import type { Product } from "@/lib/products";
+import { trackWhop } from "./whop-pixel";
 
 export type CartItem = {
   product: Product;
@@ -52,6 +53,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         next[idx] = { ...next[idx], quantity: next[idx].quantity + (opts?.quantity ?? 1) };
         return next;
       }
+      trackWhop("add_to_cart", { value: product.price, currency: "USD" });
       return [...prev, { product, quantity: opts?.quantity ?? 1, size: opts?.size, color: opts?.color }];
     });
   };

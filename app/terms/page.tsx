@@ -9,7 +9,7 @@ export default function TermsPage() {
     >
       <section>
         <h2 className="font-serif text-xl">1. About Us</h2>
-        <p>Gold Lifestyle is operated from Barcelona, Spain. Contact: hello@goldlifestyle.com · +34 900 123 456. VAT ID: ES-B12345678. These terms are governed by Spanish law.</p>
+        <p>Gold Lifestyle is based in Barcelona, Spain. Contact us at hello@goldlifestyle.com. VAT ID: ES-B12345678. These terms follow Spanish law.</p>
       </section>
       <section>
         <h2 className="font-serif text-xl">2. Products & Availability</h2>
@@ -21,11 +21,11 @@ export default function TermsPage() {
       </section>
       <section>
         <h2 className="font-serif text-xl">4. Pricing & Payment</h2>
-        <p>Prices are in EUR and include Spanish VAT where applicable. Payment is due at checkout via Visa, Mastercard, American Express, PayPal, Apple Pay, Google Pay or Klarna. All payments are encrypted; we never store card details.</p>
+        <p>Prices are in USD. Payment is due at checkout via Visa, Mastercard, American Express, PayPal, Apple Pay, Google Pay or Klarna. All payments are encrypted; we never store card details.</p>
       </section>
       <section>
-        <h2 className="font-serif text-xl">5. No Returns — All Sales Final</h2>
-        <p className="font-medium text-black bg-[#F6F5F2] border border-[#E8E6E1] p-4">All sales are final. We do not accept returns or exchanges for change of mind, incorrect size, or color choice. Only items that arrive damaged, defective, or incorrectly fulfilled are eligible for replacement — see Returns & Refunds.</p>
+        <h2 className="font-serif text-xl">5. All sales final</h2>
+        <p className="font-medium text-black bg-[#F6F5F2] border border-[#E8E6E1] p-4">All sales are final. We do not accept returns or exchanges for change of mind, incorrect size or color choice. Only items that arrive damaged, defective or incorrectly fulfilled qualify for a replacement. See Returns and Refunds.</p>
       </section>
       <section>
         <h2 className="font-serif text-xl">6. Intellectual Property</h2>

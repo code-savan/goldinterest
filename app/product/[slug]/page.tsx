@@ -1,19 +1,22 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { products, getProductBySlug, getRelatedProducts } from "@/lib/products";
+import { products as staticProducts } from "@/lib/products";
+import { getProductBySlug, getProducts } from "@/lib/store";
 import { ProductDetailClient } from "@/components/product-detail-client";
 import { ProductCard } from "@/components/product-card";
 
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  const all = await getProducts(false);
+  return (all.length ? all : staticProducts).map((p) => ({ slug: p.slug }));
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (!product) return notFound();
 
-  const related = getRelatedProducts(product, 3);
+  const all = await getProducts(true);
+  const related = [...all.filter((p) => p.category === product.category && p.id !== product.id), ...all.filter((p) => p.category !== product.category)].slice(0, 3);
 
   return (
     <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-8">

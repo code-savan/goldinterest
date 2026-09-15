@@ -9,7 +9,7 @@ export function Logo({ className = "" }: { className?: string }) {
         <div className="font-serif text-[17px] tracking-[0.18em] font-light text-[#0A0A0A] uppercase">
           Gold <span className="font-normal">Lifestyle</span>
         </div>
-        <div className="text-[9px] tracking-[0.28em] uppercase text-[#8C6A2F] mt-[1px]">Maison · Est. 2024</div>
+        <div className="text-[9px] tracking-[0.28em] uppercase text-[#8C6A2F] mt-[1px]">Est. 2024</div>
       </div>
     </div>
   );

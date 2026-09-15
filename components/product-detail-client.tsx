@@ -23,17 +23,17 @@ export function ProductDetailClient({ product }: { product: Product }) {
     setAdded(true);
     showToast({
       title: "Added to bag",
-      description: `${product.name} · ${selectedColor}${selectedSize ? " · " + selectedSize : ""} · $${product.price.toFixed(2)}`,
+      description: `${product.name}, ${selectedColor}${selectedSize ? ", " + selectedSize : ""}, $${product.price.toFixed(2)}`,
       image: product.images[0],
     });
     setTimeout(() => setAdded(false), 2000);
   };
 
   return (
-    <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-12 mt-6">
+    <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 lg:gap-10 mt-4">
       {/* Images */}
-      <div className="space-y-4">
-        <div className="bg-[#F6F5F2] aspect-[4/5] overflow-hidden relative">
+      <div className="space-y-3">
+        <div className="bg-[#F6F5F2] aspect-[3/4] lg:aspect-[4/5] overflow-hidden relative">
           <img src={product.images[activeImage]} alt={product.name} className="w-full h-full object-cover" />
           {product.badge && (
             <span className="absolute top-4 left-4 bg-white text-[11px] tracking-[0.16em] uppercase px-3 py-1.5 font-medium border border-black/5">
@@ -62,9 +62,9 @@ export function ProductDetailClient({ product }: { product: Product }) {
       </div>
 
       {/* Details */}
-      <div className="lg:sticky lg:top-[88px] h-fit">
-        <div className="text-[11px] tracking-[0.18em] uppercase text-[#8C6A2F]">{product.category} · {product.reviews} reviews</div>
-        <h1 className="font-serif text-[28px] lg:text-[32px] leading-none tracking-[-0.02em] font-light mt-2">{product.name}</h1>
+      <div className="lg:sticky lg:top-[88px] h-fit lg:pt-2">
+        <div className="text-[11px] tracking-[0.18em] uppercase text-[#8C6A2F]">{product.category}, {product.reviews} reviews</div>
+        <h1 className="font-serif text-[24px] lg:text-[32px] leading-none tracking-[-0.02em] font-light mt-2">{product.name}</h1>
         <div className="flex items-center gap-3 mt-3">
           <span className="text-xl font-medium">${product.price.toFixed(2)}</span>
           {product.oldPrice && <span className="text-sm text-[#9A9590] line-through">${product.oldPrice.toFixed(2)}</span>}
@@ -78,7 +78,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
         {/* Color */}
         <div className="mt-6">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] tracking-[0.16em] uppercase font-medium">Colour — {selectedColor}</span>
+            <span className="text-[11px] tracking-[0.16em] uppercase font-medium">Colour, {selectedColor}</span>
             <span className="text-xs text-[#6B6B6B]">{product.colors.length} options</span>
           </div>
           <div className="flex gap-2.5 mt-3">
@@ -101,12 +101,12 @@ export function ProductDetailClient({ product }: { product: Product }) {
         {product.sizes && (
           <div className="mt-6">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] tracking-[0.16em] uppercase font-medium">Size — {selectedSize}</span>
+              <span className="text-[11px] tracking-[0.16em] uppercase font-medium">Size, {selectedSize}</span>
               <button onClick={() => setShowSizeGuide((v) => !v)} className="text-[11px] tracking-[0.14em] uppercase underline underline-offset-4">
                 Size Guide
               </button>
             </div>
-            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mt-3">
+            <div className="grid grid-cols-4 sm:grid-cols-6 gap-1.5 mt-3">
               {product.sizes.map((s) => (
                 <button
                   key={s}
@@ -121,7 +121,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
               <div className="mt-4 border border-[#E8E6E1] bg-[#F6F5F2] p-5">
                 <div className="flex items-center justify-between">
                   <div className="text-[11px] tracking-[0.16em] uppercase font-medium">
-                    {isWearable ? "Size Guide — Wearables (Unisex)" : "Size Guide"}
+                    {isWearable ? "Size guide, wearables (Unisex)" : "Size Guide"}
                   </div>
                   {isWearable && (
                     <div className="flex border border-[#E8E6E1] bg-white p-1 gap-1">
@@ -155,7 +155,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
                       </tbody>
                     </table>
                     <div className="text-[11px] text-[#6B6B6B] mt-3 leading-4">
-                      Unisex relaxed fit. Model is 178cm wearing M. For oversized fit, size up. Measurements taken flat. {sizeUnit === "in" ? "Inches" : "Centimetres"} — 1″ = 2.54 cm.
+                      Unisex relaxed fit. Model is 178cm wearing size M. For an oversized fit, size up. Measurements taken flat. {sizeUnit === "in" ? "Inches" : "Centimetres"}, 1 inch equals 2.54 cm.
                     </div>
                   </>
                 ) : (
@@ -184,24 +184,24 @@ export function ProductDetailClient({ product }: { product: Product }) {
         )}
 
         {/* Add to cart + wishlist */}
-        <div className="flex gap-3 mt-6">
+        <div className="flex flex-col gap-3 mt-6">
           <button
             onClick={handleAdd}
-            className={`flex-1 py-4 text-[11px] tracking-[0.18em] uppercase font-medium transition-colors ${added ? "bg-[#C9A96E] text-white" : "bg-[#0A0A0A] text-white hover:bg-[#1A1A1A]"}`}
+            className="w-full py-4 text-[11px] tracking-[0.18em] uppercase font-medium transition-colors bg-[#0A0A0A] text-white hover:bg-[#1A1A1A]"
           >
-            {added ? "✓ Added to Bag" : `Add to Cart — $${product.price.toFixed(2)}`}
+            {added ? "✓ Added to Bag" : `Add to Bag, $${product.price.toFixed(2)}`}
           </button>
           <button
             onClick={() => toggleWishlist(product)}
-            className={`w-[56px] flex items-center justify-center border transition-colors ${hasWishlist(product.id) ? "bg-[#C9A96E] border-[#C9A96E] text-white" : "bg-white border-[#E8E6E1] hover:border-[#0A0A0A]"}`}
+            className="w-12 h-12 flex items-center justify-center border border-[#E8E6E1] transition-colors bg-white hover:border-[#0A0A0A]"
             aria-label="Wishlist"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill={hasWishlist(product.id) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.6">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill={hasWishlist(product.id) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.6">
               <path d="M12 21s-6.5-4.2-8.8-9.1A5.2 5.2 0 0 1 12 5.1a5.2 5.2 0 0 1 8.8 6.8C18.5 16.8 12 21 12 21Z" />
             </svg>
           </button>
+          <div className="text-[11px] text-center text-[#6B6B6B] mt-1">Free shipping on every order. All sales final.</div>
         </div>
-        <div className="text-[11px] text-center text-[#6B6B6B] mt-2">Free shipping — all orders · All sales final — no returns</div>
 
         {/* Details accordion */}
         <div className="mt-6 border-t border-[#E8E6E1] divide-y divide-[#E8E6E1]">
@@ -222,16 +222,16 @@ export function ProductDetailClient({ product }: { product: Product }) {
               <span className="text-sm group-open:rotate-180 transition-transform">⌄</span>
             </summary>
             <div className="mt-3 text-[13px] leading-6 text-[#6B6B6B]">
-              Ships from Barcelona. EU 3–5 days, worldwide 6–12 days. Free shipping — all orders. Duties included for EU.
+              Ships from Barcelona. EU delivery in 3 to 5 days, worldwide in 6 to 12 days. Free shipping on every order. Duties included for the EU.
             </div>
           </details>
           <details className="py-4 group">
             <summary className="flex items-center justify-between cursor-pointer list-none">
-              <span className="text-[11px] tracking-[0.16em] uppercase font-medium">Returns — All Sales Final</span>
+              <span className="text-[11px] tracking-[0.16em] uppercase font-medium">Returns, all sales final</span>
               <span className="text-sm group-open:rotate-180 transition-transform">⌄</span>
             </summary>
             <div className="mt-3 text-[13px] leading-6 text-[#6B6B6B]">
-              No returns or exchanges. Only damaged/defective items are eligible for replacement — contact within 48h with photos.
+              No returns or exchanges. Only damaged or defective items qualify for a replacement. Please contact us within 48 hours with photos.
             </div>
           </details>
         </div>
