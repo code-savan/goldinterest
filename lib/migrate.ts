@@ -40,6 +40,12 @@ const MIGRATIONS: Migration[] = [
       `ALTER TABLE settings ADD COLUMN IF NOT EXISTS hero_image TEXT NOT NULL DEFAULT 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6'`,
     ],
   },
+  {
+    id: "005-hero-section-images",
+    statements: [
+      `ALTER TABLE settings ADD COLUMN IF NOT EXISTS hero_images JSONB NOT NULL DEFAULT '{}'`,
+    ],
+  },
 ];
 
 export async function ensureSchema(): Promise<{ applied: string[] }> {

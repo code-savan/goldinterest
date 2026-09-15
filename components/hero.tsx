@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DEFAULT_HERO_IMAGES, type HeroImages } from "@/lib/store";
 
 export const DEFAULT_HERO_IMAGE = "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6";
 
@@ -23,6 +24,7 @@ export function Hero({
   titleBottom = "Space",
   subtitle = "Wallpapers, printable posters, framed wall art and apparel. Carefully made with a smooth matte finish, heavyweight cotton and small gold details. Free shipping on every order.",
   image = DEFAULT_HERO_IMAGE,
+  images = DEFAULT_HERO_IMAGES,
 }: {
   kicker?: string;
   titleTop?: string;
@@ -30,8 +32,11 @@ export function Hero({
   titleBottom?: string;
   subtitle?: string;
   image?: string;
+  images?: HeroImages;
 }) {
   const src = image.trim() !== "" ? image : DEFAULT_HERO_IMAGE;
+  const img = (key: keyof HeroImages) =>
+    images[key] && images[key].trim() !== "" ? images[key] : DEFAULT_HERO_IMAGES[key];
   const srcSet = heroSrcSet(src);
   return (
     <section className="relative overflow-hidden h-[100dvh] min-h-[620px] lg:min-h-[660px] flex flex-col">
@@ -83,11 +88,11 @@ export function Hero({
               </div>
               <div className="flex items-center gap-3 mt-7 pt-5 border-t border-[#E8E6E1]/60">
                 <div className="flex -space-x-2">
-                  <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=64&auto=format&fit=crop&q=60" alt="" loading="lazy"
+                  <img src={img("avatar1")} alt="" loading="lazy"
                   fetchPriority="low" decoding="async" className="w-7 h-7 rounded-full border-2 border-white object-cover" />
-                  <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=64&auto=format&fit=crop&q=60" alt="" loading="lazy"
+                  <img src={img("avatar2")} alt="" loading="lazy"
                   fetchPriority="low" decoding="async" className="w-7 h-7 rounded-full border-2 border-white object-cover" />
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=64&auto=format&fit=crop&q=60" alt="" loading="lazy"
+                  <img src={img("avatar3")} alt="" loading="lazy"
                   fetchPriority="low" decoding="async" className="w-7 h-7 rounded-full border-2 border-white object-cover" />
                 </div>
                 <div className="text-[11px] leading-4">
@@ -111,7 +116,7 @@ export function Hero({
           <div className="relative hidden lg:block h-[520px] xl:h-[560px]">
             {/* Card 1 - Wallpaper — top far right */}
             <div className="absolute top-0 right-6 bg-white/95 backdrop-blur-sm p-2.5 shadow-[0_10px_30px_rgba(0,0,0,0.12)] w-[240px]">
-              <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&auto=format&fit=crop&q=60" alt="" loading="lazy"
+              <img src={img("cardWallpaper")} alt="" loading="lazy"
                   fetchPriority="low" decoding="async" className="w-full h-[150px] object-cover opacity-95" />
               <div className="pt-2.5">
                 <div className="text-[10px] tracking-[0.14em] uppercase text-[#8C6A2F]/80">Printer Star</div>
@@ -126,7 +131,7 @@ export function Hero({
 
             {/* Card 2 - Apparel — bottom left, far */}
             <div className="absolute bottom-0 left-2 bg-white/95 backdrop-blur-sm p-2.5 shadow-[0_10px_30px_rgba(0,0,0,0.12)] w-[220px]">
-              <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&auto=format&fit=crop&q=60" alt="" loading="lazy"
+              <img src={img("cardApparel")} alt="" loading="lazy"
                   fetchPriority="low" decoding="async" className="w-full h-[140px] object-cover opacity-95" />
               <div className="pt-2.5">
                 <div className="text-[10px] tracking-[0.14em] uppercase text-[#8C6A2F]/80">Apparel</div>
@@ -153,7 +158,7 @@ export function Hero({
           <div className="lg:hidden mt-6 space-y-3">
             {/* Primary preview */}
             <div className="bg-white/95 backdrop-blur-sm p-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.12)] flex gap-3 items-center">
-              <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=200&auto=format&fit=crop&q=60" alt="" loading="lazy"
+              <img src={img("mobileCard1")} alt="" loading="lazy"
                   fetchPriority="low" decoding="async" className="w-20 h-20 object-cover shrink-0" />
               <div className="flex-1 min-w-0">
                 <div className="text-[10px] tracking-[0.14em] uppercase text-[#8C6A2F]/80">Bestseller</div>
@@ -164,7 +169,7 @@ export function Hero({
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-white/95 backdrop-blur-sm p-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
-                <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=200&auto=format&fit=crop&q=60" alt="" loading="lazy"
+                <img src={img("mobileCard2")} alt="" loading="lazy"
                   fetchPriority="low" decoding="async" className="w-full h-24 object-cover" />
                 <div className="text-[11px] font-medium mt-2">Hoodie, from $89</div>
                 <div className="text-[10px] text-[#6B6B6B]/70">S to 3XL, 450gsm</div>

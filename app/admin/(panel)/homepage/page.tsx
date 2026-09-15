@@ -15,6 +15,7 @@ export default async function AdminHomepagePage() {
         heroTitleBottom: s.heroTitleBottom,
         heroSubtitle: s.heroSubtitle,
         heroImage: s.heroImage,
+        heroImages: { ...s.heroImages },
       }}
       products={all.map((p) => ({ id: p.id, name: p.name, price: p.price, image: p.images[0] || "" }))}
       initialContent={content}

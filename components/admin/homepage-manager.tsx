@@ -19,9 +19,77 @@ type S = {
   heroTitleBottom: string;
   heroSubtitle: string;
   heroImage: string;
+  heroImages: Record<string, string>;
 };
 
 const NETWORKS: SocialNetwork[] = ["instagram", "tiktok", "pinterest", "facebook", "youtube", "x"];
+
+const HERO_IMAGE_FIELDS: { key: string; label: string; hint: string }[] = [
+  { key: "avatar1", label: "Review face 1", hint: "Tiny circle, square photo" },
+  { key: "avatar2", label: "Review face 2", hint: "Tiny circle, square photo" },
+  { key: "avatar3", label: "Review face 3", hint: "Tiny circle, square photo" },
+  { key: "cardWallpaper", label: "Desktop floating card (wallpaper)", hint: "Portrait, ~240px wide" },
+  { key: "cardApparel", label: "Desktop floating card (apparel)", hint: "Portrait, ~220px wide" },
+  { key: "mobileCard1", label: "Mobile bestseller card", hint: "Square-ish, small" },
+  { key: "mobileCard2", label: "Mobile hoodie card", hint: "Portrait, small" },
+];
+
+/** URL + upload + live preview for one editable image. */
+function ImageField({
+  label,
+  hint,
+  value,
+  onChange,
+  onUpload,
+  uploading,
+}: {
+  label: string;
+  hint: string;
+  value: string;
+  onChange: (url: string) => void;
+  onUpload: (file: File) => Promise<void>;
+  uploading: boolean;
+}) {
+  return (
+    <div className="border border-black/10 rounded-xl p-3 bg-white space-y-2">
+      <div className="flex items-center gap-3">
+        {value.trim() !== "" ? (
+          <img src={value} alt={`${label} preview`} className="w-14 h-14 rounded-lg object-cover border border-black/10 shrink-0" />
+        ) : (
+          <div className="w-14 h-14 rounded-lg border border-dashed border-black/20 bg-black/[0.03] flex items-center justify-center text-[10px] text-[#8A8A90] shrink-0 text-center leading-tight">
+            No<br />image
+          </div>
+        )}
+        <div className="min-w-0">
+          <div className="text-[13px] font-medium">{label}</div>
+          <div className="text-[11px] text-[#8A8A90]">{hint}</div>
+        </div>
+      </div>
+      <div className="flex flex-col sm:flex-row gap-2">
+        <input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="Image URL"
+          inputMode="url"
+          className={`${inputCls} flex-1`}
+        />
+        <label className={`inline-flex items-center justify-center text-center min-h-[44px] border border-black/10 rounded-xl px-4 py-2.5 text-[11px] tracking-[0.12em] uppercase cursor-pointer hover:border-[#131315] transition-colors ${uploading ? "opacity-60 pointer-events-none" : ""}`}>
+          {uploading ? "…" : "Upload"}
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              e.target.value = "";
+              if (f) void onUpload(f);
+            }}
+          />
+        </label>
+      </div>
+    </div>
+  );
+}
 
 const SECTION_GROUPS: { key: string; title: string; fields: { key: keyof SectionsContent; label: string }[] }[] = [
   {
@@ -125,19 +193,21 @@ export function HomepageManager({
     setMsg(res.ok ? "Saved. The homepage updates instantly." : data.error || "Save failed.");
   };
 
+  const uploadImage = async (file: File): Promise<string> => {
+    if (!file.type.startsWith("image/")) throw new Error("That file is not an image. Choose a JPG, PNG or WebP file.");
+    const form = new FormData();
+    form.append("file", file);
+    const res = await fetch("/api/admin/upload", { method: "POST", body: form });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || "Upload failed. Paste an image URL instead.");
+    return data.url as string;
+  };
+
   const uploadHero = async (file: File) => {
-    if (!file.type.startsWith("image/")) {
-      setMsg("That file is not an image. Choose a JPG, PNG or WebP file.");
-      return;
-    }
     setHeroUploading(true);
     try {
-      const form = new FormData();
-      form.append("file", file);
-      const res = await fetch("/api/admin/upload", { method: "POST", body: form });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || "Upload failed. Paste an image URL instead.");
-      setS({ ...s, heroImage: data.url });
+      const url = await uploadImage(file);
+      setS({ ...s, heroImage: url });
       setMsg("");
     } catch (e) {
       setMsg(e instanceof Error ? e.message : "Upload failed. Paste an image URL instead.");
@@ -175,7 +245,7 @@ export function HomepageManager({
   };
 
   return (
-    <div>
+    <div className="pb-8">
       <PageTitle title="Homepage" sub="Choose what the storefront shows." action={<PrimaryButton onClick={save} disabled={saving}>{saving ? "Saving" : "Save changes"}</PrimaryButton>} />
       {msg && <div className="mb-4 text-[12px] bg-white border border-black/10 px-3 py-2">{msg}</div>}
 
@@ -279,6 +349,33 @@ export function HomepageManager({
             </div>
             <p className="text-[11px] text-[#8A8A90] mt-1">Wide landscape photo works best. Leave empty to use the default.</p>
           </Field>
+          <div>
+            <div className="text-[11px] tracking-[0.1em] uppercase text-[#8A8A90] mb-2">Section images (faces, floating cards, mobile previews)</div>
+            <div className="space-y-2">
+              {HERO_IMAGE_FIELDS.map((f) => (
+                <ImageField
+                  key={f.key}
+                  label={f.label}
+                  hint={f.hint}
+                  value={s.heroImages[f.key] ?? ""}
+                  onChange={(url) => setS({ ...s, heroImages: { ...s.heroImages, [f.key]: url } })}
+                  uploading={heroUploading}
+                  onUpload={async (file) => {
+                    setHeroUploading(true);
+                    try {
+                      const url = await uploadImage(file);
+                      setS((prev) => ({ ...prev, heroImages: { ...prev.heroImages, [f.key]: url } }));
+                      setMsg("");
+                    } catch (e) {
+                      setMsg(e instanceof Error ? e.message : "Upload failed. Paste an image URL instead.");
+                    } finally {
+                      setHeroUploading(false);
+                    }
+                  }}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </Card>
 

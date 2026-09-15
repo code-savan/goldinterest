@@ -48,6 +48,7 @@ export const settings = pgTable("settings", {
   heroImage: text("hero_image")
     .notNull()
     .default("https://images.unsplash.com/photo-1618221195710-dd6b41faaea6"),
+  heroImages: jsonb("hero_images").$type<Record<string, string>>().notNull().default({}),
 });
 
 export const promos = pgTable("promos", {

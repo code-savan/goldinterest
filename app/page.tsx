@@ -5,6 +5,7 @@ import { EditorialWallpapers, EditorialApparel } from "@/components/editorial";
 import { FAQ } from "@/components/faq";
 import { getFeaturedProducts, getSettings } from "@/lib/store";
 import { getSiteContent } from "@/lib/site-content";
+import type { HeroImages } from "@/lib/store";
 
 export const revalidate = 60;
 
@@ -21,6 +22,7 @@ export default async function Home() {
         titleBottom={s.heroTitleBottom}
         subtitle={s.heroSubtitle}
         image={s.heroImage}
+        images={s.heroImages as HeroImages}
       />
       <ShopByCategory
         copy={{

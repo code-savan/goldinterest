@@ -92,6 +92,26 @@ export async function getProductById(id: string): Promise<Product | undefined> {
   }, staticProducts.find((p) => p.id === id));
 }
 
+export type HeroImages = {
+  avatar1: string;
+  avatar2: string;
+  avatar3: string;
+  cardWallpaper: string;
+  cardApparel: string;
+  mobileCard1: string;
+  mobileCard2: string;
+};
+
+export const DEFAULT_HERO_IMAGES: HeroImages = {
+  avatar1: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=64&auto=format&fit=crop&q=60",
+  avatar2: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=64&auto=format&fit=crop&q=60",
+  avatar3: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=64&auto=format&fit=crop&q=60",
+  cardWallpaper: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&auto=format&fit=crop&q=60",
+  cardApparel: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&auto=format&fit=crop&q=60",
+  mobileCard1: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=200&auto=format&fit=crop&q=60",
+  mobileCard2: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=200&auto=format&fit=crop&q=60",
+};
+
 export const DEFAULT_SETTINGS = {
   featuredIds: ["1", "2", "3", "4", "7", "9"],
   announcement: "Free shipping on every order, worldwide",
@@ -102,6 +122,7 @@ export const DEFAULT_SETTINGS = {
   heroSubtitle:
     "Wallpapers, printable posters, framed wall art and apparel. Carefully made with a smooth matte finish, heavyweight cotton and small gold details. Free shipping on every order.",
   heroImage: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6",
+  heroImages: DEFAULT_HERO_IMAGES,
 };
 
 export async function getSettings(): Promise<StoreSettings & typeof DEFAULT_SETTINGS> {
@@ -127,6 +148,7 @@ const getCachedSettings = unstable_cache(
         heroTitleBottom: s.heroTitleBottom || DEFAULT_SETTINGS.heroTitleBottom,
         heroSubtitle: s.heroSubtitle || DEFAULT_SETTINGS.heroSubtitle,
         heroImage: s.heroImage || DEFAULT_SETTINGS.heroImage,
+        heroImages: { ...DEFAULT_HERO_IMAGES, ...((s.heroImages as Partial<HeroImages> | null) ?? {}) },
       };
     }, { id: 1, ...DEFAULT_SETTINGS });
   },
