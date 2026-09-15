@@ -53,6 +53,7 @@ export function ProductCard({ product }: { product: Product }) {  const { addIte
             sizes="(max-width: 1024px) 50vw, 33vw"
             alt={product.name}
             loading="lazy"
+                  fetchPriority="low"
             decoding="async"
             className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
           />

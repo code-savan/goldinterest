@@ -46,6 +46,7 @@ export function ShopByCategory({
                   src={cat.image}
                   alt={cat.label}
                   loading="lazy"
+                  fetchPriority="low"
                   decoding="async"
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-[900ms] ease-[cubic-bezier(0.32,0.72,0,1)]"
                 />

@@ -30,6 +30,7 @@ export function EditorialWallpapers({
                 src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=1200&auto=format&fit=crop&q=75"
                 alt="Wallpapers"
                 loading="lazy"
+                  fetchPriority="low"
                 decoding="async"
                 className="absolute inset-0 w-full h-full object-cover"
               />
@@ -80,7 +81,8 @@ export function EditorialWallpapers({
             </div>
 
             <a href="/shop?category=frame-wall-art" className="mt-6 flex items-center gap-4 border border-[#E8E6E1] bg-[#F6F5F2] p-4 hover:border-[#0A0A0A] transition-colors group">
-              <img src="https://images.unsplash.com/photo-1618221469555-7f3ad97540d6?w=200&auto=format&fit=crop&q=60" alt="" loading="lazy" decoding="async" className="w-16 h-16 object-cover" />
+              <img src="https://images.unsplash.com/photo-1618221469555-7f3ad97540d6?w=200&auto=format&fit=crop&q=60" alt="" loading="lazy"
+                  fetchPriority="low" decoding="async" className="w-16 h-16 object-cover" />
               <div className="flex-1">
                 <div className="text-[11px] tracking-[0.16em] uppercase text-[#8C6A2F]">Also in framed wall art</div>
                 <div className="text-sm font-medium">Solid oak and museum glass</div>
@@ -156,7 +158,8 @@ export function EditorialApparel({
             <div className="grid grid-cols-[1.1fr_0.9fr] gap-4 lg:gap-6">
               <div className="space-y-4 lg:space-y-6">
                 <div className="relative overflow-hidden bg-[#EDE9E3] aspect-[3/4]">
-                  <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&auto=format&fit=crop&q=60" alt="Hoodie" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover" />
+                  <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&auto=format&fit=crop&q=60" alt="Hoodie" loading="lazy"
+                  fetchPriority="low" decoding="async" className="absolute inset-0 w-full h-full object-cover" />
                   <div className="absolute bottom-3 left-3 bg-white px-3 py-1.5 text-xs shadow-sm">Bone Hoodie, $89</div>
                 </div>
                 <div className="bg-[#F5E6C8] border border-[#E8DCC6] p-5">
@@ -166,7 +169,8 @@ export function EditorialApparel({
               </div>
               <div className="pt-8 lg:pt-12">
                 <div className="relative overflow-hidden bg-[#F6F5F2] aspect-[3/4]">
-                  <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&auto=format&fit=crop&q=60" alt="T-shirt" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover" />
+                  <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&auto=format&fit=crop&q=60" alt="T-shirt" loading="lazy"
+                  fetchPriority="low" decoding="async" className="absolute inset-0 w-full h-full object-cover" />
                   <div className="absolute bottom-3 left-3 bg-[#0A0A0A] text-white px-3 py-1.5 text-xs">Interest Tee, $38</div>
                 </div>
                 <div className="mt-4 text-[11px] leading-4 text-[#6B6B6B]">Oversized, garment-dyed, brushed interior. Made in Portugal.</div>
