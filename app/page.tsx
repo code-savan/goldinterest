@@ -32,6 +32,7 @@ export default async function Home() {
           titleB: sec.categoriesTitleB,
           sub: sec.categoriesSub,
         }}
+        images={content.categories?.images}
       />
       <FeaturedCollection
         products={featured}

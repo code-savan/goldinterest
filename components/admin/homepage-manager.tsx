@@ -2,7 +2,9 @@
 
 import { useMemo, useState } from "react";
 import { Card, Field, GhostButton, PageTitle, PrimaryButton, inputCls } from "@/components/admin/ui";
+import { categories } from "@/lib/products";
 import {
+  DEFAULT_CATEGORIES,
   type SectionsContent,
   type SiteContent,
   type SocialLink,
@@ -161,10 +163,16 @@ export function HomepageManager({
   const [query, setQuery] = useState("");
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
-  const [content, setContent] = useState<SiteContent>(initialContent);
+  const [content, setContent] = useState<SiteContent>(() => ({
+    ...initialContent,
+    categories: {
+      images: { ...DEFAULT_CATEGORIES.images, ...(initialContent.categories?.images ?? {}) },
+    },
+  }));
   const [contentSaving, setContentSaving] = useState(false);
   const [contentMsg, setContentMsg] = useState("");
   const [heroUploading, setHeroUploading] = useState(false);
+  const [catUploading, setCatUploading] = useState(false);
 
   const byId = useMemo(() => new Map(products.map((p) => [p.id, p])), [products]);
   const results = useMemo(() => {
@@ -227,6 +235,26 @@ export function HomepageManager({
     const data = await res.json().catch(() => ({}));
     setContentSaving(false);
     setContentMsg(res.ok ? `Saved ${(data.saved as string[]).join(", ")}. Live within a minute.` : data.error || "Save failed.");
+  };
+
+  const setCategoryImage = (id: string, url: string) => {
+    setContent((prev) => ({
+      ...prev,
+      categories: { images: { ...prev.categories.images, [id]: url } },
+    }));
+  };
+
+  const uploadCategoryImage = async (id: string, file: File) => {
+    setCatUploading(true);
+    try {
+      const url = await uploadImage(file);
+      setCategoryImage(id, url);
+      setContentMsg("");
+    } catch (e) {
+      setContentMsg(e instanceof Error ? e.message : "Upload failed. Paste an image URL instead.");
+    } finally {
+      setCatUploading(false);
+    }
   };
 
   const moveFaq = (i: number, dir: -1 | 1) => {
@@ -508,6 +536,24 @@ export function HomepageManager({
           <Field label="Address">
             <input value={content.contact.address} onChange={(e) => setContent({ ...content, contact: { ...content.contact, address: e.target.value } })} className={inputCls} />
           </Field>
+        </div>
+      </Card>
+
+      <Card className="p-5 mb-4">
+        <div className="text-[11px] tracking-[0.16em] uppercase font-medium mb-1">Category images</div>
+        <p className="text-[12px] text-[#6E6E73] mb-4">Homepage &ldquo;Shop by category&rdquo; tiles. Paste a URL or upload — saved with &ldquo;Save page content&rdquo;.</p>
+        <div className="space-y-2">
+          {categories.map((c) => (
+            <ImageField
+              key={c.id}
+              label={c.label}
+              hint={c.count}
+              value={content.categories.images[c.id] ?? ""}
+              onChange={(url) => setCategoryImage(c.id, url)}
+              uploading={catUploading}
+              onUpload={(file) => uploadCategoryImage(c.id, file)}
+            />
+          ))}
         </div>
       </Card>
 

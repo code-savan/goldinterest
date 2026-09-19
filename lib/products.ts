@@ -369,3 +369,8 @@ export const categoryLabels: Record<Category, string> = {
   hoodies: "Hoodies",
   "tee-shirts": "Tee Shirts",
 };
+
+/** Default tile images for the homepage "Shop by category" section (overridable in admin). */
+export const DEFAULT_CATEGORY_IMAGES: Record<Category, string> = Object.fromEntries(
+  categories.map((c) => [c.id, c.image])
+) as Record<Category, string>;

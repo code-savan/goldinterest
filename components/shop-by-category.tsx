@@ -17,8 +17,10 @@ export function ShopByCategory({
     titleB: DEFAULT_SECTIONS.categoriesTitleB,
     sub: DEFAULT_SECTIONS.categoriesSub,
   },
+  images,
 }: {
   copy?: Copy;
+  images?: Record<string, string>;
 }) {
   return (
     <section id="shop" className="py-20 lg:py-32">
@@ -39,11 +41,13 @@ export function ShopByCategory({
 
         {/* Grid - free, not clustered: big gaps, airy */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-8 mt-14 lg:mt-16">
-          {categories.map((cat) => (
+          {categories.map((cat) => {
+            const src = images?.[cat.id]?.trim() || cat.image;
+            return (
             <a key={cat.id} href={cat.href} className="group block">
               <div className="relative overflow-hidden bg-[#F6F5F2] aspect-[4/5.2] border border-[#E8E6E1]">
                 <img
-                  src={cat.image}
+                  src={src}
                   alt={cat.label}
                   loading="lazy"
                   fetchPriority="low"
@@ -64,7 +68,8 @@ export function ShopByCategory({
                 <span className="w-6 h-px bg-[#E8E6E1] group-hover:bg-[#C9A96E] group-hover:w-8 transition-all" />
               </div>
             </a>
-          ))}
+            );
+          })}
         </div>
 
         <div className="mt-10 flex justify-center">

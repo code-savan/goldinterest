@@ -49,12 +49,15 @@ export type SectionsContent = {
 
 export type FooterContent = { blurb: string; bottomNote: string };
 
+export type CategoriesContent = { images: Record<string, string> };
+
 export type SiteContent = {
   faq: FaqContent;
   socials: SocialsContent;
   contact: ContactContent;
   sections: SectionsContent;
   footer: FooterContent;
+  categories: CategoriesContent;
 };
 
 export type ContentKey = keyof SiteContent;
@@ -142,12 +145,23 @@ export const DEFAULT_FOOTER: FooterContent = {
   bottomNote: "All sales final. See Returns and Refunds for our damaged goods policy.",
 };
 
+export const DEFAULT_CATEGORIES: CategoriesContent = {
+  images: {
+    "wallpaper-packs": "https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?w=600&auto=format&fit=crop&q=60",
+    "printable-posters": "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&auto=format&fit=crop&q=60",
+    "frame-wall-art": "https://images.unsplash.com/photo-1618221469555-7f3ad97540d6?w=600&auto=format&fit=crop&q=60",
+    hoodies: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&auto=format&fit=crop&q=60",
+    "tee-shirts": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&auto=format&fit=crop&q=60",
+  },
+};
+
 export const DEFAULT_CONTENT: SiteContent = {
   faq: DEFAULT_FAQ,
   socials: DEFAULT_SOCIALS,
   contact: DEFAULT_CONTACT,
   sections: DEFAULT_SECTIONS,
   footer: DEFAULT_FOOTER,
+  categories: DEFAULT_CATEGORIES,
 };
 
 const KEYS = Object.keys(DEFAULT_CONTENT) as ContentKey[];
@@ -170,6 +184,10 @@ const getCachedContent = unstable_cache(
           (out as Record<string, unknown>)[r.key] = { ...(DEFAULT_CONTENT[r.key as ContentKey] as object), ...(r.value as object) };
         }
       }
+      // Deep-merge category images so a partial save never blanks the other tiles.
+      out.categories = {
+        images: { ...DEFAULT_CATEGORIES.images, ...((out.categories as CategoriesContent | undefined)?.images ?? {}) },
+      };
       return out;
     } catch {
       return DEFAULT_CONTENT;
